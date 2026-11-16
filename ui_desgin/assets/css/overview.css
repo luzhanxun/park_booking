@@ -231,7 +231,7 @@
   border-bottom: var(--border-w) solid rgba(248, 243, 231, 0.1);
 }
 .hero-admin__dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(248, 243, 231, 0.24); }
-.hero-admin__title { margin-left: auto; font-size: 10px; color: var(--leaf-200); letter-spacing: 0.08em; }
+.hero-admin__title { margin-left: auto; font-size: var(--fs-micro); color: var(--leaf-200); letter-spacing: 0.08em; }
 
 .hero-admin__body {
   display: grid;
@@ -286,11 +286,81 @@
   color: var(--cream-50);
 }
 .hero-phone__img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; opacity: 0.92; }
+.hero-phone__img--strip { height: 96px; aspect-ratio: auto; object-fit: cover; object-position: center; opacity: 1; }
 .hero-phone__pad { padding: 10px 11px 13px; display: flex; flex-direction: column; gap: 7px; }
-.hero-phone__title { font-size: 10px; font-weight: var(--fw-semibold); letter-spacing: 0.02em; }
+.hero-phone__title { font-size: var(--fs-micro); font-weight: var(--fw-semibold); letter-spacing: 0.02em; }
 .hero-phone__lines { display: flex; gap: 5px; }
 .hero-phone__lines i { height: 5px; border-radius: 3px; background: rgba(248, 243, 231, 0.25); flex: 1; }
 .hero-phone__lines i:first-child { background: var(--leaf-400); flex: 0 0 42%; }
+
+/* ---------- 设计规范 · 长条地图示例 ---------- */
+.spec-map {
+  margin: 0 0 var(--sp-6);
+  border: 1px solid var(--mist-200);
+  border-radius: var(--r-xl);
+  background: var(--cream-100);
+  padding: var(--sp-4);
+}
+.spec-map__frame {
+  position: relative;
+  border-radius: var(--r-lg);
+  overflow: hidden;
+  background: var(--forest-800);
+  box-shadow: var(--shadow-inset);
+}
+.spec-map__frame img { display: block; width: 100%; height: auto; }
+.spec-map__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-3);
+}
+.spec-map__chip {
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: var(--r-pill);
+  background: var(--white);
+  border: 1px solid var(--mist-200);
+  color: var(--ink-900);
+  font-size: var(--fs-micro);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.02em;
+}
+.spec-map__chip.is-active {
+  background: var(--leaf-500);
+  border-color: var(--leaf-300);
+  color: var(--forest-950);
+  font-weight: var(--fw-bold);
+}
+.spec-map__scale {
+  position: absolute;
+  right: var(--sp-3);
+  bottom: var(--sp-3);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  padding: 3px 8px;
+  border-radius: var(--r-sm);
+  background: rgba(12, 38, 32, 0.62);
+  color: var(--cream-50);
+  font-size: var(--fs-micro);
+  font-variant-numeric: tabular-nums;
+}
+.spec-map__scale i {
+  display: block;
+  width: 64px;
+  height: 7px;
+  border-left: 2px solid var(--leaf-300);
+  border-right: 2px solid var(--leaf-300);
+  border-bottom: 2px solid var(--leaf-300);
+}
+.spec-map figcaption {
+  margin-top: var(--sp-3);
+  font-size: var(--fs-xs);
+  color: var(--ink-450);
+}
 
 /* ---------- 入口卡 ---------- */
 .entry-grid {

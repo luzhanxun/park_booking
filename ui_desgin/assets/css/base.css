@@ -1029,7 +1029,7 @@ table {
   background: var(--leaf-100);
   color: var(--leaf-700);
   font-family: var(--font-num);
-  font-size: 10px;
+  font-size: var(--fs-micro);
   font-weight: var(--fw-semibold);
   line-height: 1;
   cursor: pointer;
@@ -1103,4 +1103,165 @@ table {
     transition-duration: 1ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+
+/* ==========================================================================
+   动效系统 · 数字稻田（Instrumented Field）
+   只做「让反馈可见」，不改动布局与流程
+   ========================================================================== */
+
+@keyframes rise-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.965); }
+  to   { opacity: 1; transform: none; }
+}
+@keyframes sweep-x {
+  from { transform: translateX(-115%); }
+  to   { transform: translateX(115%); }
+}
+@keyframes scan-y {
+  0%       { transform: translateY(-140%); opacity: 0; }
+  12%      { opacity: 0.9; }
+  70%, 100% { transform: translateY(340%); opacity: 0; }
+}
+@keyframes sonar-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes signal-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50%      { opacity: 0.85; transform: scale(1.4); }
+}
+@keyframes ring-draw {
+  from { stroke-dashoffset: var(--ring-len, 320); }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes bar-grow {
+  from { transform: scaleY(0.04); }
+  to   { transform: scaleY(1); }
+}
+@keyframes line-draw {
+  from { stroke-dashoffset: 2200; }
+  to   { stroke-dashoffset: 0; }
+}
+@keyframes signal-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(53, 183, 172, 0.32); }
+  70%  { box-shadow: 0 0 0 12px rgba(53, 183, 172, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(53, 183, 172, 0); }
+}
+
+/* ---------- 入场编排 ---------- */
+.u-rise {
+  animation: rise-in var(--dur-reveal) var(--ease-out) backwards;
+}
+
+.u-stagger > * {
+  animation: rise-in var(--dur-reveal) var(--ease-out) backwards;
+}
+.u-stagger > :nth-child(1) { animation-delay: 0ms; }
+.u-stagger > :nth-child(2) { animation-delay: calc(var(--stagger-step) * 1); }
+.u-stagger > :nth-child(3) { animation-delay: calc(var(--stagger-step) * 2); }
+.u-stagger > :nth-child(4) { animation-delay: calc(var(--stagger-step) * 3); }
+.u-stagger > :nth-child(5) { animation-delay: calc(var(--stagger-step) * 4); }
+.u-stagger > :nth-child(n + 6) { animation-delay: calc(var(--stagger-step) * 5); }
+
+/* ---------- 统一交互反馈 ---------- */
+.park-card,
+.act-card,
+.order-card,
+.entry-card,
+.menu-item,
+.me-stat,
+.ticket-row,
+.date-pill,
+.slot,
+.chip,
+.ad-nav__item,
+.ad-icon-btn,
+.section-row__more,
+.tabbar__item,
+.tabstrip__item,
+.map-tool,
+.map-zoom button,
+.sheet__close,
+.mp-topbar__icon,
+.mp-topbar__back {
+  transition: transform var(--dur-tap) var(--ease-out),
+    box-shadow var(--dur-base) var(--ease-out),
+    background-color var(--dur-fast) var(--ease-standard),
+    border-color var(--dur-fast) var(--ease-standard),
+    color var(--dur-fast) var(--ease-standard);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .park-card:hover,
+  .act-card:hover,
+  .order-card:hover,
+  .menu-item:hover,
+  .me-stat:hover,
+  .ticket-row:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+}
+
+.park-card:active,
+.act-card:active,
+.order-card:active,
+.entry-card:active,
+.menu-item:active,
+.me-stat:active,
+.ticket-row:active,
+.date-pill:active,
+.slot:active,
+.chip:active,
+.ad-icon-btn:active {
+  transform: scale(0.98);
+}
+
+/* ---------- 触控目标补足到 44×44（视觉尺寸不变） ---------- */
+.mp-topbar__icon,
+.mp-topbar__back,
+.section-row__more,
+.map-tool,
+.map-zoom button,
+.sheet__close,
+.link-btn,
+.seg__btn,
+.tabstrip__item,
+.ad-icon-btn,
+.btn--sm {
+  position: relative;
+}
+
+.mp-topbar__icon::after,
+.mp-topbar__back::after,
+.section-row__more::after,
+.map-tool::after,
+.map-zoom button::after,
+.sheet__close::after,
+.link-btn::after,
+.seg__btn::after,
+.tabstrip__item::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: max(100%, var(--tap-min));
+  height: max(100%, var(--tap-min));
+}
+
+/* .btn 的 ::after 留给 loading 转圈，用 ::before 扩大点击区 */
+.btn--sm::before {
+  content: "";
+  position: absolute;
+  inset: -5px 0;
 }

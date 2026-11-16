@@ -178,7 +178,7 @@
                 </button>
               </div>
 
-              <div class="home-hero">
+              <div class="home-hero u-stagger">
                 <span class="home-hero__label">
                   <svg class="icon icon--sm" aria-hidden="true"><use href="#i-leaf"/></svg>
                   我有一亩田 · 平台主打主题活动
@@ -194,7 +194,7 @@
                 </div>
               </div>
 
-              <div class="entry-grid">
+              <div class="entry-grid u-stagger">
                 <button class="entry-card entry-card--warm" type="button" data-go="acts">
                   <span class="entry-card__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
                   <h3>主题活动</h3>
@@ -211,13 +211,13 @@
                 <h2>附近可约公园</h2>
                 <button class="section-row__more" type="button" data-go="parks">全部 3 个</button>
               </div>
-              <div id="home-parks"></div>
+              <div id="home-parks" class="u-stagger"></div>
 
               <div class="section-row">
                 <h2>本周活动</h2>
                 <button class="section-row__more" type="button" data-go="acts">全部活动</button>
               </div>
-              <div id="home-acts"></div>
+              <div id="home-acts" class="u-stagger"></div>
 
               <div class="mp-card u-mt-4">
                 <div class="u-row u-row--between">
@@ -495,13 +495,24 @@
                     <label><input type="checkbox" data-layer="gate" checked> 出入口</label>
                     <label><input type="checkbox" data-layer="wc" checked> 卫生间</label>
                   </div>
+                  <div class="map-zones" id="map-zones" role="group" aria-label="营区快速定位"></div>
+                  <div class="map-scale">
+                    <span class="map-scale__bar" id="map-scale-bar"></span>
+                    <span class="map-scale__val" id="map-scale-val">50 m</span>
+                    <span class="map-scale__zoom" id="map-zoom-val">×1.0</span>
+                  </div>
                   <div class="map-zoom">
                     <button type="button" id="zoom-in" aria-label="放大地图">+</button>
                     <button type="button" id="zoom-out" aria-label="缩小地图">−</button>
-                    <button type="button" id="zoom-reset" aria-label="复位地图">
+                    <button type="button" id="zoom-reset" aria-label="全览视图">
                       <svg class="icon icon--sm" aria-hidden="true" style="width:12px;height:12px"><use href="#i-refresh"/></svg>
                     </button>
                   </div>
+                </div>
+
+                <div class="map-hint" id="map-hint">
+                  <svg class="icon icon--sm" aria-hidden="true"><use href="#i-map"/></svg>
+                  <span id="map-hint-text">拖动平移 · 双击或双指缩放</span>
                 </div>
 
                 <div class="map-placeholder">
@@ -554,6 +565,17 @@
                   <button class="sheet__close" type="button" data-sheet-close aria-label="关闭">
                     <svg class="icon icon--sm" aria-hidden="true"><use href="#i-close"/></svg>
                   </button>
+                </div>
+                <div class="radar" id="sheet-radar" aria-label="同时段营位占用情况">
+                  <div class="radar__head">
+                    <span>同时段营位占用</span>
+                    <span class="radar__count" id="radar-count">7 / 12 空位</span>
+                  </div>
+                  <div class="radar__cells" id="radar-cells"></div>
+                  <div class="radar__foot">
+                    <span>绿=可约 · 灰=已订</span>
+                    <span id="radar-hint">本营位在中间高亮</span>
+                  </div>
                 </div>
                 <div class="rows u-mt-3">
                   <div class="row"><dt>营位状态</dt><dd id="sheet-status">可预约</dd></div>

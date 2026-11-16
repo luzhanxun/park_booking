@@ -62,7 +62,7 @@
         <p class="hero__desc">
           面向“主题活动 + 公园露营”双模式的高保真界面原型。
           首页与活动列表将平台主打活动「我有一亩田」置顶重点展示；覆盖活动选日期与票种、公园平面图选营位、按日与时段排期、
-          地图审批发布、现场核销与数据报表，用于与客户逐屏确认规格，而不是交付最终代码。
+          长条营地地图缩放、地图审批发布、现场核销与数据报表，用于与客户逐屏确认规格，而不是交付最终代码。
         </p>
         <div class="hero__actions">
           <a class="btn btn--primary btn--lg" href="miniprogram/index.html">
@@ -111,9 +111,9 @@
 
         <div class="hero-phone">
           <div class="hero-phone__screen">
-            <img class="hero-phone__img" src="assets/img/park-map-1.svg" alt="">
+            <img class="hero-phone__img hero-phone__img--strip" src="assets/img/park-map-2.svg" alt="">
             <div class="hero-phone__pad">
-              <span class="hero-phone__title">斗门水乡公园 · 平面图选位</span>
+              <span class="hero-phone__title">黄杨河湿地公园 · 1.1 km 带状营地</span>
               <div class="hero-phone__lines"><i></i><i></i><i></i></div>
               <div class="hero-phone__lines"><i></i><i></i></div>
             </div>
@@ -192,11 +192,15 @@
         </article>
         <article class="path-card">
           <h4>选择公园与时段</h4>
-          <p>首页进入 <b>公园露营</b>，在“斗门水乡公园”选择 <b>日期 + 时段</b>，观察平面图营位状态随选择刷新。</p>
+          <p>首页进入 <b>公园露营</b>，列表首位是沿河 <b>1.1 公里</b>的“黄杨河湿地公园”；选择 <b>日期 + 时段</b> 后，平面图营位状态随选择刷新。</p>
         </article>
         <article class="path-card">
-          <h4>点选营位并下单</h4>
-          <p>点击 <b>A03</b> 弹出营位详情，确认价格与容量后进入订单确认，填写联系人与人数。</p>
+          <h4>缩放浏览长条公园</h4>
+          <p>黄杨河平面图按 <b>1120 × 240</b> 长条绘制，进入即自适应全览（约 <b>0.30×</b>）；点上方 <b>营区胶囊（A–E）</b> 或滚轮/双指缩放、拖拽平移，比例尺随缩放换算实际米数。</p>
+        </article>
+        <article class="path-card">
+          <h4>地图点选营位并下单</h4>
+          <p>放大到营区后直接在 <b>地图上点选营位</b>（如 <b>C01</b>）即可弹出营位详情，确认价格与容量后「下一步」进入订单确认，无需回到下方列表。</p>
         </article>
         <article class="path-card">
           <h4>模拟支付与二维码</h4>
@@ -266,7 +270,14 @@
           <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-map"/></svg></span>
           <div>
             <h4>公园自定义平面图</h4>
-            <p>底图来自公园自有平面图；营位以矩形与多边形 SVG 热区呈现，不使用真实地图。</p>
+            <p>底图来自公园自有平面图；营位以矩形与多边形 SVG 热区呈现，不使用真实地图。底图尺寸按公园各自定义（如黄杨河为 1120 × 240 长条），两端均支持缩放、拖拽与营区快捷定位。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-map"/></svg></span>
+          <div>
+            <h4>长条公园的缩放与营区</h4>
+            <p>几公里长的带状营地无法在一屏内看清营位，因此小程序平面图与后台编辑器都支持自适应全览、缩放（滚轮 / 双指 / 按钮）、拖拽平移与比例尺；后台按公园切换底图并显示当前营位总数。</p>
           </div>
         </article>
         <article class="cap-item">
@@ -317,7 +328,8 @@
           <ul class="note-list">
             <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>直接双击 <code>ui_desgin/index.html</code> 打开即可，所有页面为纯静态文件，无需本地服务器。</span></li>
             <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>小程序页左侧为屏目录，可一键跳转；模拟器内的底部 Tab、返回与按钮均可点击。</span></li>
-            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>后台页通过左侧菜单按“概览 / 主题活动 / 公园露营 / 财务与数据 / 系统”分组切换 13 个视图；活动管理内可切“活动内容与票种 / 活动订单 / 活动核销”三个页签，“编辑图文”“编辑活动”抽屉可改封面、相册、描述、介绍、标签、票种与日期，保存后列表即刷新。表格筛选、抽屉、地图编辑器图层与属性面板均可交互。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>小程序平面图支持滚轮 / 双指缩放、拖拽平移、双击放大与「全览」复位；长条公园可用营区胶囊快速定位，放大后直接点选营位下单。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>后台页通过左侧菜单按“概览 / 主题活动 / 公园露营 / 财务与数据 / 系统”分组切换 13 个视图；活动管理内可切“活动内容与票种 / 活动订单 / 活动核销”三个页签，“编辑图文”“编辑活动”抽屉可改封面、相册、描述、介绍、标签、票种与日期，保存后列表即刷新。表格筛选、抽屉、地图编辑器（按公园切换底图、缩放平移绘制）均可交互。</span></li>
             <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>每个列表视图右上角提供“正常 / 载入 / 空 / 异常”状态切换，用于确认异常与空态文案。</span></li>
             <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>设计规范页列出全部 token 与组件状态，可作为后续开发验收依据。</span></li>
           </ul>

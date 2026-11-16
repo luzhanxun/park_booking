@@ -56,6 +56,7 @@
         <span>小程序 390 × 844</span>
         <span>后台 1440 起</span>
         <span>无外部依赖</span>
+        <span>长条地图缩放</span>
         <span>触控 ≥ 44px</span>
       </div>
     </div>
@@ -70,8 +71,9 @@
         <a href="#shape"><span>03</span>圆角 · 阴影 · 间距</a>
         <a href="#motion"><span>04</span>动效</a>
         <a href="#components"><span>05</span>组件状态</a>
-        <a href="#layout"><span>06</span>双端布局原则</a>
-        <a href="#acceptance"><span>07</span>验收口径</a>
+        <a href="#map"><span>06</span>地图与长条公园</a>
+        <a href="#layout"><span>07</span>双端布局原则</a>
+        <a href="#acceptance"><span>08</span>验收口径</a>
       </aside>
 
       <div>
@@ -435,10 +437,65 @@
           </div>
         </section>
 
-        <!-- 06 布局 -->
+        <!-- 06 地图 -->
+        <section class="spec-block" id="map">
+          <div class="spec-block__head">
+            <h2>06 · 地图与长条公园</h2>
+            <p>黄杨河湿地公园沿河绵延 1.1 公里，一屏放不下 40 个营位。因此缩放、平移与营区快捷定位是必答项——没有缩放，长条公园的地图就只是张缩略图。</p>
+          </div>
+
+          <figure class="spec-map">
+            <div class="spec-map__chips" role="group" aria-label="营区快捷定位">
+              <span class="spec-map__chip is-active">A 入口草坪</span>
+              <span class="spec-map__chip">B 芦苇观鸟</span>
+              <span class="spec-map__chip">C 亲水栈道</span>
+              <span class="spec-map__chip">D 林荫安静</span>
+              <span class="spec-map__chip">E 浅滩骑行</span>
+            </div>
+            <div class="spec-map__frame">
+              <img src="../assets/img/park-map-2.svg" alt="黄杨河湿地公园带状平面图底图，1120 × 240">
+              <div class="spec-map__scale"><i></i><span>100 m</span></div>
+            </div>
+            <figcaption>底图 1120 × 240，5 个营区 × 8 个营位 = 40 个营位；全览缩放约 0.30×，点营区胶囊放大到约 1×。</figcaption>
+          </figure>
+
+          <div class="principle-grid">
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-phone"/></svg>小程序 · 手势与缩放</h4>
+              <ul>
+                <li>进入即自适应全览：缩放下限 = 底图完整装进视口，不允许再缩小。</li>
+                <li>滚轮 / 双指捏合以指针为锚点缩放，上限取全览的 5 倍。</li>
+                <li>拖拽平移；触控时位移超过 6px 才判定为拖拽，松手后 90ms 内不响应点击。</li>
+                <li>双击放大 1.8 倍，再双击回到全览；「全览」按钮随时复位。</li>
+                <li>比例尺随时段缩放换算真实米数，档位 10 m → 5 km。</li>
+              </ul>
+            </div>
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-monitor"/></svg>后台 · 地图编辑器</h4>
+              <ul>
+                <li>按公园切换底图，画布尺寸随底图变化（黄杨河 1120 × 240，斗门水乡 1200 × 800）。</li>
+                <li>与小程序一致支持拖拽平移、滚轮缩放与「适应窗口」复位。</li>
+                <li>绘制坐标系不动：无论缩放多少，落点都折算回底图原始坐标。</li>
+                <li>工具栏显示当前公园的营位总数，图层与属性面板始终作用于当前公园。</li>
+                <li>长条公园的营位默认按营区分组命名（A01…E08），避免跨区重名。</li>
+              </ul>
+            </div>
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-info"/></svg>数值约定</h4>
+              <ul>
+                <li>远视图阈值：缩放 &lt; 0.62 时隐藏营位编号，避免 40 个编号互相压盖。</li>
+                <li>远视图不可点选营位，提示条改为「全览视图 · 点选上方营区放大后可选位」。</li>
+                <li>营位命中框不小于 44 × 44px，即使图块本身更小。</li>
+                <li>缩放过渡 340ms、缓动取 <code>--ease-out</code>；<code>prefers-reduced-motion</code> 下改为无位移直切。</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 07 布局 -->
         <section class="spec-block" id="layout">
           <div class="spec-block__head">
-            <h2>06 · 双端布局原则</h2>
+            <h2>07 · 双端布局原则</h2>
             <p>两端共享令牌与组件，但信息密度、导航方式和主操作位置完全不同，不做“同一套模板换皮”。</p>
           </div>
 
@@ -449,6 +506,7 @@
                 <li>一屏只做一件事：选公园 → 选日期时段 → 选营位 → 确认下单。</li>
                 <li>主按钮固定在底部拇指区，高度 ≥ 48px，避让安全区。</li>
                 <li>地图是选位主视图，列表作为等价入口与失败回退。</li>
+                <li>长条营地先选营区再选位，远视图只给方向不给可点目标。</li>
                 <li>仅保留“首页 / 预约 / 我的”三个底部标签。</li>
                 <li>卡片圆角 14px、奶油底色，弱化边框，用留白分组。</li>
               </ul>
@@ -466,11 +524,11 @@
           </div>
         </section>
 
-        <!-- 07 验收 -->
+        <!-- 08 验收 -->
         <section class="spec-block" id="acceptance" style="padding-bottom:0">
           <div class="spec-block__head">
-            <h2>07 · 验收口径</h2>
-            <p>以下 8 条同时适用于原型评审与后续开发验收，可直接作为测试用例的标题。</p>
+            <h2>08 · 验收口径</h2>
+            <p>以下 10 条同时适用于原型评审与后续开发验收，可直接作为测试用例的标题。</p>
           </div>
 
           <ol class="acceptance-list">
@@ -502,6 +560,18 @@
               <div>
                 <h4>地图失败可回退</h4>
                 <p>平面图加载失败或数据缺失时，自动切换为列表选位，保留已选公园、日期与时段，不要求用户重来。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>长条营地全线可达</h4>
+                <p>1.1 公里带状营地全览约 0.30×，可缩放到全览的 5 倍；任一营位在「选营区 → 缩放 → 点选」三次操作内可点到，远视图必须给出明确引导而不是让用户盲点。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>平移不误触下单</h4>
+                <p>拖拽平移与双指缩放结束后不得弹出营位面板；只有位移小于 6px 的真实点按才进入选位流程。</p>
               </div>
             </li>
             <li class="acceptance-item">

@@ -87,7 +87,62 @@
     return seat;
   }
 
+  /* 黄杨河湿地公园是一条沿河 1.1km 的带状营地：5 个营区 × 8 个营位 = 40 个营位
+     底图坐标系按 1120 × 240 绘制，小程序与后台编辑器共用同一套坐标 */
+  var RIVER_ZONES = [
+    { code: 'A', name: '入口草坪区', x: 20, w: 200 },
+    { code: 'B', name: '芦苇观鸟区', x: 238, w: 200 },
+    { code: 'C', name: '亲水栈道区', x: 456, w: 200 },
+    { code: 'D', name: '林荫安静区', x: 674, w: 200 },
+    { code: 'E', name: '浅滩骑行区', x: 892, w: 200 }
+  ];
+  var RIVER_SEAT_NAME = { A: '草坪营位', B: '观鸟营位', C: '栈道营位', D: '林荫营位', E: '浅滩营位' };
+  var RIVER_PREMIUM = { A: 0, B: 20, C: 30, D: 10, E: 20 };
+  var RIVER_STATE = {
+    A03: 'low', A07: 'full', B02: 'low', B06: 'maint',
+    C04: 'full', C05: 'closed', C08: 'low', D03: 'low',
+    E02: 'low', E03: 'full', E06: 'low'
+  };
+
+  function riverSeats() {
+    var out = [];
+    RIVER_ZONES.forEach(function (z) {
+      for (var r = 0; r < 2; r++) {
+        for (var c = 0; c < 4; c++) {
+          var n = r * 4 + c + 1;
+          var id = z.code + (n < 10 ? '0' + n : n);
+          out.push(rectSeat(id, RIVER_SEAT_NAME[z.code], z.x + 6 + c * 48, r === 0 ? 52 : 110, 44, 30,
+            r === 0 ? 4 : 6, { premium: RIVER_PREMIUM[z.code], state: RIVER_STATE[id] || 'ok' }));
+        }
+      }
+    });
+    return out;
+  }
+
   var PARKS = [
+    {
+      id: 'p2',
+      name: '黄杨河湿地公园',
+      area: '金湾区',
+      dist: '21.6km',
+      hours: '07:30–18:30',
+      kind: 'wetland',
+      tags: ['湿地', '观鸟', '骑行', '带状营地'],
+      cover: '../assets/img/park-cover-2.svg',
+      map: '../assets/img/park-map-2.svg',
+      mapW: 1120,
+      mapH: 240,
+      spanKm: 1.1,
+      zones: RIVER_ZONES,
+      intro: '沿黄杨河绵延 1.1 公里的带状湿地营地，自西向东分为 5 个营区、共 40 个营位；芦苇、观鸟栈道与浅滩骑行道贯穿全线，安静少光污染。',
+      base: 138,
+      facilities: {
+        roads: ['M20,96 H1100', 'M120,40 V58', 'M120,140 V158', 'M566,40 V58', 'M566,140 V158', 'M1012,40 V58', 'M1012,140 V158'],
+        gates: [{ x: 20, y: 22, label: '西门' }, { x: 1100, y: 22, label: '东门' }],
+        wcs: [{ x: 292, y: 12, w: 46, h: 22 }, { x: 806, y: 12, w: 46, h: 22 }]
+      },
+      seats: riverSeats()
+    },
     {
       id: 'p1',
       name: '斗门水乡公园',
@@ -98,6 +153,9 @@
       tags: ['水乡', '亲子', '可带宠物'],
       cover: '../assets/img/park-cover-1.svg',
       map: '../assets/img/park-map-1.svg',
+      mapW: 358,
+      mapH: 239,
+      spanKm: 0.42,
       intro: '河涌环绕的水乡营地，草坪开阔，适合家庭野餐与轻量露营。',
       base: 118,
       facilities: {
@@ -121,42 +179,6 @@
       ]
     },
     {
-      id: 'p2',
-      name: '黄杨河湿地公园',
-      area: '金湾区',
-      dist: '21.6km',
-      hours: '07:30–18:30',
-      kind: 'wetland',
-      tags: ['湿地', '观鸟', '骑行'],
-      cover: '../assets/img/park-cover-2.svg',
-      map: '../assets/img/park-map-2.svg',
-      intro: '沿黄杨河而建的湿地营地，芦苇与观鸟栈道环绕，安静少光污染。',
-      base: 138,
-      facilities: {
-        roads: ['M0,68 H358', 'M180,0 V239'],
-        gates: [{ x: 22, y: 22, label: '入口' }],
-        wcs: [{ x: 300, y: 196, w: 30, h: 20 }]
-      },
-      seats: [
-        rectSeat('A01', '湿地营位', 22, 36, 56, 28, 4),
-        rectSeat('A02', '湿地营位', 96, 36, 56, 28, 4, { state: 'low' }),
-        rectSeat('A03', '湿地营位', 170, 36, 56, 28, 4),
-        rectSeat('A04', '湿地营位', 244, 36, 56, 28, 4),
-        rectSeat('B01', '观鸟营位', 22, 86, 56, 28, 4),
-        rectSeat('B02', '观鸟营位', 96, 86, 56, 28, 4, { premium: 20 }),
-        rectSeat('B03', '观鸟营位', 170, 86, 56, 28, 4, { state: 'full' }),
-        rectSeat('B04', '观鸟营位', 244, 86, 56, 28, 4, { premium: 20 }),
-        rectSeat('C01', '林荫营位', 22, 136, 56, 28, 6),
-        rectSeat('C02', '林荫营位', 96, 136, 56, 28, 6),
-        rectSeat('C03', '林荫营位', 170, 136, 56, 28, 6, { state: 'maint' }),
-        rectSeat('C04', '林荫营位', 244, 136, 56, 28, 6),
-        rectSeat('D01', '亲水营位', 22, 186, 56, 28, 6, { premium: 30 }),
-        rectSeat('D02', '亲水营位', 96, 186, 56, 28, 6, { premium: 30 }),
-        rectSeat('D03', '亲水营位', 170, 186, 56, 28, 6, { premium: 30, state: 'low' }),
-        rectSeat('D04', '亲水营位', 244, 186, 56, 28, 6, { premium: 30, state: 'closed' })
-      ]
-    },
-    {
       id: 'p3',
       name: '霞山梯田营地',
       area: '斗门区',
@@ -166,6 +188,9 @@
       tags: ['梯田', '日落', '篝火'],
       cover: '../assets/img/park-cover-3.svg',
       map: '../assets/img/park-map-3.svg',
+      mapW: 358,
+      mapH: 239,
+      spanKm: 0.36,
       intro: '依山而建的梯田营地，视野开阔可看日落，夜间有集中篝火区。',
       base: 168,
       facilities: {
@@ -607,13 +632,29 @@
 
   var TAB_SCREENS = { home: 'home', parks: 'parks', orders: 'orders', profile: 'profile' };
 
+  /* 屏幕层级：用于判断「进入」还是「返回」，让转场方向符合心智 */
+  var SCREEN_DEPTH = {
+    home: 0,
+    parks: 1, park: 2, confirm: 3, pay: 4,
+    orders: 1, order: 2,
+    acts: 1, act: 2, actconfirm: 3,
+    scan: 1, verify: 2,
+    profile: 1
+  };
+
   function setScreen(name) {
     if (!NOTE[name]) name = 'home';
+    var from = state.screen;
+    var fromDepth = SCREEN_DEPTH[from] == null ? 0 : SCREEN_DEPTH[from];
+    var toDepth = SCREEN_DEPTH[name] == null ? 0 : SCREEN_DEPTH[name];
+    var dir = toDepth > fromDepth ? 'forward' : (toDepth < fromDepth ? 'back' : 'same');
     state.screen = name;
     if (name !== 'confirm' && name !== 'actconfirm') stopCountdown();
 
     $$('.screen').forEach(function (s) {
-      s.classList.toggle('is-active', s.getAttribute('data-screen') === name);
+      var isTarget = s.getAttribute('data-screen') === name;
+      if (isTarget) s.setAttribute('data-dir', dir);
+      s.classList.toggle('is-active', isTarget);
     });
 
     var tab = TAB_SCREENS[name];
@@ -655,7 +696,11 @@
     if (name === 'scan') renderScanRecords();
     if (name === 'verify') renderVerify();
     if (name === 'profile') renderProfile();
-    if (name === 'home') { renderHomeParks(); renderHomeActs(); }
+    if (name === 'home') {
+      renderHomeParks();
+      renderHomeActs();
+      window.UI.countUp($('.screen[data-screen="home"]'));
+    }
   }
 
   /* ---------------- 首页 / 列表 ---------------- */
@@ -786,8 +831,23 @@
 
   function renderMap() {
     var park = getPark(state.parkId);
-    $('#map-img').src = park.map;
+    var dim = mapDims(park);
+    var img = $('#map-img');
+    img.src = park.map;
+    img.alt = park.name + '平面图';
+
+    var canvas = $('#map-canvas');
+    canvas.style.width = dim.w + 'px';
+    canvas.style.height = dim.h + 'px';
+    $('#map-overlay').setAttribute('viewBox', '0 0 ' + dim.w + ' ' + dim.h);
     $('#map-facilities').innerHTML = facilityMarkup(park);
+    renderZones(park);
+
+    if (state.mapPark !== park.id) {
+      state.mapPark = park.id;
+      state.zoom = fitZoom();
+      state.tx = 0; state.ty = 0;
+    }
 
     var seats = currentSeats();
     $('#map-seats').innerHTML = seats.map(function (s) {
@@ -803,7 +863,10 @@
     }).join('');
 
     $('#seat-count').textContent = seats.length + ' 个营位 · ' + seats.filter(function (s) { return s.state === 'ok' || s.state === 'low'; }).length + ' 个可约';
+    if (state.zoom < fitZoom() - 0.005) state.zoom = fitZoom();
+    clampPan();
     applyTransform();
+    updateScale();
   }
 
   function renderSeatList() {
@@ -840,29 +903,148 @@
     $('#layers-toggle').setAttribute('aria-expanded', 'false');
   }
 
-  function applyTransform() {
-    $('#map-canvas').style.transform = 'translate(' + state.tx + 'px,' + state.ty + 'px) scale(' + state.zoom + ')';
+  /* ---------------- 地图缩放 / 平移 ----------------
+     坐标统一以底图像素为单位（park.mapW × park.mapH），
+     长条形公园（黄杨河 1120 × 240）靠缩放 + 拖拽浏览全长 */
+  function mapDims(park) {
+    return { w: park.mapW || 358, h: park.mapH || 239 };
+  }
+
+  function vpSize() {
+    var vp = $('#map-viewport');
+    return { w: vp.clientWidth || 358, h: vp.clientHeight || 239 };
+  }
+
+  /* 适应窗口的最小缩放：长条公园会缩到 1 以下才能看到全貌 */
+  function fitZoom() {
+    var d = mapDims(getPark(state.parkId));
+    var v = vpSize();
+    return Math.round(Math.min(v.w / d.w, v.h / d.h, 1) * 100) / 100;
+  }
+
+  function applyTransform(animate) {
+    var canvas = $('#map-canvas');
+    if (animate) canvas.classList.add('is-animating');
+    canvas.style.transform = 'translate(' + state.tx + 'px,' + state.ty + 'px) scale(' + state.zoom + ')';
+    if (animate) setTimeout(function () { canvas.classList.remove('is-animating'); }, 340);
   }
 
   function clampPan() {
-    var w = 358, h = 239;
-    var maxX = 0, maxY = 0;
-    var minX = -(state.zoom - 1) * w;
-    var minY = -(state.zoom - 1) * h;
-    if (state.tx > maxX) state.tx = maxX;
-    if (state.ty > maxY) state.ty = maxY;
-    if (state.tx < minX) state.tx = minX;
-    if (state.ty < minY) state.ty = minY;
+    var d = mapDims(getPark(state.parkId));
+    var v = vpSize();
+    var cw = d.w * state.zoom;
+    var ch = d.h * state.zoom;
+    state.tx = cw <= v.w ? (v.w - cw) / 2 : Math.min(0, Math.max(v.w - cw, state.tx));
+    state.ty = ch <= v.h ? (v.h - ch) / 2 : Math.min(0, Math.max(v.h - ch, state.ty));
   }
 
-  function setZoom(next) {
-    state.zoom = Math.min(2.4, Math.max(1, Math.round(next * 100) / 100));
-    if (state.zoom === 1) { state.tx = 0; state.ty = 0; }
+  /* 以视口内某点为锚点缩放，锚点下的地图位置保持不动 */
+  function setZoom(next, cx, cy, animate) {
+    var min = fitZoom();
+    var max = Math.max(min * 5, 4.5);
+    var z = Math.min(max, Math.max(min, Math.round(next * 100) / 100));
+    var v = vpSize();
+    if (cx == null) { cx = v.w / 2; cy = v.h / 2; }
+    if (Math.abs(z - state.zoom) < 0.005) { clampPan(); applyTransform(); updateScale(); return; }
+    var mx = (cx - state.tx) / state.zoom;
+    var my = (cy - state.ty) / state.zoom;
+    state.zoom = z;
+    state.tx = cx - mx * z;
+    state.ty = cy - my * z;
     clampPan();
-    applyTransform();
+    applyTransform(animate);
+    updateScale();
   }
 
-  function openSeat(seat) {
+  function resetView(animate) {
+    state.zoom = fitZoom();
+    state.tx = 0; state.ty = 0;
+    clampPan();
+    applyTransform(animate);
+    updateScale();
+  }
+
+  var SCALE_STEPS = [10, 20, 25, 50, 100, 200, 250, 500, 750, 1000, 2000, 5000];
+
+  /* 比例尺 + 缩放倍率 + 远视图隐藏营位编号（避免文字互相压叠） */
+  function updateScale() {
+    var park = getPark(state.parkId);
+    var d = mapDims(park);
+    var mPerPx = (park.spanKm || 0.4) * 1000 / d.w;
+    var target = 56 * mPerPx / state.zoom;
+    var pick = SCALE_STEPS[0];
+    for (var i = 0; i < SCALE_STEPS.length; i++) if (SCALE_STEPS[i] <= target) pick = SCALE_STEPS[i];
+    var bar = $('#map-scale-bar');
+    if (bar) bar.style.width = Math.max(18, Math.round(pick / mPerPx * state.zoom)) + 'px';
+    var val = $('#map-scale-val');
+    if (val) val.textContent = pick >= 1000 ? (pick / 1000) + ' km' : pick + ' m';
+    var read = $('#map-zoom-val');
+    if (read) read.textContent = '×' + (state.zoom < 1 ? state.zoom.toFixed(2) : state.zoom.toFixed(1));
+    var canvas = $('#map-canvas');
+    var far = state.zoom < 0.62;
+    if (canvas) canvas.classList.toggle('is-far', far);
+
+    /* 全览时营位太小无法直接点选，提示改用营区快捷定位 */
+    var hint = $('#map-hint-text');
+    if (hint) {
+      hint.textContent = park.zones && far
+        ? '全览视图 · 点选上方营区放大后可选位'
+        : '拖动平移 · 双击或双指缩放';
+    }
+  }
+
+  /* 营区快捷定位：长条公园一眼看不到全部营位，用营区胶囊跳转 */
+  function renderZones(park) {
+    var host = $('#map-zones');
+    if (!host) return;
+    host.style.display = park.zones ? '' : 'none';
+    if (!park.zones) { host.innerHTML = ''; return; }
+    host.innerHTML = park.zones.map(function (z) {
+      return '<button class="map-zone" type="button" data-zone="' + z.code + '" aria-label="定位到 ' + z.code + ' 区 ' + esc(z.name) + '">' +
+        '<b>' + z.code + '</b>' + esc(z.name.replace(/区$/, '')) + '</button>';
+    }).join('');
+  }
+
+  function focusZone(code) {
+    var park = getPark(state.parkId);
+    var list = park.zones || [];
+    var zone = null;
+    for (var i = 0; i < list.length; i++) if (list[i].code === code) zone = list[i];
+    if (!zone) return;
+    var v = vpSize();
+    var z = Math.min(4.5, Math.max(1, fitZoom() * 3.2));
+    state.zoom = z;
+    state.tx = v.w / 2 - (zone.x + zone.w / 2) * z;
+    state.ty = 0;
+    clampPan();
+    applyTransform(true);
+    updateScale();
+  }
+
+  /* 同时段营位占用雷达：把「还有多少空位」变成一眼可读的信号 */
+  function renderRadar(seatId) {
+    var cells = $('#radar-cells');
+    var park = getPark(state.parkId);
+    if (!cells || !park || !park.seats) return;
+    var all = currentSeats();
+    var seats = all.slice(0, 12);
+    if (park.zones && seatId) {
+      var group = all.filter(function (s) { return s.id.charAt(0) === seatId.charAt(0); });
+      if (group.length) seats = group;
+    }
+    var free = 0;
+    cells.innerHTML = seats.map(function (s) {
+      var st = s.state || 'ok';
+      var cls = st === 'ok' ? 'is-free' : '';
+      if (s.id === seatId) cls = 'is-this';
+      if (st === 'ok') free += 1;
+      return '<span class="radar__cell ' + cls + '" title="' + s.id + ' · ' + (st === 'ok' ? '可约' : '已订') + '"></span>';
+    }).join('');
+    var count = $('#radar-count');
+    if (count) count.textContent = free + ' / ' + seats.length + ' 空位';
+  }
+
+  function openSeat(seat, origin) {
     if (!seat) return;
     var meta = SEAT_STATE[seat.state] || SEAT_STATE.ok;
     var park = getPark(state.parkId);
@@ -878,11 +1060,12 @@
     btn.disabled = blocked;
     btn.textContent = blocked ? meta.label : (seat.id === state.seatId ? '已选择该营位' : '选择此营位');
     btn.setAttribute('data-seat', seat.id);
-    $('#seat-sheet').classList.add('is-open');
+    renderRadar(seat.id);
+    window.UI.openOverlay($('#seat-sheet'), { origin: origin });
   }
 
   function closeSheet() {
-    $('#seat-sheet').classList.remove('is-open');
+    window.UI.closeOverlays();
   }
 
   function selectSeat(id) {
@@ -1945,9 +2128,13 @@
 
     if (target.closest('[data-sheet-close]')) { closeSheet(); return; }
 
+    var zoneEl = target.closest('[data-zone]');
+    if (zoneEl) { focusZone(zoneEl.getAttribute('data-zone')); return; }
+
     var seatEl = target.closest('[data-seat]');
     if (seatEl && !seatEl.closest('#sheet-select')) {
-      openSeat(findSeat(seatEl.getAttribute('data-seat')));
+      if (mapDragged) return;
+      openSeat(findSeat(seatEl.getAttribute('data-seat')), seatEl);
       return;
     }
 
@@ -2076,10 +2263,11 @@
 
   $('#park-search').addEventListener('input', renderParkList);
 
-  $('#zoom-in').addEventListener('click', function () { setZoom(state.zoom + 0.3); });
-  $('#zoom-out').addEventListener('click', function () { setZoom(state.zoom - 0.3); });
+  $('#zoom-in').addEventListener('click', function () { setZoom(state.zoom * 1.45, null, null, true); });
+  $('#zoom-out').addEventListener('click', function () { setZoom(state.zoom / 1.45, null, null, true); });
   $('#zoom-reset').addEventListener('click', function () {
-    state.zoom = 1; state.tx = 0; state.ty = 0; applyTransform();
+    resetView(true);
+    window.UI.toast('已回到全览视图');
   });
 
   $('#layers-toggle').addEventListener('click', function () {
@@ -2100,28 +2288,93 @@
     });
   });
 
-  /* 地图拖动 */
+  /* 地图手势：拖动 / 捏合 / 滚轮 / 双击
+     关键：pointerdown 不立即 setPointerCapture，只有真正拖动（>6px）后才捕获，
+     否则捕获会把后续 pointerup / click 重定向到视口，营位点击永远收不到 */
+  var mapDragged = false;
   (function () {
     var vp = $('#map-viewport');
-    var dragging = false, sx = 0, sy = 0, ox = 0, oy = 0;
+    var active = false, dragging = false, moved = 0, pid = null;
+    var sx = 0, sy = 0, ox = 0, oy = 0;
+    var pts = {}, startDist = 0, startZoom = 1, midX = 0, midY = 0;
+
+    function pairDist() {
+      var ids = Object.keys(pts);
+      if (ids.length < 2) return 0;
+      return Math.sqrt(Math.pow(pts[ids[0]].x - pts[ids[1]].x, 2) + Math.pow(pts[ids[0]].y - pts[ids[1]].y, 2));
+    }
+
+    function syncPinch() {
+      var ids = Object.keys(pts);
+      var rect = vp.getBoundingClientRect();
+      if (ids.length < 2) { startDist = 0; vp.classList.remove('is-pinching'); return; }
+      startDist = pairDist() || 1;
+      startZoom = state.zoom;
+      midX = (pts[ids[0]].x + pts[ids[1]].x) / 2 - rect.left;
+      midY = (pts[ids[0]].y + pts[ids[1]].y) / 2 - rect.top;
+      vp.classList.add('is-pinching');
+    }
+
     vp.addEventListener('pointerdown', function (e) {
-      if (e.button !== 0) return;
-      dragging = true;
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      if (e.target.closest('.map-zoom, .map-zones, .map-layers')) return;
+      pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+      if (Object.keys(pts).length === 2) { syncPinch(); return; }
+      active = true; dragging = false; moved = 0; pid = e.pointerId;
       sx = e.clientX; sy = e.clientY; ox = state.tx; oy = state.ty;
-      vp.classList.add('is-panning');
-      if (vp.setPointerCapture) { try { vp.setPointerCapture(e.pointerId); } catch (err) {} }
+      mapDragged = false;
     });
+
     vp.addEventListener('pointermove', function (e) {
+      if (pts[e.pointerId]) { pts[e.pointerId].x = e.clientX; pts[e.pointerId].y = e.clientY; }
+      if (startDist) {
+        var d = pairDist();
+        if (d > 0) setZoom(startZoom * (d / startDist), midX, midY);
+        return;
+      }
+      if (!active || e.pointerId !== pid) return;
+      var dx = e.clientX - sx, dy = e.clientY - sy;
+      moved = Math.max(moved, Math.abs(dx), Math.abs(dy));
+      if (!dragging && moved > 6) {
+        dragging = true;
+        vp.classList.add('is-panning');
+        if (vp.setPointerCapture) { try { vp.setPointerCapture(e.pointerId); } catch (err) {} }
+      }
       if (!dragging) return;
-      state.tx = ox + (e.clientX - sx);
-      state.ty = oy + (e.clientY - sy);
+      state.tx = ox + dx;
+      state.ty = oy + dy;
       clampPan();
       applyTransform();
     });
-    function end() { dragging = false; vp.classList.remove('is-panning'); }
+
+    function end(e) {
+      if (pts[e.pointerId]) delete pts[e.pointerId];
+      if (dragging) {
+        mapDragged = true;
+        setTimeout(function () { mapDragged = false; }, 90);
+      }
+      active = false; dragging = false; pid = null;
+      vp.classList.remove('is-panning');
+      if (Object.keys(pts).length < 2) { startDist = 0; vp.classList.remove('is-pinching'); }
+    }
     vp.addEventListener('pointerup', end);
     vp.addEventListener('pointercancel', end);
-    vp.addEventListener('pointerleave', function () { if (dragging) end(); });
+
+    /* 滚轮：未放大时把滚动留给页面，放大后再接管为缩放 */
+    vp.addEventListener('wheel', function (e) {
+      if (!e.ctrlKey && !e.metaKey && state.zoom <= fitZoom() + 0.01) return;
+      e.preventDefault();
+      var rect = vp.getBoundingClientRect();
+      var factor = Math.exp(-e.deltaY * (e.ctrlKey ? 0.012 : 0.0024));
+      setZoom(state.zoom * factor, e.clientX - rect.left, e.clientY - rect.top);
+    }, { passive: false });
+
+    vp.addEventListener('dblclick', function (e) {
+      if (e.target.closest('.map-zoom, .map-zones, .map-layers')) return;
+      var rect = vp.getBoundingClientRect();
+      if (state.zoom >= Math.max(2.4, fitZoom() * 3)) { resetView(true); return; }
+      setZoom(state.zoom * 1.8, e.clientX - rect.left, e.clientY - rect.top, true);
+    });
   })();
 
   /* 扫码 / 输码 */

@@ -162,6 +162,10 @@
       </nav>
 
       <div class="ad-topbar__tools">
+        <span class="ad-live" title="原型为静态演示：真实系统按 60 秒轮询同步经营数据">
+          <i class="ad-live__dot" aria-hidden="true"></i>数据实时同步
+        </span>
+
         <label class="ad-search">
           <svg class="icon icon--sm"><use href="#i-search"/></svg>
           <span class="u-hide">全局搜索</span>
@@ -229,7 +233,7 @@
             <div class="stat__top">
               <div>
                 <div class="stat__label">今日有效订单</div>
-                <div class="stat__value">128<small>单</small></div>
+                <div class="stat__value"><span data-countup="128">128</span><small>单</small></div>
               </div>
               <span class="stat__icon"><svg class="icon icon--sm"><use href="#i-ticket"/></svg></span>
             </div>
@@ -243,7 +247,7 @@
             <div class="stat__top">
               <div>
                 <div class="stat__label">今日营收</div>
-                <div class="stat__value">¥ 18,640</div>
+                <div class="stat__value">¥ <span data-countup="18640" data-comma>18,640</span></div>
               </div>
               <span class="stat__icon stat__icon--wheat"><svg class="icon icon--sm"><use href="#i-wallet"/></svg></span>
             </div>
@@ -257,7 +261,7 @@
             <div class="stat__top">
               <div>
                 <div class="stat__label">待核销</div>
-                <div class="stat__value">46<small>单</small></div>
+                <div class="stat__value"><span data-countup="46">46</span><small>单</small></div>
               </div>
               <span class="stat__icon stat__icon--cyan"><svg class="icon icon--sm"><use href="#i-scan"/></svg></span>
             </div>
@@ -271,7 +275,7 @@
             <div class="stat__top">
               <div>
                 <div class="stat__label">待审批地图版本</div>
-                <div class="stat__value">2<small>个</small></div>
+                <div class="stat__value"><span data-countup="2">2</span><small>个</small></div>
               </div>
               <span class="stat__icon stat__icon--rust"><svg class="icon icon--sm"><use href="#i-layers"/></svg></span>
             </div>
@@ -467,8 +471,8 @@
               <span class="panel__sub">斗门水乡公园</span>
               <div class="panel__tools">
                 <select class="select" id="ver-park" aria-label="切换公园" style="height:32px;font-size:var(--fs-caption)">
-                  <option value="p1">斗门水乡公园</option>
                   <option value="p2">黄杨河湿地公园</option>
+                  <option value="p1">斗门水乡公园</option>
                   <option value="p3">霞山梯田营地</option>
                 </select>
               </div>
@@ -517,6 +521,15 @@
         <div class="editor">
           <div class="editor__main panel">
             <div class="editor__toolbar">
+              <label class="editor__park">
+                <span class="u-hide">编辑底图</span>
+                <select class="select select--sm" id="ed-park" aria-label="选择要编辑的公园底图">
+                  <option value="p2">黄杨河湿地公园</option>
+                  <option value="p1">斗门水乡公园</option>
+                  <option value="p3">霞山梯田营地</option>
+                </select>
+              </label>
+              <span class="toolbar__sep" aria-hidden="true"></span>
               <div class="tool-group" role="group" aria-label="编辑工具">
                 <button class="tool is-active" type="button" data-tool="select">
                   <svg class="icon icon--sm"><use href="#i-cursor"/></svg>选择
@@ -541,13 +554,20 @@
                 </button>
               </div>
               <span class="toolbar__sep" aria-hidden="true"></span>
-              <div class="tool-group">
-                <button class="tool tool--icon" type="button" data-toast="已放大底图（演示）" title="放大">
-                  <svg class="icon icon--sm"><use href="#i-zoom-in"/></svg><span class="u-hide">放大</span>
-                </button>
-                <button class="tool tool--icon" type="button" data-toast="已缩小底图（演示）" title="缩小">
+              <div class="tool-group" role="group" aria-label="底图缩放">
+                <button class="tool tool--icon" type="button" id="ed-zoom-out" title="缩小底图">
                   <svg class="icon icon--sm"><use href="#i-zoom-out"/></svg><span class="u-hide">缩小</span>
                 </button>
+                <span class="editor__zoom" id="ed-zoom-val" aria-live="polite">×1.00</span>
+                <button class="tool tool--icon" type="button" id="ed-zoom-in" title="放大底图">
+                  <svg class="icon icon--sm"><use href="#i-zoom-in"/></svg><span class="u-hide">放大</span>
+                </button>
+                <button class="tool tool--icon" type="button" id="ed-zoom-fit" title="全览（适应画布）">
+                  <svg class="icon icon--sm"><use href="#i-refresh"/></svg><span class="u-hide">全览</span>
+                </button>
+              </div>
+              <span class="toolbar__sep" aria-hidden="true"></span>
+              <div class="tool-group">
                 <button class="tool tool--icon" type="button" id="btn-del-shape" title="删除选中">
                   <svg class="icon icon--sm"><use href="#i-trash"/></svg><span class="u-hide">删除选中</span>
                 </button>
@@ -557,13 +577,17 @@
             </div>
 
             <div class="editor__stage">
-              <div class="editor__canvas" id="editor-canvas">
-                <img src="../assets/img/park-map-1.svg" alt="斗门水乡公园底图"/>
-                <svg viewBox="0 0 1200 800" preserveAspectRatio="none" id="editor-shapes" aria-label="营位图层"></svg>
+              <div class="editor__canvas" id="editor-canvas" tabindex="0" role="application"
+                   aria-label="公园地图编辑器：拖动平移，滚轮或按钮缩放">
+                <div class="editor__pane" id="editor-pane">
+                  <img id="editor-img" src="../assets/img/park-map-2.svg" alt="黄杨河湿地公园底图"/>
+                  <svg viewBox="0 0 1120 240" preserveAspectRatio="none" id="editor-shapes" aria-label="营位图层"></svg>
+                </div>
               </div>
               <p class="editor__hint">
                 <svg class="icon icon--sm"><use href="#i-info"/></svg>
-                底图 1200 × 800，营位坐标以底图百分比存储；底图本身不随缩放变化。
+                <span id="ed-hint-text">底图 1120 × 240 px，跨度 1.1 公里；拖动平移、滚轮或按钮缩放，营位坐标以底图像素存储。</span>
+                <span class="editor__count">共 <b id="ed-seat-count">40</b> 个营位</span>
               </p>
             </div>
 
@@ -571,6 +595,7 @@
               <span class="chart__key"><i class="chart__swatch"></i>普通营位</span>
               <span class="chart__key"><i class="chart__swatch" style="background:var(--cyan-400)"></i>多边形营位</span>
               <span class="chart__key"><i class="chart__swatch chart__swatch--alt"></i>当前选中</span>
+              <span class="chart__key editor__legend-note">A–E 五区为营区前缀：A 入口草坪 · B 芦苇观鸟 · C 亲水栈道 · D 林荫安静 · E 浅滩骑行</span>
             </div>
           </div>
 
@@ -626,8 +651,8 @@
         <div class="panel panel--flush">
           <div class="fbar">
             <select class="select" id="seat-park">
-              <option value="p1">斗门水乡公园</option>
               <option value="p2">黄杨河湿地公园</option>
+              <option value="p1">斗门水乡公园</option>
               <option value="p3">霞山梯田营地</option>
             </select>
             <input class="input" type="search" id="seat-search" placeholder="搜索营位编号 / 名称"/>
@@ -698,12 +723,14 @@
             <input class="input" type="search" id="order-search" placeholder="订单号 / 手机号 / 游客姓名"/>
             <select class="select" id="order-park">
               <option value="all">全部公园</option>
-              <option value="p1">斗门水乡公园</option>
               <option value="p2">黄杨河湿地公园</option>
+              <option value="p1">斗门水乡公园</option>
               <option value="p3">霞山梯田营地</option>
             </select>
             <input class="input" type="date" id="order-date" aria-label="使用日期" style="width:150px"/>
             <button class="btn btn--ghost btn--sm" type="button" id="order-clear">清除筛选</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-order-reload title="演示列表加载完成后的状态">演示 · 加载</button>
+            <button class="btn btn--ghost btn--sm" type="button" data-order-fail title="演示列表加载失败与重试">演示 · 失败</button>
             <span class="fbar__spacer"></span>
             <span class="fbar__count">筛选结果 <b id="order-count">0</b> 条</span>
           </div>
@@ -758,8 +785,8 @@
             <input class="input" type="search" id="verify-search" placeholder="订单号 / 核销码 / 核销员"/>
             <select class="select" id="verify-park">
               <option value="all">全部公园</option>
-              <option value="p1">斗门水乡公园</option>
               <option value="p2">黄杨河湿地公园</option>
+              <option value="p1">斗门水乡公园</option>
               <option value="p3">霞山梯田营地</option>
             </select>
             <select class="select" id="verify-result">
@@ -841,8 +868,8 @@
           </div>
           <div class="ad-page-head__acts">
             <select class="select" id="sch-park" aria-label="选择公园" style="height:36px;font-size:var(--fs-caption)">
-              <option value="p1">斗门水乡公园</option>
               <option value="p2">黄杨河湿地公园</option>
+              <option value="p1">斗门水乡公园</option>
               <option value="p3">霞山梯田营地</option>
             </select>
             <button class="btn btn--secondary btn--sm" type="button" data-modal="modal-batch">
@@ -961,12 +988,12 @@
         <div class="stat-grid">
           <div class="stat">
             <div class="stat__label">订单总量</div>
-            <div class="stat__value">1,426<small>单</small></div>
+            <div class="stat__value"><span data-countup="1426" data-comma>1,426</span><small>单</small></div>
             <div class="stat__foot"><span class="stat__delta stat__delta--up">+22.4%</span><span>环比上月</span></div>
           </div>
           <div class="stat">
             <div class="stat__label">营收合计</div>
-            <div class="stat__value">¥ 208,530</div>
+            <div class="stat__value">¥ <span data-countup="208530" data-comma>208,530</span></div>
             <div class="stat__foot"><span class="stat__delta stat__delta--up">+16.8%</span><span>环比上月</span></div>
           </div>
           <div class="stat">
@@ -976,7 +1003,7 @@
           </div>
           <div class="stat">
             <div class="stat__label">退款率</div>
-            <div class="stat__value">3.4<small>%</small></div>
+            <div class="stat__value"><span data-countup="3.4">3.4</span><small>%</small></div>
             <div class="stat__foot"><span>48 单 · ¥7,120</span></div>
           </div>
         </div>
@@ -1125,8 +1152,8 @@
             <input class="input" type="search" id="act-search" placeholder="活动名称 / 票种 / 订单号 / 联系人"/>
             <select class="select" id="act-park" aria-label="活动所属公园">
               <option value="all">全部公园</option>
-              <option value="p1">斗门水乡公园</option>
               <option value="p2">黄杨河湿地公园</option>
+              <option value="p1">斗门水乡公园</option>
               <option value="p3">霞山梯田营地</option>
             </select>
             <button class="btn btn--ghost btn--sm" type="button" id="act-clear">清除筛选</button>

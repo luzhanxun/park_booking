@@ -52,7 +52,22 @@
   function buildParks() {
     return [
     {
+      id: 'p2', name: '黄杨河湿地公园', code: 'PARK-002', cover: 'park-cover-2.svg',
+      map: 'park-map-2.svg', mapW: 1120, mapH: 240, spanKm: 1.1,
+      addr: '斗门区井岸镇黄杨河东堤', hours: '07:00 – 19:00', mode: '分时场',
+      status: 'online', seatCount: 40,
+      desc: '沿黄杨河绵延 1.1 公里的带状湿地营地，5 个营区共 40 个营位，安静少光污染。',
+      intro: '营地沿河堤自西向东展开 1.1 公里，西侧芦苇荡为观鸟核心区，东侧浅滩为骑行与亲水区。' +
+        '全线分入口草坪、芦苇观鸟、亲水栈道、林荫安静、浅滩骑行 5 个营区共 40 个营位，' +
+        '设观鸟栈道 800 米、东西两处出入口与两处公共卫生间。因带状跨度大，后台地图编辑器支持缩放与拖动。',
+      tags: ['湿地', '观鸟', '骑行', '带状营地'],
+      gallery: ['park-cover-2.svg', 'park-cover-1.svg'],
+      notice: '观鸟区禁止无人机；涨潮时段部分栈道临时关闭，请留意现场提示。',
+      phone: '0756-5533 902', updated: '2026-03-14 10:22'
+    },
+    {
       id: 'p1', name: '斗门水乡公园', code: 'PARK-001', cover: 'park-cover-1.svg',
+      map: 'park-map-1.svg', mapW: 1200, mapH: 800, spanKm: 0.42,
       addr: '斗门区斗门镇水乡大道 18 号', hours: '08:00 – 20:00', mode: '整日场',
       status: 'online', seatCount: 12,
       desc: '河涌环绕的水乡营地，草坪开阔，适合家庭野餐与轻量露营。',
@@ -64,19 +79,8 @@
       phone: '0756-5568 210', updated: '2026-03-15 16:40'
     },
     {
-      id: 'p2', name: '黄杨河湿地公园', code: 'PARK-002', cover: 'park-cover-2.svg',
-      addr: '斗门区井岸镇黄杨河东堤', hours: '07:00 – 19:00', mode: '分时场',
-      status: 'online', seatCount: 16,
-      desc: '沿黄杨河而建的湿地营地，芦苇与观鸟栈道环绕，安静少光污染。',
-      intro: '营地沿河堤展开，西侧芦苇荡为观鸟核心区，东侧 16 个营位分上午 / 下午两个时段。' +
-        '园区设观鸟栈道 800 米、两处出入口与公共卫生间，适合轻装露营与自然观察。',
-      tags: ['湿地', '观鸟', '骑行'],
-      gallery: ['park-cover-2.svg', 'park-cover-1.svg'],
-      notice: '观鸟区禁止无人机；涨潮时段部分栈道临时关闭，请留意现场提示。',
-      phone: '0756-5533 902', updated: '2026-03-14 10:22'
-    },
-    {
       id: 'p3', name: '霞山梯田营地', code: 'PARK-003', cover: 'park-cover-3.svg',
+      map: 'park-map-3.svg', mapW: 1200, mapH: 800, spanKm: 0.36,
       addr: '斗门区白蕉镇霞山村梯田路', hours: '09:00 – 21:00', mode: '整日场',
       status: 'offline', seatCount: 9,
       desc: '梯田层叠的半山营地，视野开阔，是看日落与星空的热门机位。',
@@ -144,21 +148,29 @@
         points: '540,520 640,486 726,534 690,626 566,612' }
     ];
 
+    /* 黄杨河湿地公园：1.1 公里带状营地，5 个营区 × 8 个营位 = 40 个营位。
+       坐标与小程序底图 park-map-2.svg（1120 × 240）完全一致。 */
     var p2 = [];
-    var rows = [130, 300, 470];
-    var labels = ['芦苇营位', '浅滩营位', '林荫营位'];
-    for (var r = 0; r < rows.length; r++) {
-      for (var c = 0; c < 6; c++) {
-        if (r === 2 && c > 3) continue;
-        var idx = r * 6 + c + 1;
-        var code = 'W' + (idx < 10 ? '0' + idx : idx);
-        var state = 'ok';
-        if (idx === 5) state = 'maint';
-        if (idx === 11) state = 'locked';
-        p2.push(rectSeat(code, labels[r], r === 0 ? 4 : 6, 128 + r * 20, state,
-          60 + c * 180, rows[r], 150, 96));
+    var zones = [
+      { code: 'A', x: 20, price: 138, name: '草坪营位' },
+      { code: 'B', x: 238, price: 158, name: '观鸟营位' },
+      { code: 'C', x: 456, price: 168, name: '栈道营位' },
+      { code: 'D', x: 674, price: 148, name: '林荫营位' },
+      { code: 'E', x: 892, price: 158, name: '浅滩营位' }
+    ];
+    zones.forEach(function (z) {
+      for (var r = 0; r < 2; r++) {
+        for (var c = 0; c < 4; c++) {
+          var n = r * 4 + c + 1;
+          var code = z.code + (n < 10 ? '0' + n : n);
+          var state = 'ok';
+          if (r === 0 && n === 3) state = 'maint';
+          if (r === 1 && n === 5 && z.code === 'C') state = 'locked';
+          p2.push(rectSeat(code, z.name, r === 0 ? 4 : 6, z.price, state,
+            z.x + 6 + c * 48, r === 0 ? 52 : 110, 44, 30));
+        }
       }
-    }
+    });
     map.p2 = p2;
 
     var p3 = [];
@@ -441,7 +453,8 @@
 
   var ACTIVITIES = buildActivities();
 
-  var VERSIONS = {
+  function buildVersions() {
+    return {
     p1: [
       { v: 'V3', state: 'pending', by: '李伟', at: '2026-03-16 09:20', summary: '新增 C03 家庭营位，调整 A06 为锁定区',
         map: 'park-map-1.svg',
@@ -457,21 +470,28 @@
         map: 'park-map-1.svg', diff: [] }
     ],
     p2: [
-      { v: 'V2', state: 'pending', by: '罗嘉明', at: '2026-03-15 17:40', summary: '把 W11–W16 划为浅滩区，新增 2 个出入口',
+      { v: 'V3', state: 'pending', by: '罗嘉明', at: '2026-03-15 17:40',
+        summary: '底图改为 1.1 公里带状图，重划 A–E 五个营区共 40 个营位',
         map: 'park-map-2.svg',
         diff: [
-          { type: '新增', cls: 'diff--add', text: '北侧 2 号出入口' },
-          { type: '修改', cls: 'diff--mod', text: 'W11–W16 区域名改为「浅滩营位」' },
-          { type: '修改', cls: 'diff--mod', text: '道路图层加宽 20px' }
+          { type: '新增', cls: 'diff--add', text: '入口草坪区 A01–A08、芦苇观鸟区 B01–B08' },
+          { type: '新增', cls: 'diff--add', text: '亲水栈道区 C01–C08、林荫安静区 D01–D08、浅滩骑行区 E01–E08' },
+          { type: '修改', cls: 'diff--mod', text: '底图由 1200 × 800 改为 1120 × 240 带状，支持缩放平移编辑' },
+          { type: '修改', cls: 'diff--mod', text: '东 / 西出入口与两处卫生间随带状路径重新定位' }
         ] },
-      { v: 'V1', state: 'active', by: '陈静', at: '2026-02-02 09:12', summary: '初版地图，16 个营位',
+      { v: 'V2', state: 'active', by: '李伟', at: '2026-02-20 14:05', summary: '补齐观鸟栈道与两处卫生间标注',
+        map: 'park-map-2.svg', diff: [] },
+      { v: 'V1', state: 'archived', by: '陈静', at: '2026-02-02 09:12', summary: '初版地图，16 个营位',
         map: 'park-map-2.svg', diff: [] }
     ],
     p3: [
       { v: 'V1', state: 'active', by: '陈静', at: '2026-02-14 11:00', summary: '初版地图，9 个梯田营位',
         map: 'park-map-3.svg', diff: [] }
     ]
-  };
+    };
+  }
+
+  var VERSIONS = buildVersions();
 
   var VER_STATE = {
     pending: { label: '待审批', cls: 'badge--wheat' },
@@ -490,15 +510,16 @@
     verifyLogs: buildVerifyLogs(),
     staff: buildStaff(),
     logs: buildLogs(),
-    seatPark: 'p1',
+    seatPark: 'p2',
     orderStatus: 'all',
     refundStatus: 'pending',
     actPane: 'tickets',
     actPark: 'all',
     aeTab: 'content',
-    verPark: 'p1',
+    verPark: 'p2',
     verIndex: 0,
     selectedSeat: null,
+    editorPark: 'p2',
     priceSeat: null,
     tool: 'select',
     schMonth: 2,      // 0-based，演示固定 2026 年
@@ -573,6 +594,18 @@
     if (view === 'acts') renderActs();
     if (view === 'staff') renderStaff();
     if (view === 'logs') renderLogs();
+
+    playEnter(view);
+  }
+
+  /* 视图入场编排：重播 CSS 动画并让 KPI 数字滚动 */
+  function playEnter(view) {
+    var el = $('.ad-view[data-view="' + view + '"]');
+    if (!el) return;
+    el.classList.remove('is-entering');
+    void el.offsetWidth;
+    el.classList.add('is-entering');
+    window.UI.countUp(el);
   }
 
   /* ------------------------------------------------------------------
@@ -702,7 +735,7 @@
       '</linearGradient></defs>' +
       f.svg +
       '<path class="area" d="' + area + '"/>' +
-      '<path class="line" d="' + line + '"/>' +
+      '<path class="line" pathLength="2200" d="' + line + '"/>' +
       '<circle class="dot" cx="' + (f.padL + stepX * 18).toFixed(1) + '" cy="' +
         (f.padT + f.innerH - (points[18] / max) * f.innerH).toFixed(1) + '" r="4"/>' +
       '</svg>';
@@ -970,32 +1003,155 @@
      04 地图编辑器
      ------------------------------------------------------------------ */
 
+  /* 底图视图状态：缩放 / 平移 / 当前编辑的公园 */
+  var ED = { zoom: 1, tx: 0, ty: 0, park: '', ready: false, dragged: false };
+
+  function edDims() {
+    var park = parkById(state.editorPark);
+    return { w: park.mapW || 1200, h: park.mapH || 800 };
+  }
+
+  function edSeats() {
+    if (!SEATS[state.editorPark]) SEATS[state.editorPark] = [];
+    return SEATS[state.editorPark];
+  }
+
+  function edFitZoom() {
+    var box = $('#editor-canvas');
+    var d = edDims();
+    var vw = box.clientWidth || d.w;
+    var vh = box.clientHeight || d.h;
+    return Math.min(vw / d.w, vh / d.h);
+  }
+
+  function edApply(animate) {
+    var pane = $('#editor-pane');
+    if (!pane) return;
+    var d = edDims();
+    pane.style.width = d.w + 'px';
+    pane.style.height = d.h + 'px';
+    pane.style.transform = 'translate(' + ED.tx + 'px,' + ED.ty + 'px) scale(' + ED.zoom + ')';
+    pane.classList.toggle('is-animating', !!animate);
+    clearTimeout(ED.timer);
+    if (animate) {
+      ED.timer = setTimeout(function () { pane.classList.remove('is-animating'); }, 400);
+    }
+    $('#ed-zoom-val').textContent = '×' + ED.zoom.toFixed(2);
+  }
+
+  function edClamp() {
+    var box = $('#editor-canvas');
+    var d = edDims();
+    var cw = d.w * ED.zoom;
+    var ch = d.h * ED.zoom;
+    ED.tx = cw <= box.clientWidth ? Math.round((box.clientWidth - cw) / 2)
+      : Math.min(0, Math.max(box.clientWidth - cw, ED.tx));
+    ED.ty = ch <= box.clientHeight ? Math.round((box.clientHeight - ch) / 2)
+      : Math.min(0, Math.max(box.clientHeight - ch, ED.ty));
+  }
+
+  function edSetZoom(next, cx, cy, animate) {
+    var box = $('#editor-canvas');
+    var fit = edFitZoom();
+    next = Math.max(fit, Math.min(fit * 6, next));
+    if (cx == null) cx = box.clientWidth / 2;
+    if (cy == null) cy = box.clientHeight / 2;
+    var k = next / ED.zoom;
+    ED.tx = cx - (cx - ED.tx) * k;
+    ED.ty = cy - (cy - ED.ty) * k;
+    ED.zoom = next;
+    edClamp();
+    edApply(animate);
+  }
+
+  function edReset(animate) {
+    ED.zoom = edFitZoom();
+    ED.tx = 0;
+    ED.ty = 0;
+    edClamp();
+    edApply(animate);
+  }
+
+  /* 屏幕坐标 → 底图坐标 */
+  function edPoint(e) {
+    var rect = $('#editor-canvas').getBoundingClientRect();
+    return {
+      x: (e.clientX - rect.left - ED.tx) / ED.zoom,
+      y: (e.clientY - rect.top - ED.ty) / ED.zoom
+    };
+  }
+
+  /* points 兼容 "x,y x,y" 与 "x,y,x,y" 两种写法 */
+  function polyCenter(points) {
+    var nums = (Array.isArray(points) ? points.join(',') : String(points)).split(/[^0-9.\-]+/);
+    var sx = 0, sy = 0, n = 0;
+    for (var i = 0; i + 1 < nums.length; i += 2) {
+      var px = Number(nums[i]), py = Number(nums[i + 1]);
+      if (isNaN(px) || isNaN(py)) continue;
+      sx += px; sy += py; n++;
+    }
+    return n ? { x: sx / n, y: sy / n } : { x: 0, y: 0 };
+  }
+
   function renderEditor() {
+    var park = parkById(state.editorPark);
     var shapes = $('#editor-shapes');
-    var seats = SEATS.p1;
+    var seats = edSeats();
+    var d = edDims();
     var html = '';
 
-    seats.forEach(function (s, i) {
+    shapes.setAttribute('viewBox', '0 0 ' + d.w + ' ' + d.h);
+
+    var img = $('#editor-img');
+    var file = park.map || 'park-map-1.svg';
+    if (img.getAttribute('src').indexOf(file) === -1) {
+      img.setAttribute('src', '../assets/img/' + file);
+      img.setAttribute('alt', park.name + '底图');
+    }
+
+    var fs = 14;
+    for (var si = 0; si < seats.length; si++) {
+      if (seats[si].type !== 'poly') {
+        fs = Math.max(11, Math.min(22, Math.round(Math.min(seats[si].w, seats[si].h) * 0.24)));
+        break;
+      }
+    }
+
+    seats.forEach(function (s) {
       var cls = 'eshape' + (s.type === 'poly' ? ' eshape--poly' : '') +
         (state.selectedSeat === s.code ? ' is-selected' : '');
+      var center;
       if (s.type === 'poly') {
         html += '<polygon class="' + cls + '" data-seat="' + s.code + '" points="' + s.points + '"/>';
+        center = polyCenter(s.points);
       } else {
         html += '<rect class="' + cls + '" data-seat="' + s.code + '" x="' + s.x + '" y="' + s.y +
           '" width="' + s.w + '" height="' + s.h + '" rx="6"/>';
+        center = { x: s.x + s.w / 2, y: s.y + s.h / 2 };
       }
-      var cx = s.type === 'poly' ? 630 : s.x + s.w / 2;
-      var cy = s.type === 'poly' ? 560 : s.y + s.h / 2;
-      html += '<text x="' + cx + '" y="' + cy + '" text-anchor="middle" font-size="20" fill="var(--forest-900)"' +
-        ' style="pointer-events:none;font-family:var(--font-num);font-weight:600">' + s.code + '</text>';
+      html += '<text x="' + center.x + '" y="' + center.y + '" text-anchor="middle" dominant-baseline="middle"' +
+        ' font-size="' + fs + '" style="pointer-events:none;font-family:var(--font-num);font-weight:600;' +
+        'fill:var(--forest-900)">' + s.code + '</text>';
     });
 
     shapes.innerHTML = html;
+
+    $('#ed-seat-count').textContent = seats.length;
+    $('#ed-hint-text').textContent = '底图 ' + d.w + ' × ' + d.h + ' px，跨度 ' + (park.spanKm || '—') +
+      ' 公里；拖动平移、滚轮或按钮缩放，营位坐标以底图像素存储。';
+
+    if (ED.park !== state.editorPark) {
+      ED.park = state.editorPark;
+      edReset(false);
+    } else {
+      edApply(false);
+    }
+
     renderProp();
   }
 
   function selectedSeatObj() {
-    var seats = SEATS.p1;
+    var seats = edSeats();
     for (var i = 0; i < seats.length; i++) if (seats[i].code === state.selectedSeat) return seats[i];
     return null;
   }
@@ -1039,7 +1195,7 @@
     $('#pp-code').addEventListener('change', function () {
       var val = this.value.trim().toUpperCase();
       if (!val) { this.value = seat.code; return; }
-      if (val !== seat.code && SEATS.p1.some(function (s) { return s.code === val; })) {
+      if (val !== seat.code && edSeats().some(function (s) { return s.code === val; })) {
         toast('营位编号 ' + val + ' 已存在', 'error');
         this.value = seat.code;
         return;
@@ -1063,7 +1219,7 @@
   }
 
   function editorClick(e) {
-    var stage = $('#editor-canvas');
+    if (ED.dragged) return;
     var seatEl = e.target.closest('[data-seat]');
 
     if (state.tool === 'select') {
@@ -1082,31 +1238,33 @@
       return;
     }
 
-    var rect = stage.getBoundingClientRect();
-    var px = ((e.clientX - rect.left) / rect.width) * 1200;
-    var py = ((e.clientY - rect.top) / rect.height) * 800;
-
-    var nextNum = SEATS.p1.length + 1;
+    var p = edPoint(e);
+    var d = edDims();
+    var seats = edSeats();
+    var used = {};
+    seats.forEach(function (s) { used[s.code] = true; });
+    var nextNum = seats.length + 1;
     var code = 'D' + pad(nextNum);
+    while (used[code]) { nextNum += 1; code = 'D' + pad(nextNum); }
 
     if (state.tool === 'rect') {
       var seat = rectSeat(code, '新增营位', 4, 158, 'ok',
-        Math.max(20, Math.min(1100, Math.round(px - 60))),
-        Math.max(20, Math.min(700, Math.round(py - 40))), 130, 88);
-      SEATS.p1.push(seat);
+        Math.max(4, Math.min(d.w - 60, Math.round(p.x - 22))),
+        Math.max(4, Math.min(d.h - 34, Math.round(p.y - 15))), 44, 30);
+      seats.push(seat);
       state.selectedSeat = code;
       state.tool = 'select';
       syncTools();
       renderEditor();
       toast('已在画布中新增营位 ' + code + '，请补充编号与名称');
     } else if (state.tool === 'poly') {
-      var cx = Math.max(120, Math.min(1060, Math.round(px)));
-      var cy = Math.max(100, Math.min(680, Math.round(py)));
+      var cx = Math.max(60, Math.min(d.w - 60, Math.round(p.x)));
+      var cy = Math.max(50, Math.min(d.h - 50, Math.round(p.y)));
       var poly = {
         code: code, name: '新增营位', type: 'poly', cap: 6, price: 188, state: 'ok',
-        points: [cx - 70, cy - 30, cx + 20, cy - 55, cx + 80, cy - 10, cx + 55, cy + 60, cx - 60, cy + 50].join(',')
+        points: [cx - 50, cy - 22, cx + 14, cy - 34, cx + 56, cy - 8, cx + 38, cy + 30, cx - 44, cy + 26].join(',')
       };
-      SEATS.p1.push(poly);
+      seats.push(poly);
       state.selectedSeat = code;
       state.tool = 'select';
       syncTools();
@@ -1114,6 +1272,93 @@
       toast('已新增多边形营位 ' + code);
     }
   }
+
+  /* 底图缩放 / 平移交互 */
+  (function () {
+    var box = $('#editor-canvas');
+    if (!box) return;
+    var drag = null;
+
+    box.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      drag = { id: e.pointerId, x: e.clientX, y: e.clientY, tx: ED.tx, ty: ED.ty, moved: false };
+    });
+
+    box.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var dx = e.clientX - drag.x;
+      var dy = e.clientY - drag.y;
+      if (!drag.moved && Math.abs(dx) + Math.abs(dy) > 5) {
+        drag.moved = true;
+        box.classList.add('is-panning');
+        try { box.setPointerCapture(drag.id); } catch (err) {}
+      }
+      if (!drag.moved) return;
+      ED.tx = drag.tx + dx;
+      ED.ty = drag.ty + dy;
+      edClamp();
+      edApply(false);
+    });
+
+    function endDrag(e) {
+      if (!drag) return;
+      var moved = drag.moved;
+      try { box.releasePointerCapture(drag.id); } catch (err) {}
+      drag = null;
+      box.classList.remove('is-panning');
+      if (moved) {
+        ED.dragged = true;
+        setTimeout(function () { ED.dragged = false; }, 80);
+      }
+    }
+    box.addEventListener('pointerup', endDrag);
+    box.addEventListener('pointercancel', endDrag);
+
+    box.addEventListener('wheel', function (e) {
+      if (e.deltaY > 0 && ED.zoom <= edFitZoom() + 0.001) return;
+      e.preventDefault();
+      var rect = box.getBoundingClientRect();
+      edSetZoom(ED.zoom * (e.deltaY < 0 ? 1.2 : 1 / 1.2),
+        e.clientX - rect.left, e.clientY - rect.top, false);
+    }, { passive: false });
+
+    function zoomBy(k) { edSetZoom(ED.zoom * k, null, null, true); }
+    $('#ed-zoom-in').addEventListener('click', function () { zoomBy(1.35); });
+    $('#ed-zoom-out').addEventListener('click', function () { zoomBy(1 / 1.35); });
+    $('#ed-zoom-fit').addEventListener('click', function () {
+      edReset(true);
+      toast('已回到全览视图');
+    });
+
+    var parkSel = $('#ed-park');
+    if (parkSel) {
+      parkSel.value = state.editorPark;
+      parkSel.addEventListener('change', function () {
+        state.editorPark = this.value;
+        state.selectedSeat = null;
+        renderEditor();
+        toast('已切换到「' + parkById(this.value).name + '」底图');
+      });
+    }
+
+    if (window.ResizeObserver) {
+      new ResizeObserver(function () {
+        if (!box.clientWidth) return;
+        if (!ED.ready) {
+          ED.ready = true;
+          edReset(false);
+        } else {
+          edClamp();
+          edApply(false);
+        }
+      }).observe(box);
+    }
+    window.addEventListener('resize', function () {
+      if (!box.clientWidth) return;
+      edClamp();
+      edApply(false);
+    });
+  })();
 
   function syncTools() {
     $$('.tool[data-tool]').forEach(function (btn) {
@@ -1127,14 +1372,16 @@
       toast('请先选中一个营位', 'warn');
       return;
     }
-    var sold = state.orders.some(function (o) { return o.parkId === 'p1' && o.seat === seat.code; });
+    var sold = state.orders.some(function (o) {
+      return o.parkId === state.editorPark && o.seat === seat.code;
+    });
     if (sold) {
       toast('营位 ' + seat.code + ' 存在历史订单，已改为「已锁定」而非删除', 'warn');
       seat.state = 'locked';
       renderEditor();
       return;
     }
-    SEATS.p1 = SEATS.p1.filter(function (s) { return s.code !== seat.code; });
+    SEATS[state.editorPark] = SEATS[state.editorPark].filter(function (s) { return s.code !== seat.code; });
     state.selectedSeat = null;
     renderEditor();
     toast('已删除营位 ' + seat.code);
@@ -1213,6 +1460,9 @@
   }
 
   function renderOrders() {
+    if (state.orderDemo === 'loading') { renderOrderLoading(); return; }
+    if (state.orderDemo === 'error') { renderOrderError(); return; }
+
     var counts = orderCounts();
     $$('#order-tabs [data-count]').forEach(function (el) {
       el.textContent = counts[el.getAttribute('data-count')] || 0;
@@ -1249,6 +1499,44 @@
         '</div></td>' +
       '</tr>';
     }).join('');
+  }
+
+  /* 后台列表的加载 / 失败态演示：客户确认“网络异常与筛选无结果要分开表达”这条规则 */
+  function renderOrderLoading() {
+    var rows = '';
+    for (var i = 0; i < 6; i++) {
+      rows += '<tr class="skel-row">' +
+        '<td><span class="skel skel--w70"></span></td>' +
+        '<td><span class="skel skel--w50"></span></td>' +
+        '<td><span class="skel"></span></td>' +
+        '<td><span class="skel skel--w60"></span></td>' +
+        '<td><span class="skel skel--w40"></span></td>' +
+        '<td><span class="skel skel--w40"></span></td>' +
+        '<td><span class="skel skel--w30"></span></td>' +
+      '</tr>';
+    }
+    $('#order-rows').innerHTML = rows;
+    $('#order-count').textContent = '—';
+  }
+
+  function renderOrderError() {
+    $('#order-rows').innerHTML = '<tr><td colspan="7">' +
+      '<div class="list-error" role="alert">' +
+        '<div class="list-error__title">订单列表加载失败</div>' +
+        '<p class="list-error__desc">请检查网络后重试；若持续失败，请持「请求号」联系技术支持。</p>' +
+        '<button class="btn btn--secondary btn--sm" type="button" data-order-retry>重新加载</button>' +
+      '</div></td></tr>';
+    $('#order-count').textContent = '—';
+  }
+
+  function simulateOrderLoad(mode) {
+    state.orderDemo = 'loading';
+    renderOrders();
+    window.setTimeout(function () {
+      state.orderDemo = mode === 'error' ? 'error' : 'ready';
+      renderOrders();
+      playEnter('orders');
+    }, 650);
   }
 
   function openOrder(no) {
@@ -2236,20 +2524,12 @@
     var target = document.getElementById(id);
     if (!target) return;
     $('#ad-overlay').classList.add('is-open');
-    target.classList.add('is-open');
-    target.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-    var focusTarget = target.querySelector('input, select, textarea, button');
-    if (focusTarget) focusTarget.focus({ preventScroll: true });
+    window.UI.openOverlay(target);
   }
 
   function closeLayers() {
     $('#ad-overlay').classList.remove('is-open');
-    $$('.drawer, .modal').forEach(function (el) {
-      el.classList.remove('is-open');
-      el.setAttribute('aria-hidden', 'true');
-    });
-    document.body.style.overflow = '';
+    window.UI.closeOverlays();
   }
 
   /* ------------------------------------------------------------------
@@ -2301,24 +2581,64 @@
       return;
     }
 
+    if (t.closest('[data-order-reload]')) {
+      simulateOrderLoad('ready');
+      return;
+    }
+
+    if (t.closest('[data-order-fail]')) {
+      simulateOrderLoad('error');
+      return;
+    }
+
+    if (t.closest('[data-order-retry]')) {
+      simulateOrderLoad('ready');
+      toast('已重新拉取订单列表', 'ok');
+      return;
+    }
+
     var aeTierDel = t.closest('[data-ae-tier-del]');
     if (aeTierDel) {
-      readAeTiers();
       var tIdx = Number(aeTierDel.getAttribute('data-ae-tier-del'));
       var goneTier = aeEdit.draft.tiers[tIdx];
-      aeEdit.draft.tiers.splice(tIdx, 1);
-      renderAeTiers();
-      syncAePreview();
-      if (goneTier) toast('票种「' + goneTier.name + '」已从草稿移除，保存后生效', 'info');
+      if (!goneTier) return;
+      window.UI.confirmAction({
+        title: '删除票种',
+        message: '确认删除票种「' + goneTier.name +
+          '」？删除后需点「保存」才生效，已售出的票据不受影响。',
+        confirmText: '删除票种',
+        onConfirm: function () {
+          readAeTiers();
+          var list = aeEdit.draft.tiers;
+          var i = list.indexOf(goneTier);
+          if (i < 0) {
+            for (var k = 0; k < list.length; k++) {
+              if (list[k].name === goneTier.name) { i = k; break; }
+            }
+          }
+          if (i > -1) list.splice(i, 1);
+          renderAeTiers();
+          syncAePreview();
+          toast('票种「' + goneTier.name + '」已从草稿移除，保存后生效', 'info');
+        }
+      });
       return;
     }
 
     var aeDateDel = t.closest('[data-ae-date-del]');
     if (aeDateDel) {
-      readAeDates();
-      aeEdit.draft.dates.splice(Number(aeDateDel.getAttribute('data-ae-date-del')), 1);
-      renderAeDates();
-      syncAePreview();
+      var dIdx = Number(aeDateDel.getAttribute('data-ae-date-del'));
+      window.UI.confirmAction({
+        title: '删除开放日期',
+        message: '确认删除该开放日期？删除后该日期不可预约，已预约订单不受影响。',
+        confirmText: '删除日期',
+        onConfirm: function () {
+          readAeDates();
+          aeEdit.draft.dates.splice(dIdx, 1);
+          renderAeDates();
+          syncAePreview();
+        }
+      });
       return;
     }
 
@@ -2825,16 +3145,20 @@
     var today = new Date();
     var stamp = today.getFullYear() + '-' + pad(today.getMonth() + 1) + '-' + pad(today.getDate()) +
       ' ' + pad(today.getHours()) + ':' + pad(today.getMinutes());
-    VERSIONS.p1.unshift({
-      v: 'V' + (VERSIONS.p1.length + 1),
+    var pid = state.editorPark;
+    var park = parkById(pid);
+    var count = edSeats().length;
+    VERSIONS[pid] = VERSIONS[pid] || [];
+    VERSIONS[pid].unshift({
+      v: 'V' + (VERSIONS[pid].length + 1),
       state: 'pending',
       by: ROLE_USERS[state.role].name,
       at: stamp,
-      summary: '编辑器提交：新增 ' + Math.max(0, SEATS.p1.length - 12) + ' 个营位，调整营位状态',
-      map: 'park-map-1.svg',
-      diff: [{ type: '新增', cls: 'diff--add', text: '本次草稿共 ' + SEATS.p1.length + ' 个营位' }]
+      summary: '编辑器提交：' + park.name + ' 共 ' + count + ' 个营位，调整营位位置与状态',
+      map: park.map || 'park-map-1.svg',
+      diff: [{ type: '新增', cls: 'diff--add', text: '本次草稿共 ' + count + ' 个营位' }]
     });
-    state.verPark = 'p1';
+    state.verPark = pid;
     state.verIndex = 0;
     go('versions');
     toast('已提交审批，等待审核员处理');
@@ -2868,10 +3192,11 @@
     state.schMonth = 2;
     state.schYear = 2026;
     state.schDay = 16;
-    SEATS.p1 = buildSeats().p1;
-    VERSIONS.p1[0].state = 'pending';
-    VERSIONS.p1[1].state = 'active';
-    VERSIONS.p1[2].state = 'archived';
+    SEATS = buildSeats();
+    VERSIONS = buildVersions();
+    ED.park = '';
+    ED.ready = false;
+    state.editorPark = 'p2';
     ACTIVITIES = buildActivities();
     PARKS = buildParks();
     state.aeTab = 'content';
@@ -2880,8 +3205,9 @@
     $('#order-date').value = '';
     $('#act-search').value = '';
     $('#act-park').value = 'all';
-    $('#ver-park').value = 'p1';
-    $('#seat-park').value = 'p1';
+    $('#ver-park').value = 'p2';
+    $('#seat-park').value = 'p2';
+    if ($('#ed-park')) $('#ed-park').value = 'p2';
     $('#seat-search').value = '';
     $('#seat-state').value = 'all';
     $('#park-search').value = '';
@@ -2898,9 +3224,12 @@
     toast('演示数据已重置');
   });
 
-  /* Esc 关闭浮层（与 common.js 行为一致，这里补齐遮罩与 aria） */
+  /* Esc 由 common.js 统一处理：只关最上层，保证二次确认弹出时不会连带关掉编辑抽屉 */
   document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape') closeLayers();
+    if (e.key !== 'Escape') return;
+    if (e.defaultPrevented) return;
+    if (document.querySelector('.confirm-layer.is-open')) return;
+    if (document.querySelector('.drawer.is-open') || document.querySelector('#ad-overlay.is-open')) closeLayers();
   });
 
   /* ------------------------------------------------------------------

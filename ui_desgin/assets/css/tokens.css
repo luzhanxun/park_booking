@@ -62,6 +62,8 @@
   --ink-600: #47594E;
   --ink-500: #5C6B62;
   --ink-400: #7C8B82;
+  /* 次级说明文字专用：白底 4.9:1，满足 AA */
+  --ink-450: #66756C;
   --ink-300: #A7B3AB;
   --ink-200: #C9D2CB;
   --ink-100: #E3E9E4;
@@ -81,7 +83,7 @@
   --text-strong: var(--ink-900);
   --text-body: var(--ink-700);
   --text-muted: var(--ink-500);
-  --text-faint: var(--ink-400);
+  --text-faint: var(--ink-450);
   --text-on-brand: var(--leaf-50);
   --text-inverse: var(--cream-50);
   --line: var(--ink-100);
@@ -100,6 +102,8 @@
   --success-soft: var(--leaf-100);
   --info: var(--cyan-600);
   --info-soft: var(--cyan-100);
+  /* 价格用麦穗金：把陶土红让给「危险」语义 */
+  --money: var(--wheat-700);
 
   /* ---------- 字体 ---------- */
   --font-sans: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei New", "Microsoft YaHei",
@@ -171,14 +175,38 @@
   --shadow-tech: 0 0 0 1px rgba(53, 183, 172, 0.22), 0 6px 20px rgba(15, 126, 120, 0.12);
 
   /* ---------- 动效 ---------- */
+  --dur-tap: 110ms;
   --dur-fast: 140ms;
   --dur-base: 200ms;
   --dur-slow: 320ms;
   --dur-slower: 480ms;
+  --dur-reveal: 420ms;
+  --dur-cine: 640ms;
   --ease-standard: cubic-bezier(0.2, 0.8, 0.25, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
   --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --stagger-step: 45ms;
+
+  /* ---------- 材质（数字稻田：网格 / 扫描 / 遥测光） ---------- */
+  --grid-line: rgba(11, 34, 24, 0.055);
+  --grid-cell: 24px;
+  --scan-tint: rgba(53, 183, 172, 0.16);
+  --glow-tech: 0 0 0 1px rgba(53, 183, 172, 0.24), 0 0 22px rgba(53, 183, 172, 0.28);
+  --glow-signal: radial-gradient(circle, rgba(53, 183, 172, 0.42), transparent 68%);
+
+  /* ---------- 后台深色侧栏（让侧栏只依赖这一组变量） ---------- */
+  --side-bg: var(--forest-950);
+  --side-line: rgba(240, 246, 235, 0.08);
+  --side-line-strong: rgba(240, 246, 235, 0.24);
+  --side-ink: rgba(240, 246, 235, 0.74);
+  --side-ink-strong: var(--cream-50);
+  --side-ink-soft: rgba(240, 246, 235, 0.58);
+  --side-ink-label: rgba(240, 246, 235, 0.54);
+  --side-hover: rgba(240, 246, 235, 0.07);
+  --side-active: rgba(126, 166, 110, 0.18);
+  --side-active-line: rgba(190, 214, 176, 0.22);
 
   /* ---------- 布局 ---------- */
   --shell-w: 390px;
