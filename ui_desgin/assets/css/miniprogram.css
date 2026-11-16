@@ -292,7 +292,7 @@
   color: var(--leaf-300);
   letter-spacing: var(--ls-wide);
 }
-.home-hero__title { font-size: 27px; line-height: 1.32; margin-top: var(--sp-2); font-weight: var(--fw-semibold); position: relative; }
+.home-hero__title { color: var(--cream-50); font-size: 27px; line-height: 1.32; margin-top: var(--sp-2); font-weight: var(--fw-semibold); position: relative; }
 .home-hero__desc { font-size: var(--fs-caption); color: rgba(248, 243, 231, 0.72); margin-top: var(--sp-2); max-width: 24ch; line-height: 1.6; }
 .home-hero__foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-4); position: relative; }
 .home-hero__weather { font-size: var(--fs-micro); color: var(--leaf-200); display: inline-flex; gap: 6px; align-items: center; }

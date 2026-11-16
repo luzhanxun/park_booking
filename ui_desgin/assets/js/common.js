@@ -51,7 +51,7 @@
   /* Esc 关闭上层弹层，并恢复页面滚动 */
   document.addEventListener('keydown', function (e) {
     if (e.key !== 'Escape') return;
-    var open = document.querySelectorAll('.drawer.is-open, .modal.is-open, .overlay.is-open, .sheet.is-open');
+    var open = document.querySelectorAll('.drawer.is-open, .modal.is-open, .overlay.is-open, .sheet.is-open, .sheet-layer.is-open');
     if (!open.length) return;
     open.forEach(function (node) { node.classList.remove('is-open'); });
     document.body.style.overflow = '';
