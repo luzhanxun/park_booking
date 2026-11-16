@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" role="img" aria-label="??????">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FBF4E4"/>
+      <stop offset="1" stop-color="#F6E9CB"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#sky)"/>
+  <circle cx="640" cy="112" r="52" fill="#F5DD9E" opacity="0.9"/>
+  <circle cx="120" cy="96" r="3" fill="#D9BE7E" opacity="0.45"/>
+  <circle cx="176" cy="76" r="2" fill="#D9BE7E" opacity="0.4"/>
+  <circle cx="238" cy="106" r="2.4" fill="#D9BE7E" opacity="0.35"/>
+  <path d="M0 262c140-36 260-16 400 8s260 26 400-4v214H0z" fill="#EFE0B9" opacity="0.8"/>
+  
+  <path d="M0 268c160-40 300-18 440 10s240 30 360-2v204H0z" fill="#E4CE9A"/>
+  <path d="M0 336c180-30 320-8 460 14s220 22 340-6v136H0z" fill="#D9BE7E"/>
+  <path d="M0 408c180-24 340-8 500 8s200 14 300-8v72H0z" fill="#B98B33" opacity="0.55"/>
+  <g fill="none" stroke="#F7F0DE" stroke-width="3" opacity="0.6">
+    <path d="M60 360c120-26 240-22 360 4S620 392 740 372"/>
+    <path d="M60 384c120-24 250-18 380 8s200 20 300 2"/>
+  </g>
+  <path d="M560 366v-70l64-42 64 42v70z" fill="#B98B33" opacity="0.95"/>
+  <path d="M560 298l64-44 64 44z" fill="#F7F0DE"/>
+
+</svg>

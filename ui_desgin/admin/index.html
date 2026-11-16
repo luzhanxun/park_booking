@@ -1,0 +1,1830 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>后台管理系统原型 · 我有一亩田</title>
+<meta name="description" content="我有一亩田 · 公园露营预约系统后台管理端交互原型，用于与客户对齐功能范围与操作流程。"/>
+<link rel="stylesheet" href="../assets/css/tokens.css"/>
+<link rel="stylesheet" href="../assets/css/base.css"/>
+<link rel="stylesheet" href="../assets/css/overview.css"/>
+<link rel="stylesheet" href="../assets/css/admin.css"/>
+</head>
+<body class="ad-body">
+
+<!-- ============ 图标雪碧图（本页独立，避免 file:// 下 use 跨文件失效） ============ -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-home" viewBox="0 0 24 24"><path d="M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4v-6H9v6H5a1 1 0 0 1-1-1z"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M4 20c0-8 5-14 16-16 0 11-6 16-14 16"/><path d="M4 20c2-4 5-7 9-9"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5"/></symbol>
+  <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.2"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.2"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.2"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15.5" rx="2"/><path d="M8 3v4M16 3v4M3.5 10h17"/></symbol>
+  <symbol id="i-ticket" viewBox="0 0 24 24"><path d="M3 9V6a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v3a3 3 0 0 0 0 6v3a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-3a3 3 0 0 0 0-6z"/><path d="M12 7v2M12 11v2M12 15v2"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"/><path d="M4 12h16"/></symbol>
+  <symbol id="i-wallet" viewBox="0 0 24 24"><path d="M3.5 8.5A2.5 2.5 0 0 1 6 6h12a2.5 2.5 0 0 1 2.5 2.5v9A2.5 2.5 0 0 1 18 20H6a2.5 2.5 0 0 1-2.5-2.5z"/><path d="M3.5 10h13A2.5 2.5 0 0 1 19 12.5v0a2.5 2.5 0 0 1-2.5 2.5h-13"/><circle cx="16.5" cy="12.5" r=".9" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V4"/><path d="M4 20h16"/><path d="M8 16v-5M12.5 16V7M17 16v-8"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 4 2.5 5.3 5.5.7-4 3.9 1 5.6-5-2.8-5 2.8 1-5.6-4-3.9 5.5-.7z"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.4"/><path d="M2.8 19.5c.5-3.3 3.1-5.2 6.2-5.2s5.7 1.9 6.2 5.2"/><path d="M16 5.4a3.2 3.2 0 0 1 0 6.2M17.6 14.6c2 .6 3.3 2.2 3.6 4.9"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19.5 6v6c0 4.4-3 7.6-7.5 9-4.5-1.4-7.5-4.6-7.5-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.6" cy="6.5" r="1.3"/><circle cx="4.6" cy="12" r="1.3"/><circle cx="4.6" cy="17.5" r="1.3"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16.5 16.5 4 4"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6z"/><path d="M10 19a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.8 20c.6-3.6 3.6-5.6 7.2-5.6s6.6 2 7.2 5.6"/></symbol>
+  <symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 5 7 7-7 7"/></symbol>
+  <symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+  <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M18 6 6 18"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="M12 4.5 21 20H3z"/><path d="M12 10v4.2M12 17.2v.1"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 11v5.5M12 7.8v.1"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.6-5.9"/><path d="M20 4v4h-4"/></symbol>
+  <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v10M8 10l4 4 4-4"/><path d="M4.5 17.5V19a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-1.5"/></symbol>
+  <symbol id="i-edit" viewBox="0 0 24 24"><path d="M4 20h4L19 9a2.1 2.1 0 0 0-3-3L5 17z"/><path d="m14.5 6.5 3 3"/></symbol>
+  <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9.5 7V5h5v2M6.5 7l.8 12.1a1.4 1.4 0 0 0 1.4 1.4h6.6a1.4 1.4 0 0 0 1.4-1.4L17.5 7"/><path d="M10.5 11v5.5M13.5 11v5.5"/></symbol>
+  <symbol id="i-filter" viewBox="0 0 24 24"><path d="M4 6h16l-6.2 7.2V19l-3.6-2v-3.8z"/></symbol>
+  <symbol id="i-cursor" viewBox="0 0 24 24"><path d="m5 4 6.5 16 2.2-6.3L20 11.5z"/></symbol>
+  <symbol id="i-square" viewBox="0 0 24 24"><rect x="4.5" y="4.5" width="15" height="15" rx="2"/></symbol>
+  <symbol id="i-polygon" viewBox="0 0 24 24"><path d="m12 3.5 7.5 5.6-2.9 8.6H7.4L4.5 9.1z"/></symbol>
+  <symbol id="i-road" viewBox="0 0 24 24"><path d="M8 3 6 21M16 3l2 18"/><path d="M12 5v3M12 11v3M12 17v2"/></symbol>
+  <symbol id="i-gate" viewBox="0 0 24 24"><path d="M4 20V9.5L12 4l8 5.5V20"/><path d="M9.5 20v-6h5v6"/></symbol>
+  <symbol id="i-wc" viewBox="0 0 24 24"><circle cx="7.5" cy="6" r="2"/><circle cx="16.5" cy="6" r="2"/><path d="M5.5 10h4l1 8h-2v3h-2v-3h-2zM14.5 10h4l-1.5 6h-1l-.8 5h-2l-.8-5h-1z"/></symbol>
+  <symbol id="i-zoom-in" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5M8.2 11h5.6M11 8.2v5.6"/></symbol>
+  <symbol id="i-zoom-out" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 4.5 4.5M8.2 11h5.6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 1.8"/></symbol>
+  <symbol id="i-location" viewBox="0 0 24 24"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="3" y="4.5" width="18" height="12" rx="1.6"/><path d="M8.5 20h7M12 16.5V20"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.4"/><path d="M11 18.8h2"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 20.5a8.5 8.5 0 1 1 8.5-8.5c0 2.2-2 2.6-3.4 2.6h-1.7a2 2 0 0 0-1.5 3.3c.7.9.2 2.6-1.9 2.6z"/><circle cx="8" cy="10" r="1.1" fill="currentColor" stroke="none"/><circle cx="12" cy="7.6" r="1.1" fill="currentColor" stroke="none"/><circle cx="15.7" cy="10" r="1.1" fill="currentColor" stroke="none"/></symbol>
+  <symbol id="i-sliders" viewBox="0 0 24 24"><path d="M4 7h10M18 7h2M4 12h4M12 12h8M4 17h12M20 17h0"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="12" r="2"/><circle cx="18" cy="17" r="2"/></symbol>
+</svg>
+
+<div class="ad-layout">
+
+  <!-- ==================== 侧边导航 ==================== -->
+  <aside class="ad-side">
+    <div class="ad-brand">
+      <span class="ad-brand__mark" aria-hidden="true">
+        <svg class="icon" style="color:var(--cream-50)"><use href="#i-leaf"/></svg>
+      </span>
+      <div class="ad-brand__text">
+        <div class="ad-brand__name">我有一亩田</div>
+        <div class="ad-brand__sub">运营管理中心</div>
+      </div>
+    </div>
+
+    <nav class="ad-nav" aria-label="后台主导航">
+      <div class="ad-nav__group">
+        <div class="ad-nav__label">概览</div>
+        <button class="ad-nav__item is-active" type="button" data-view="dash" data-roles="super,park,audit,staff">
+          <svg class="icon"><use href="#i-chart"/></svg><span class="ad-nav__text">运营工作台</span>
+        </button>
+      </div>
+
+      <div class="ad-nav__group">
+        <div class="ad-nav__label">主题活动</div>
+        <button class="ad-nav__item" type="button" data-view="acts" data-roles="super,park">
+          <svg class="icon"><use href="#i-star"/></svg><span class="ad-nav__text">活动管理</span>
+          <span class="ad-nav__badge ad-nav__badge--hot">重点</span>
+        </button>
+      </div>
+
+      <div class="ad-nav__group">
+        <div class="ad-nav__label">公园露营</div>
+        <button class="ad-nav__item" type="button" data-view="parks" data-roles="super,park,audit">
+          <svg class="icon"><use href="#i-leaf"/></svg><span class="ad-nav__text">公园管理</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="versions" data-roles="super,park,audit">
+          <svg class="icon"><use href="#i-layers"/></svg><span class="ad-nav__text">地图版本与审批</span>
+          <span class="ad-nav__badge" id="nav-badge-ver">2</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="editor" data-roles="super,park">
+          <svg class="icon"><use href="#i-map"/></svg><span class="ad-nav__text">地图编辑器</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="seats" data-roles="super,park">
+          <svg class="icon"><use href="#i-grid"/></svg><span class="ad-nav__text">营位与价格</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="schedule" data-roles="super,park">
+          <svg class="icon"><use href="#i-calendar"/></svg><span class="ad-nav__text">排期与库存</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="orders" data-roles="super,park,audit">
+          <svg class="icon"><use href="#i-ticket"/></svg><span class="ad-nav__text">露营订单</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="verify" data-roles="super,park,staff">
+          <svg class="icon"><use href="#i-scan"/></svg><span class="ad-nav__text">露营核销</span>
+        </button>
+      </div>
+
+      <div class="ad-nav__group">
+        <div class="ad-nav__label">财务与数据</div>
+        <button class="ad-nav__item" type="button" data-view="refunds" data-roles="super,park">
+          <svg class="icon"><use href="#i-wallet"/></svg><span class="ad-nav__text">退款管理</span>
+          <span class="ad-nav__badge" id="nav-badge-refund">1</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="report" data-roles="super,park,audit">
+          <svg class="icon"><use href="#i-chart"/></svg><span class="ad-nav__text">经营数据</span>
+        </button>
+      </div>
+
+      <div class="ad-nav__group">
+        <div class="ad-nav__label">系统</div>
+        <button class="ad-nav__item" type="button" data-view="staff" data-roles="super">
+          <svg class="icon"><use href="#i-users"/></svg><span class="ad-nav__text">核销员与权限</span>
+        </button>
+        <button class="ad-nav__item" type="button" data-view="logs" data-roles="super,park,audit">
+          <svg class="icon"><use href="#i-list"/></svg><span class="ad-nav__text">操作日志</span>
+        </button>
+      </div>
+    </nav>
+
+    <div class="ad-side__foot">
+      <div class="ad-user">
+        <span class="avatar avatar--sm avatar--wheat" aria-hidden="true">陈</span>
+        <div class="ad-user__meta">
+          <div class="ad-user__name">陈静</div>
+          <div class="ad-user__role" id="side-role">超级管理员</div>
+        </div>
+      </div>
+      <button class="ad-reset" type="button" id="reset-demo">重置演示数据</button>
+    </div>
+  </aside>
+
+  <!-- ==================== 主区域 ==================== -->
+  <div class="ad-main">
+
+    <header class="ad-topbar">
+      <nav class="ad-crumb" aria-label="面包屑">
+        <span>运营管理中心</span>
+        <span class="ad-crumb__sep">/</span>
+        <span class="ad-crumb__cur" id="crumb-cur">运营工作台</span>
+      </nav>
+
+      <div class="ad-topbar__tools">
+        <label class="ad-search">
+          <svg class="icon icon--sm"><use href="#i-search"/></svg>
+          <span class="u-hide">全局搜索</span>
+          <input class="input" type="search" id="global-search" placeholder="搜索订单号 / 手机号 / 公园"/>
+        </label>
+
+        <select class="select" id="role-select" aria-label="切换演示角色" title="切换演示角色"
+                style="height:36px;font-size:var(--fs-caption);width:auto">
+          <option value="super">超级管理员</option>
+          <option value="park">园区管理员</option>
+          <option value="audit">审核员</option>
+          <option value="staff">核销员</option>
+        </select>
+
+        <button class="ad-icon-btn" type="button" data-toast="原型未展开消息中心，通知规则待确认">
+          <svg class="icon icon--sm"><use href="#i-bell"/></svg>
+          <span class="ad-icon-btn__dot" aria-hidden="true"></span>
+          <span class="u-hide">消息通知</span>
+        </button>
+
+        <a class="ad-icon-btn" href="../index.html" title="返回原型首页" aria-label="返回原型首页">
+          <svg class="icon icon--sm"><use href="#i-home"/></svg>
+        </a>
+
+        <div class="ad-avatar">
+          <span class="avatar avatar--sm avatar--wheat" aria-hidden="true">陈</span>
+          <div>
+            <div class="ad-avatar__name" id="top-name">陈静</div>
+            <div class="ad-avatar__role" id="top-role">超级管理员</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="ad-body__inner">
+
+      <!-- ==================== 01 运营工作台 ==================== -->
+      <section class="ad-view is-active" data-view="dash" aria-label="运营工作台">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">运营工作台</h1>
+            <p class="ad-page-head__desc">今日经营概览、待处理事项与实时订单。数据为演示 Mock，刷新页面即恢复。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--secondary btn--sm" type="button" data-toast="已刷新工作台数据">
+              <svg class="icon icon--sm"><use href="#i-refresh"/></svg>刷新
+            </button>
+            <button class="btn btn--primary btn--sm" type="button" data-view-jump="orders">
+              查看订单<svg class="icon icon--sm"><use href="#i-arrow-right"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            原型建议先向客户演示这条路径：<strong>工作台 → 公园管理 → 露营订单 → 退款管理</strong>，
+            覆盖「地图改版需要审核后才生效」「订单只能整单退」两个最容易产生分歧的规则。
+          </p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">今日有效订单</div>
+                <div class="stat__value">128<small>单</small></div>
+              </div>
+              <span class="stat__icon"><svg class="icon icon--sm"><use href="#i-ticket"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span class="stat__delta stat__delta--up">+18.5%</span>
+              <span>较上周同期</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">今日营收</div>
+                <div class="stat__value">¥ 18,640</div>
+              </div>
+              <span class="stat__icon stat__icon--wheat"><svg class="icon icon--sm"><use href="#i-wallet"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span class="stat__delta stat__delta--up">+9.2%</span>
+              <span>客单价 ¥145.6</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">待核销</div>
+                <div class="stat__value">46<small>单</small></div>
+              </div>
+              <span class="stat__icon stat__icon--cyan"><svg class="icon icon--sm"><use href="#i-scan"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span class="stat__delta stat__delta--down">-3</span>
+              <span>今日到期未核销 2 单</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">待审批地图版本</div>
+                <div class="stat__value">2<small>个</small></div>
+              </div>
+              <span class="stat__icon stat__icon--rust"><svg class="icon icon--sm"><use href="#i-layers"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span>斗门水乡公园 · 黄杨河湿地公园</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="split split--wide">
+          <div>
+            <div class="panel panel--flush">
+              <div class="panel__head">
+                <span class="panel__title">近 7 日订单趋势</span>
+                <span class="panel__sub">单位：单</span>
+                <div class="panel__tools">
+                  <div class="segmented" id="trend-seg">
+                    <button class="segmented__btn is-active" type="button" data-trend="count">订单量</button>
+                    <button class="segmented__btn" type="button" data-trend="amount">营收</button>
+                  </div>
+                </div>
+              </div>
+              <div class="panel__body">
+                <div class="chart" id="chart-trend"></div>
+                <div class="chart__legend">
+                  <span class="chart__key"><i class="chart__swatch"></i>本期</span>
+                  <span class="chart__key"><i class="chart__swatch chart__swatch--alt"></i>上周同期</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel panel--flush">
+              <div class="panel__head">
+                <span class="panel__title">实时订单</span>
+                <span class="panel__sub">最近 6 笔</span>
+                <div class="panel__tools">
+                  <button class="link-btn" type="button" data-view-jump="orders">全部订单</button>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">订单号</th>
+                      <th scope="col">游客</th>
+                      <th scope="col">公园 · 营位</th>
+                      <th scope="col">使用日期</th>
+                      <th scope="col" class="is-num">金额</th>
+                      <th scope="col">状态</th>
+                    </tr>
+                  </thead>
+                  <tbody id="dash-orders"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="panel">
+              <div class="panel__head">
+                <span class="panel__title">待处理事项</span>
+                <span class="panel__sub">4 项</span>
+              </div>
+              <div class="panel__body">
+                <div class="todo-list">
+                  <div class="todo">
+                    <span class="todo__icon todo__icon--warn"><svg class="icon icon--sm"><use href="#i-layers"/></svg></span>
+                    <div class="todo__body">
+                      <div class="todo__title">斗门水乡公园地图 V3 待审批</div>
+                      <div class="todo__meta">李伟提交 · 2 小时前 · 新增 4 个营位</div>
+                    </div>
+                    <button class="link-btn" type="button" data-view-jump="versions">去审批</button>
+                  </div>
+                  <div class="todo">
+                    <span class="todo__icon todo__icon--danger"><svg class="icon icon--sm"><use href="#i-wallet"/></svg></span>
+                    <div class="todo__body">
+                      <div class="todo__title">1 笔退款申请待处理</div>
+                      <div class="todo__meta">订单 PB20260316002 · 提前 2 天取消</div>
+                    </div>
+                    <button class="link-btn" type="button" data-view-jump="refunds">去处理</button>
+                  </div>
+                  <div class="todo">
+                    <span class="todo__icon todo__icon--info"><svg class="icon icon--sm"><use href="#i-calendar"/></svg></span>
+                    <div class="todo__body">
+                      <div class="todo__title">霞山梯田营地明日价格未设置</div>
+                      <div class="todo__meta">将沿用默认价 ¥138 / 营位</div>
+                    </div>
+                    <button class="link-btn" type="button" data-view-jump="schedule">去设置</button>
+                  </div>
+                  <div class="todo">
+                    <span class="todo__icon"><svg class="icon icon--sm"><use href="#i-scan"/></svg></span>
+                    <div class="todo__body">
+                      <div class="todo__title">2 单今日到期但仍未核销</div>
+                      <div class="todo__meta">系统将在 24:00 自动置为「已过期」</div>
+                    </div>
+                    <button class="link-btn" type="button" data-view-jump="verify">查看记录</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head">
+                <span class="panel__title">园区预订热度</span>
+                <span class="panel__sub">近 7 日</span>
+              </div>
+              <div class="panel__body">
+                <div class="rank-list" id="rank-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 02 公园管理 ==================== -->
+      <section class="ad-view" data-view="parks" aria-label="公园管理">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">公园管理</h1>
+            <p class="ad-page-head__desc">维护公园基础信息、图文内容（封面配图、简介、详细介绍、亮点标签、配图相册、预约须知）与上下架状态。地图与营位在各自模块维护。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--primary btn--sm" type="button" id="btn-add-park">
+              <svg class="icon icon--sm"><use href="#i-plus"/></svg>新增公园
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            图文内容发布后同步到<strong>小程序公园详情页</strong>；「下架」只影响新预约，<strong>已售出的订单仍可正常核销</strong>。
+          </p>
+        </div>
+
+        <div class="panel panel--flush">
+          <div class="fbar">
+            <input class="input" type="search" id="park-search" placeholder="搜索公园名称 / 编号"/>
+            <select class="select" id="park-status">
+              <option value="all">全部状态</option>
+              <option value="online">营业中</option>
+              <option value="offline">已下架</option>
+            </select>
+            <span class="fbar__spacer"></span>
+            <span class="fbar__count">共 <b id="park-count">0</b> 个公园</span>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">公园</th>
+                  <th scope="col">营业时间</th>
+                  <th scope="col" class="is-num">营位</th>
+                  <th scope="col">模式</th>
+                  <th scope="col">图文内容</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="park-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 03 地图版本与审批 ==================== -->
+      <section class="ad-view" data-view="versions" aria-label="地图版本与审批">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">地图版本与审批</h1>
+            <p class="ad-page-head__desc">编辑器保存的是草稿，提交后由审核员通过才对外生效。编辑与审核为两个角色。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--secondary btn--sm" type="button" data-view-jump="editor">
+              <svg class="icon icon--sm"><use href="#i-map"/></svg>打开编辑器
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            同一公园同一时间<strong>只有一个生效版本</strong>；驳回必须填写原因，编辑器可据此继续修改后再提交。
+          </p>
+        </div>
+
+        <div class="split split--wide">
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">版本列表</span>
+              <span class="panel__sub">斗门水乡公园</span>
+              <div class="panel__tools">
+                <select class="select" id="ver-park" aria-label="切换公园" style="height:32px;font-size:var(--fs-caption)">
+                  <option value="p1">斗门水乡公园</option>
+                  <option value="p2">黄杨河湿地公园</option>
+                  <option value="p3">霞山梯田营地</option>
+                </select>
+              </div>
+            </div>
+            <div class="panel__body">
+              <div class="ver-list" id="ver-list"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">版本详情</span>
+              <span class="panel__sub" id="ver-detail-sub">V3 · 待审批</span>
+            </div>
+            <div class="panel__body" id="ver-detail"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 04 地图编辑器 ==================== -->
+      <section class="ad-view" data-view="editor" aria-label="地图编辑器">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">地图编辑器</h1>
+            <p class="ad-page-head__desc">在底图上框选营位、标注道路与设施，保存草稿后提交审批。营位编号需唯一。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--secondary btn--sm" type="button" data-toast="草稿已保存，尚未对外生效">
+              <svg class="icon icon--sm"><use href="#i-check"/></svg>保存草稿
+            </button>
+            <button class="btn btn--primary btn--sm" type="button" id="btn-submit-map">
+              提交审批<svg class="icon icon--sm"><use href="#i-arrow-right"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            选中「矩形营位」后在底图上点击即可放置营位（原型提供 3 处可放置区域），右侧属性面板可改编号与类型；
+            <strong>已售出订单的营位删除时必须二次确认</strong>。
+          </p>
+        </div>
+
+        <div class="editor">
+          <div class="editor__main panel">
+            <div class="editor__toolbar">
+              <div class="tool-group" role="group" aria-label="编辑工具">
+                <button class="tool is-active" type="button" data-tool="select">
+                  <svg class="icon icon--sm"><use href="#i-cursor"/></svg>选择
+                </button>
+                <button class="tool" type="button" data-tool="rect">
+                  <svg class="icon icon--sm"><use href="#i-square"/></svg>矩形营位
+                </button>
+                <button class="tool" type="button" data-tool="poly">
+                  <svg class="icon icon--sm"><use href="#i-polygon"/></svg>多边形营位
+                </button>
+              </div>
+              <span class="toolbar__sep" aria-hidden="true"></span>
+              <div class="tool-group" role="group" aria-label="设施标注">
+                <button class="tool tool--icon" type="button" data-tool="road" title="道路">
+                  <svg class="icon icon--sm"><use href="#i-road"/></svg><span class="u-hide">道路</span>
+                </button>
+                <button class="tool tool--icon" type="button" data-tool="gate" title="出入口">
+                  <svg class="icon icon--sm"><use href="#i-gate"/></svg><span class="u-hide">出入口</span>
+                </button>
+                <button class="tool tool--icon" type="button" data-tool="wc" title="卫生间">
+                  <svg class="icon icon--sm"><use href="#i-wc"/></svg><span class="u-hide">卫生间</span>
+                </button>
+              </div>
+              <span class="toolbar__sep" aria-hidden="true"></span>
+              <div class="tool-group">
+                <button class="tool tool--icon" type="button" data-toast="已放大底图（演示）" title="放大">
+                  <svg class="icon icon--sm"><use href="#i-zoom-in"/></svg><span class="u-hide">放大</span>
+                </button>
+                <button class="tool tool--icon" type="button" data-toast="已缩小底图（演示）" title="缩小">
+                  <svg class="icon icon--sm"><use href="#i-zoom-out"/></svg><span class="u-hide">缩小</span>
+                </button>
+                <button class="tool tool--icon" type="button" id="btn-del-shape" title="删除选中">
+                  <svg class="icon icon--sm"><use href="#i-trash"/></svg><span class="u-hide">删除选中</span>
+                </button>
+              </div>
+              <span class="fbar__spacer"></span>
+              <span class="badge badge--wheat">草稿 V4</span>
+            </div>
+
+            <div class="editor__stage">
+              <div class="editor__canvas" id="editor-canvas">
+                <img src="../assets/img/park-map-1.svg" alt="斗门水乡公园底图"/>
+                <svg viewBox="0 0 1200 800" preserveAspectRatio="none" id="editor-shapes" aria-label="营位图层"></svg>
+              </div>
+              <p class="editor__hint">
+                <svg class="icon icon--sm"><use href="#i-info"/></svg>
+                底图 1200 × 800，营位坐标以底图百分比存储；底图本身不随缩放变化。
+              </p>
+            </div>
+
+            <div class="editor__legend">
+              <span class="chart__key"><i class="chart__swatch"></i>普通营位</span>
+              <span class="chart__key"><i class="chart__swatch" style="background:var(--cyan-400)"></i>多边形营位</span>
+              <span class="chart__key"><i class="chart__swatch chart__swatch--alt"></i>当前选中</span>
+            </div>
+          </div>
+
+          <aside>
+            <div class="prop">
+              <div class="prop__head">
+                <svg class="icon icon--sm" style="color:var(--text-muted)"><use href="#i-sliders"/></svg>
+                <span class="prop__title">营位属性</span>
+                <span class="badge" id="prop-badge" style="margin-left:auto">未选中</span>
+              </div>
+              <div id="prop-body"></div>
+            </div>
+
+            <div class="panel">
+              <div class="panel__head"><span class="panel__title">图层</span></div>
+              <div class="panel__body">
+                <div class="layer-list">
+                  <label class="layer"><input class="checkbox" type="checkbox" checked data-layer="seats"/>营位<i class="layer__swatch"></i></label>
+                  <label class="layer"><input class="checkbox" type="checkbox" checked data-layer="road"/>道路<i class="layer__swatch layer__swatch--road"></i></label>
+                  <label class="layer"><input class="checkbox" type="checkbox" checked data-layer="gate"/>出入口<i class="layer__swatch layer__swatch--gate"></i></label>
+                  <label class="layer"><input class="checkbox" type="checkbox" checked data-layer="wc"/>卫生间<i class="layer__swatch layer__swatch--wc"></i></label>
+                </div>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <!-- ==================== 05 营位与价格 ==================== -->
+      <section class="ad-view" data-view="seats" aria-label="营位与价格">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">营位与价格</h1>
+            <p class="ad-page-head__desc">营位是下单的最小单位，一个订单只包含一个营位。价格<strong>只维护在营位上</strong>：基础价 + 周末 / 节假日加价，公园与场次层面不再单独定价。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--primary btn--sm" type="button" data-toast="原型：请在地图编辑器中新增营位">
+              <svg class="icon icon--sm"><use href="#i-plus"/></svg>新增营位
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            营位状态优先级：<strong>维护 / 锁定 &gt; 已约满 &gt; 剩余少量 &gt; 可预约</strong>。
+            维护中的营位不出现在小程序选位列表，但历史订单仍显示原营位名称。
+            价格改动<strong>只对新订单生效</strong>，已支付订单金额不变。
+          </p>
+        </div>
+
+        <div class="panel panel--flush">
+          <div class="fbar">
+            <select class="select" id="seat-park">
+              <option value="p1">斗门水乡公园</option>
+              <option value="p2">黄杨河湿地公园</option>
+              <option value="p3">霞山梯田营地</option>
+            </select>
+            <input class="input" type="search" id="seat-search" placeholder="搜索营位编号 / 名称"/>
+            <select class="select" id="seat-state">
+              <option value="all">全部状态</option>
+              <option value="ok">可预约</option>
+              <option value="maint">维护中</option>
+              <option value="locked">已锁定</option>
+            </select>
+            <span class="fbar__spacer"></span>
+            <span class="fbar__count">共 <b id="seat-count">0</b> 个营位</span>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">营位编号</th>
+                  <th scope="col">名称</th>
+                  <th scope="col">类型</th>
+                  <th scope="col" class="is-num">容纳</th>
+                  <th scope="col" class="is-num">平日价（元/场）</th>
+                  <th scope="col" class="is-num">周末 / 节假日加价</th>
+                  <th scope="col">当前状态</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="seat-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 06 露营订单 ==================== -->
+      <section class="ad-view" data-view="orders" aria-label="露营订单">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">露营订单</h1>
+            <p class="ad-page-head__desc">仅展示<strong>公园露营</strong>订单。主题活动订单在「活动管理 · 活动订单」中处理，两套业务互不干扰；退款需在「退款管理」中按整单处理。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--secondary btn--sm" type="button" data-toast="已导出当前筛选结果（演示，不生成文件）">
+              <svg class="icon icon--sm"><use href="#i-download"/></svg>导出
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            订单为<strong>单日 + 单时段 + 单营位</strong>；状态只允许「待支付 → 待使用 → 已核销」，以及待支付/待使用转「已取消 / 已退款」。
+            已核销订单不可退款，仅可登记线下补偿。
+          </p>
+        </div>
+
+        <div class="panel panel--flush">
+          <div class="tabstrip" id="order-tabs" role="tablist" aria-label="订单状态筛选">
+            <button class="tabstrip__item is-active" type="button" data-status="all">全部<span class="tabstrip__count" data-count="all">0</span></button>
+            <button class="tabstrip__item" type="button" data-status="unpaid">待支付<span class="tabstrip__count" data-count="unpaid">0</span></button>
+            <button class="tabstrip__item" type="button" data-status="unused">待使用<span class="tabstrip__count" data-count="unused">0</span></button>
+            <button class="tabstrip__item" type="button" data-status="used">已核销<span class="tabstrip__count" data-count="used">0</span></button>
+            <button class="tabstrip__item" type="button" data-status="cancelled">已取消<span class="tabstrip__count" data-count="cancelled">0</span></button>
+            <button class="tabstrip__item" type="button" data-status="refunded">已退款<span class="tabstrip__count" data-count="refunded">0</span></button>
+            <button class="tabstrip__item" type="button" data-status="expired">已过期<span class="tabstrip__count" data-count="expired">0</span></button>
+          </div>
+
+          <div class="fbar">
+            <input class="input" type="search" id="order-search" placeholder="订单号 / 手机号 / 游客姓名"/>
+            <select class="select" id="order-park">
+              <option value="all">全部公园</option>
+              <option value="p1">斗门水乡公园</option>
+              <option value="p2">黄杨河湿地公园</option>
+              <option value="p3">霞山梯田营地</option>
+            </select>
+            <input class="input" type="date" id="order-date" aria-label="使用日期" style="width:150px"/>
+            <button class="btn btn--ghost btn--sm" type="button" id="order-clear">清除筛选</button>
+            <span class="fbar__spacer"></span>
+            <span class="fbar__count">筛选结果 <b id="order-count">0</b> 条</span>
+          </div>
+
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">订单号</th>
+                  <th scope="col">游客</th>
+                  <th scope="col">公园 · 营位</th>
+                  <th scope="col">使用时段</th>
+                  <th scope="col" class="is-num">金额</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="order-rows"></tbody>
+            </table>
+          </div>
+          <div class="panel__foot">
+            <span>订单数据为演示 Mock，按创建时间倒序</span>
+            <span>共 <b id="order-total">0</b> 条</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 07 露营核销 ==================== -->
+      <section class="ad-view" data-view="verify" aria-label="露营核销">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">露营核销</h1>
+            <p class="ad-page-head__desc">记录每一次露营订单扫码核销的动作与结果，包含失败尝试。核销员只能操作自己绑定的园区；活动票核销请在「活动管理 · 活动核销」中查看。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--secondary btn--sm" type="button" data-toast="已导出核销明细（演示，不生成文件）">
+              <svg class="icon icon--sm"><use href="#i-download"/></svg>导出明细
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            失败记录同样要留痕：<strong>跨园区、重复核销、已取消、已过期</strong>都会写入日志，便于事后核对。
+          </p>
+        </div>
+
+        <div class="panel panel--flush">
+          <div class="fbar">
+            <input class="input" type="search" id="verify-search" placeholder="订单号 / 核销码 / 核销员"/>
+            <select class="select" id="verify-park">
+              <option value="all">全部公园</option>
+              <option value="p1">斗门水乡公园</option>
+              <option value="p2">黄杨河湿地公园</option>
+              <option value="p3">霞山梯田营地</option>
+            </select>
+            <select class="select" id="verify-result">
+              <option value="all">全部结果</option>
+              <option value="ok">核销成功</option>
+              <option value="fail">核销失败</option>
+            </select>
+            <span class="fbar__spacer"></span>
+            <span class="fbar__count">共 <b id="verify-count">0</b> 条</span>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">核销时间</th>
+                  <th scope="col">订单号</th>
+                  <th scope="col">公园 · 营位</th>
+                  <th scope="col">核销员</th>
+                  <th scope="col">结果</th>
+                  <th scope="col">说明</th>
+                </tr>
+              </thead>
+              <tbody id="verify-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 08 退款管理 ==================== -->
+      <section class="ad-view" data-view="refunds" aria-label="退款管理">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">退款管理</h1>
+            <p class="ad-page-head__desc">按整单退款，不支持部分退。已核销、已过期订单不在退款范围。</p>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            退款规则待客户确认：建议<strong>使用前 24 小时可全额退，24 小时内退 50%，开始后不可退</strong>。
+            当前原型按「全额退」演示流程，规则可在此处确认后再实现。
+          </p>
+        </div>
+
+        <div class="panel panel--flush">
+          <div class="tabstrip" id="refund-tabs" role="tablist" aria-label="退款状态筛选">
+            <button class="tabstrip__item is-active" type="button" data-rstatus="pending">待处理<span class="tabstrip__count" data-rcount="pending">0</span></button>
+            <button class="tabstrip__item" type="button" data-rstatus="done">已退款<span class="tabstrip__count" data-rcount="done">0</span></button>
+            <button class="tabstrip__item" type="button" data-rstatus="rejected">已驳回<span class="tabstrip__count" data-rcount="rejected">0</span></button>
+          </div>
+          <div class="table-wrap">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">申请时间</th>
+                  <th scope="col">订单号</th>
+                  <th scope="col">游客</th>
+                  <th scope="col">公园 · 营位</th>
+                  <th scope="col">使用日期</th>
+                  <th scope="col" class="is-num">退款金额</th>
+                  <th scope="col">原因</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="refund-rows"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 09 排期与库存 ==================== -->
+      <section class="ad-view" data-view="schedule" aria-label="排期与库存">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">排期与库存</h1>
+            <p class="ad-page-head__desc">按日期维护<strong>开放状态与库存</strong>。价格统一在「营位与价格」中按营位维护，本页只读取营位价格并展示当日价格区间。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <select class="select" id="sch-park" aria-label="选择公园" style="height:36px;font-size:var(--fs-caption)">
+              <option value="p1">斗门水乡公园</option>
+              <option value="p2">黄杨河湿地公园</option>
+              <option value="p3">霞山梯田营地</option>
+            </select>
+            <button class="btn btn--secondary btn--sm" type="button" data-modal="modal-batch">
+              <svg class="icon icon--sm"><use href="#i-sliders"/></svg>批量设置库存
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            价格<strong>只来自营位</strong>（营位基础价 + 周末 / 节假日加价），本页不再设置价格，避免同一营位出现两套价格。
+            库存与开放状态改动<strong>只对新订单生效</strong>，已支付订单不受影响；锁定或售罄时日历给出明确标记。
+          </p>
+        </div>
+
+        <div class="split">
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">排期日历</span>
+              <div class="panel__tools">
+                <button class="ad-icon-btn" type="button" id="sch-prev" title="上一个月" aria-label="上一个月">
+                  <svg class="icon icon--sm"><use href="#i-arrow-left"/></svg>
+                </button>
+                <span class="cal__month" id="sch-month">2026年3月</span>
+                <button class="ad-icon-btn" type="button" id="sch-next" title="下一个月" aria-label="下一个月">
+                  <svg class="icon icon--sm"><use href="#i-arrow-right"/></svg>
+                </button>
+              </div>
+            </div>
+            <div class="cal">
+              <div class="cal__week" aria-hidden="true">
+                <span>一</span><span>二</span><span>三</span><span>四</span><span>五</span><span>六</span><span>日</span>
+              </div>
+              <div class="cal__grid" id="sch-grid"></div>
+              <div class="cal__legend">
+                <span class="chart__key"><i class="chart__swatch"></i>可预约</span>
+                <span class="chart__key"><i class="chart__swatch chart__swatch--alt"></i>周末（营位加价）</span>
+                <span class="chart__key"><i class="chart__swatch" style="background:var(--rust-500)"></i>已约满</span>
+                <span class="chart__key"><i class="chart__swatch" style="background:var(--ink-300)"></i>已锁定</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">当日时段与库存</span>
+              <span class="panel__sub" id="sch-day-label">3 月 16 日 · 周一</span>
+            </div>
+            <div class="panel__body">
+              <div class="kv kv--list u-mb-3">
+                <div class="kv__row">
+                  <span class="kv__key">营位价格区间</span>
+                  <span class="kv__val" id="sch-price-range">¥68 – ¥188</span>
+                </div>
+                <div class="kv__row">
+                  <span class="kv__key">价格来源</span>
+                  <span class="kv__val" id="sch-price-source">营位与价格 · 只读</span>
+                </div>
+              </div>
+
+              <div class="slot-row">
+                <div>
+                  <div class="slot-row__name">整日场</div>
+                  <div class="slot-row__range">08:00 – 20:00</div>
+                </div>
+                <span class="badge badge--leaf">启用</span>
+                <input class="input" type="text" id="sch-stock" value="12" aria-label="整日场可约营位数"/>
+              </div>
+              <div class="slot-row">
+                <div>
+                  <div class="slot-row__name">上午场</div>
+                  <div class="slot-row__range">08:00 – 13:00</div>
+                </div>
+                <span class="badge badge--neutral">未启用</span>
+                <input class="input" type="text" value="0" aria-label="上午场可约营位数" disabled/>
+              </div>
+              <div class="slot-row">
+                <div>
+                  <div class="slot-row__name">下午场</div>
+                  <div class="slot-row__range">13:00 – 18:00</div>
+                </div>
+                <span class="badge badge--neutral">未启用</span>
+                <input class="input" type="text" value="0" aria-label="下午场可约营位数" disabled/>
+              </div>
+
+              <div class="form-hint">
+                <svg class="icon icon--sm"><use href="#i-warning"/></svg>
+                整日场与分时场互斥。启用分时场会关闭整日场，并清空已按整日场创建的未支付订单。
+              </div>
+
+              <button class="btn btn--primary btn--block btn--sm u-mt-4" type="button" id="sch-save">保存当日库存</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 10 经营数据 ==================== -->
+      <section class="ad-view" data-view="report" aria-label="经营数据">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">经营数据</h1>
+            <p class="ad-page-head__desc">按园区、时段查看订单量与营收，用于评估定价与排期策略。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <input class="input" type="date" value="2026-03-01" aria-label="开始日期" style="width:150px;height:36px;font-size:var(--fs-caption)"/>
+            <span class="u-muted u-xs">至</span>
+            <input class="input" type="date" value="2026-03-31" aria-label="结束日期" style="width:150px;height:36px;font-size:var(--fs-caption)"/>
+            <button class="btn btn--secondary btn--sm" type="button" data-toast="报表导出为演示占位，未生成文件">
+              <svg class="icon icon--sm"><use href="#i-download"/></svg>导出报表
+            </button>
+          </div>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat__label">订单总量</div>
+            <div class="stat__value">1,426<small>单</small></div>
+            <div class="stat__foot"><span class="stat__delta stat__delta--up">+22.4%</span><span>环比上月</span></div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">营收合计</div>
+            <div class="stat__value">¥ 208,530</div>
+            <div class="stat__foot"><span class="stat__delta stat__delta--up">+16.8%</span><span>环比上月</span></div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">核销率</div>
+            <div class="stat__value">92.6<small>%</small></div>
+            <div class="stat__foot"><span class="stat__delta stat__delta--down">-1.2%</span><span>未核销 106 单</span></div>
+          </div>
+          <div class="stat">
+            <div class="stat__label">退款率</div>
+            <div class="stat__value">3.4<small>%</small></div>
+            <div class="stat__foot"><span>48 单 · ¥7,120</span></div>
+          </div>
+        </div>
+
+        <div class="split split--even">
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">营收趋势</span>
+              <span class="panel__sub">3 月 1 日 – 3 月 31 日</span>
+            </div>
+            <div class="panel__body">
+              <div class="chart" id="chart-revenue"></div>
+              <div class="chart__legend">
+                <span class="chart__key"><i class="chart__swatch chart__swatch--line"></i>日营收（元）</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">园区订单对比</span>
+              <span class="panel__sub">按订单量</span>
+            </div>
+            <div class="panel__body">
+              <div class="chart" id="chart-park"></div>
+              <div class="chart__legend">
+                <span class="chart__key"><i class="chart__swatch"></i>本周</span>
+                <span class="chart__key"><i class="chart__swatch chart__swatch--alt"></i>上周</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="split split--even">
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">时段分布</span>
+              <span class="panel__sub">订单占比</span>
+            </div>
+            <div class="panel__body">
+              <div class="chart" id="chart-slot"></div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head">
+              <span class="panel__title">营位销量 Top 5</span>
+              <span class="panel__sub">近 30 日</span>
+            </div>
+            <div class="panel__body">
+              <div class="rank-list" id="top-seats"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 11 活动管理 ==================== -->
+      <section class="ad-view" data-view="acts" aria-label="活动管理">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">活动管理</h1>
+            <p class="ad-page-head__desc">主题活动是独立业务线，与公园露营完全分开：维护活动内容（封面配图、描述、介绍、标签、相册）、票种与库存、日期与场次排期，并查看活动预约订单与现场核销记录。<strong>「我有一亩田」是平台主打主题活动，需在首页重点展示。</strong></p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--secondary btn--sm" type="button" data-toast="已导出活动票务明细（演示，不生成文件）">
+              <svg class="icon icon--sm"><use href="#i-download"/></svg>导出票务数据
+            </button>
+            <button class="btn btn--primary btn--sm" type="button" id="act-create">
+              <svg class="icon icon--sm"><use href="#i-plus"/></svg>新建活动
+            </button>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            活动预约流程为<strong>选日期 → 选票种与数量 → 提交并支付 → 现场核销</strong>。
+            一个活动订单对应 1 个日期与 1 个场次，可购买多个票种，合计不超过限购张数。
+            需与客户确认：票种是否按人群分别定价、库存是否按日期单独设置、包场方案是否走线下合同。
+          </p>
+        </div>
+
+        <div class="stat-grid">
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">在售活动</div>
+                <div class="stat__value" id="act-stat-live">4<small>个</small></div>
+              </div>
+              <span class="stat__icon"><svg class="icon icon--sm"><use href="#i-star"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span>共 <b id="act-stat-total">5</b> 个活动，1 个待开始</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">累计售票</div>
+                <div class="stat__value" id="act-stat-tickets">0<small>张</small></div>
+              </div>
+              <span class="stat__icon stat__icon--wheat"><svg class="icon icon--sm"><use href="#i-ticket"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span>含亲子票、成人票与儿童票</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">待核销门票</div>
+                <div class="stat__value" id="act-stat-pending">0<small>张</small></div>
+              </div>
+              <span class="stat__icon stat__icon--cyan"><svg class="icon icon--sm"><use href="#i-scan"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span>活动开始前 24 小时可免费取消</span>
+            </div>
+          </div>
+
+          <div class="stat">
+            <div class="stat__top">
+              <div>
+                <div class="stat__label">活动营收</div>
+                <div class="stat__value" id="act-stat-revenue">¥ 0</div>
+              </div>
+              <span class="stat__icon stat__icon--rust"><svg class="icon icon--sm"><use href="#i-wallet"/></svg></span>
+            </div>
+            <div class="stat__foot">
+              <span>仅统计已支付订单，退款不计入</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel--flush">
+          <div class="tabstrip" id="act-tabs" role="tablist" aria-label="活动管理分区">
+            <button class="tabstrip__item is-active" type="button" role="tab" data-pane="tickets">活动内容与票种<span class="tabstrip__count" data-acount="tickets">0</span></button>
+            <button class="tabstrip__item" type="button" role="tab" data-pane="orders">活动订单<span class="tabstrip__count" data-acount="orders">0</span></button>
+            <button class="tabstrip__item" type="button" role="tab" data-pane="verify">活动核销<span class="tabstrip__count" data-acount="verify">0</span></button>
+          </div>
+
+          <div class="fbar">
+            <input class="input" type="search" id="act-search" placeholder="活动名称 / 票种 / 订单号 / 联系人"/>
+            <select class="select" id="act-park" aria-label="活动所属公园">
+              <option value="all">全部公园</option>
+              <option value="p1">斗门水乡公园</option>
+              <option value="p2">黄杨河湿地公园</option>
+              <option value="p3">霞山梯田营地</option>
+            </select>
+            <button class="btn btn--ghost btn--sm" type="button" id="act-clear">清除筛选</button>
+            <span class="fbar__spacer"></span>
+            <span class="fbar__count">筛选结果 <b id="act-count">0</b> 条</span>
+          </div>
+
+          <div class="act-pane is-active" id="act-pane-tickets">
+            <div class="act-block">
+              <div class="act-block__head">
+                <h2 class="act-block__title">活动内容与配图</h2>
+                <span class="act-block__hint">封面、描述、介绍、标签与相册同步到小程序活动详情页；带「重点展示」标记的活动排在小程序首页最前面</span>
+              </div>
+              <div class="act-cards" id="act-cards"></div>
+            </div>
+
+            <div class="act-block__head act-block__head--sub">
+              <h2 class="act-block__title">票种与库存</h2>
+              <span class="act-block__hint">按票种设置单价与库存，可单独停售；日期与场次在「日期」中维护</span>
+            </div>
+
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">活动</th>
+                    <th scope="col">公园 · 场次</th>
+                    <th scope="col">票种</th>
+                    <th scope="col" class="is-num">单价</th>
+                    <th scope="col" class="is-num">库存</th>
+                    <th scope="col" class="is-num">已售</th>
+                    <th scope="col">限购</th>
+                    <th scope="col">状态</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="act-ticket-rows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="table-wrap act-pane" id="act-pane-orders">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">订单号</th>
+                  <th scope="col">联系人</th>
+                  <th scope="col">活动 · 票种</th>
+                  <th scope="col">参与日期</th>
+                  <th scope="col" class="is-num">张数</th>
+                  <th scope="col" class="is-num">金额</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="act-order-rows"></tbody>
+            </table>
+          </div>
+
+          <div class="table-wrap act-pane" id="act-pane-verify">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">核销时间</th>
+                  <th scope="col">订单号</th>
+                  <th scope="col">活动</th>
+                  <th scope="col">票种</th>
+                  <th scope="col" class="is-num">张数</th>
+                  <th scope="col">核销员</th>
+                </tr>
+              </thead>
+              <tbody id="act-verify-rows"></tbody>
+            </table>
+          </div>
+
+          <div class="panel__foot">
+            <span>票种与日期排期为演示 Mock，保存后仅影响当前原型</span>
+            <span>共 <b id="act-total">0</b> 条</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 12 核销员与权限 ==================== -->
+      <section class="ad-view" data-view="staff" aria-label="核销员与权限">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">核销员与权限</h1>
+            <p class="ad-page-head__desc">核销员必须绑定园区，只能核销本园区的订单；跨园区扫码会被拒绝并留痕。</p>
+          </div>
+          <div class="ad-page-head__acts">
+            <button class="btn btn--primary btn--sm" type="button" data-drawer="drawer-staff">
+              <svg class="icon icon--sm"><use href="#i-plus"/></svg>新增核销员
+            </button>
+          </div>
+        </div>
+
+        <div class="split split--wide">
+          <div class="panel panel--flush">
+            <div class="fbar">
+              <input class="input" type="search" id="staff-search" placeholder="姓名 / 手机号"/>
+              <span class="fbar__spacer"></span>
+              <span class="fbar__count">共 <b id="staff-count">0</b> 人</span>
+            </div>
+            <div class="table-wrap">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">姓名</th>
+                    <th scope="col">手机号</th>
+                    <th scope="col">绑定园区</th>
+                    <th scope="col">角色</th>
+                    <th scope="col">状态</th>
+                    <th scope="col">操作</th>
+                  </tr>
+                </thead>
+                <tbody id="staff-rows"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel__head"><span class="panel__title">角色权限说明</span></div>
+            <div class="panel__body" style="padding:0">
+              <table class="matrix">
+                <thead>
+                  <tr><th scope="col">能力</th><th scope="col">超管</th><th scope="col">园区</th><th scope="col">审核</th><th scope="col">核销</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td>地图编辑</td><td class="is-yes">✓</td><td class="is-yes">✓</td><td class="is-no">—</td><td class="is-no">—</td></tr>
+                  <tr><td>地图审批</td><td class="is-yes">✓</td><td class="is-no">—</td><td class="is-yes">✓</td><td class="is-no">—</td></tr>
+                  <tr><td>订单查询</td><td class="is-yes">✓</td><td class="is-yes">✓</td><td class="is-yes">✓</td><td class="is-no">—</td></tr>
+                  <tr><td>退款处理</td><td class="is-yes">✓</td><td class="is-yes">✓</td><td class="is-no">—</td><td class="is-no">—</td></tr>
+                  <tr><td>扫码核销</td><td class="is-yes">✓</td><td class="is-yes">✓</td><td class="is-no">—</td><td class="is-yes">✓</td></tr>
+                  <tr><td>账号管理</td><td class="is-yes">✓</td><td class="is-no">—</td><td class="is-no">—</td><td class="is-no">—</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================== 13 操作日志 ==================== -->
+      <section class="ad-view" data-view="logs" aria-label="操作日志">
+        <div class="ad-page-head">
+          <div>
+            <h1 class="ad-page-head__title">操作日志</h1>
+            <p class="ad-page-head__desc">记录关键动作：地图审批、价格调整、退款、账号变更。日志只读，不可删除。</p>
+          </div>
+        </div>
+
+        <div class="ad-note">
+          <svg class="icon"><use href="#i-info"/></svg>
+          <span class="ad-note__label">评审要点</span>
+          <p class="ad-note__text">
+            建议保留 <strong>12 个月</strong>日志。需与客户确认留存周期与是否需要导出给审计。
+          </p>
+        </div>
+
+        <div class="panel panel--flush">
+          <div class="fbar">
+            <input class="input" type="search" id="log-search" placeholder="操作人 / 对象编号"/>
+            <select class="select" id="log-action">
+              <option value="all">全部动作</option>
+              <option value="地图审批">地图审批</option>
+              <option value="价格调整">价格调整</option>
+              <option value="退款">退款</option>
+              <option value="账号">账号</option>
+              <option value="订单">订单</option>
+              <option value="内容维护">内容维护</option>
+              <option value="活动维护">活动维护</option>
+            </select>
+            <span class="fbar__spacer"></span>
+            <span class="fbar__count">共 <b id="log-count">0</b> 条</span>
+          </div>
+          <div id="log-list"></div>
+        </div>
+      </section>
+
+    </div>
+  </div>
+</div>
+
+<!-- ==================== 浮层：遮罩 / 抽屉 / 弹窗 ==================== -->
+<div class="overlay" id="ad-overlay"></div>
+
+<aside class="drawer" id="drawer-park" aria-label="新增公园" aria-hidden="true">
+  <div class="drawer__head">
+    <div>
+      <div class="drawer__title">新增公园</div>
+      <div class="drawer__sub">保存后需配置地图与营位才能对外开放预约</div>
+    </div>
+    <button class="ad-icon-btn" type="button" data-close-layer aria-label="关闭">
+      <svg class="icon icon--sm"><use href="#i-close"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body">
+    <div class="form-grid">
+      <div class="field field--full">
+        <label class="field__label" for="np-name">公园名称<span class="field__req">*</span></label>
+        <input class="input" id="np-name" type="text" placeholder="如：斗门水乡公园"/>
+      </div>
+      <div class="field">
+        <label class="field__label" for="np-code">公园编号<span class="field__req">*</span></label>
+        <input class="input" id="np-code" type="text" placeholder="PARK-004"/>
+      </div>
+      <div class="field">
+        <label class="field__label" for="np-mode">预约模式</label>
+        <select class="select" id="np-mode">
+          <option>整日场</option>
+          <option>分时场（上午 / 下午）</option>
+        </select>
+      </div>
+      <div class="field field--full">
+        <label class="field__label" for="np-addr">详细地址<span class="field__req">*</span></label>
+        <input class="input" id="np-addr" type="text" placeholder="斗门区斗门镇水乡大道 18 号"/>
+      </div>
+      <div class="field">
+        <label class="field__label" for="np-open">营业开始</label>
+        <input class="input" id="np-open" type="time" value="08:00"/>
+      </div>
+      <div class="field">
+        <label class="field__label" for="np-close">营业结束</label>
+        <input class="input" id="np-close" type="time" value="20:00"/>
+      </div>
+      <div class="field field--full">
+        <label class="field__label" for="np-desc">公园简介</label>
+        <textarea class="textarea" id="np-desc" rows="3" placeholder="用于小程序公园列表的一行简介"></textarea>
+        <span class="field__hint">建议 40 字以内，说明特色与适合人群。</span>
+      </div>
+    </div>
+    <div class="form-hint">
+      <svg class="icon icon--sm"><use href="#i-warning"/></svg>
+      新增公园默认为「下架」状态，需完成地图审批后才可上架开放预约。
+    </div>
+  </div>
+  <div class="drawer__foot">
+    <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+    <button class="btn btn--primary btn--sm" type="button" id="np-save">保存</button>
+  </div>
+</aside>
+
+<aside class="drawer" id="drawer-order" aria-label="订单详情" aria-hidden="true">
+  <div class="drawer__head">
+    <div>
+      <div class="drawer__title">订单详情</div>
+      <div class="drawer__sub" id="od-sub">—</div>
+    </div>
+    <button class="ad-icon-btn" type="button" data-close-layer aria-label="关闭">
+      <svg class="icon icon--sm"><use href="#i-close"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body" id="od-body"></div>
+  <div class="drawer__foot" id="od-foot">
+    <button class="btn btn--ghost btn--sm" type="button" data-close-layer>关闭</button>
+  </div>
+</aside>
+
+<aside class="drawer" id="drawer-staff" aria-label="新增核销员" aria-hidden="true">
+  <div class="drawer__head">
+    <div>
+      <div class="drawer__title">新增核销员</div>
+      <div class="drawer__sub">核销员须绑定唯一园区</div>
+    </div>
+    <button class="ad-icon-btn" type="button" data-close-layer aria-label="关闭">
+      <svg class="icon icon--sm"><use href="#i-close"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body">
+    <div class="form-grid">
+      <div class="field field--full">
+        <label class="field__label" for="ns-name">姓名<span class="field__req">*</span></label>
+        <input class="input" id="ns-name" type="text" placeholder="如：周敏"/>
+      </div>
+      <div class="field field--full">
+        <label class="field__label" for="ns-phone">手机号<span class="field__req">*</span></label>
+        <input class="input" id="ns-phone" type="tel" placeholder="用于登录与扫码核销"/>
+      </div>
+      <div class="field field--full">
+        <label class="field__label" for="ns-park">绑定园区<span class="field__req">*</span></label>
+        <select class="select" id="ns-park">
+          <option>斗门水乡公园</option>
+          <option>黄杨河湿地公园</option>
+          <option>霞山梯田营地</option>
+        </select>
+        <span class="field__hint">一个核销员只能绑定一个园区。</span>
+      </div>
+    </div>
+    <div class="form-hint">
+      <svg class="icon icon--sm"><use href="#i-warning"/></svg>
+      账号初始密码将通过短信下发，首次登录须修改。
+    </div>
+  </div>
+  <div class="drawer__foot">
+    <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+    <button class="btn btn--primary btn--sm" type="button" id="ns-save">创建账号</button>
+  </div>
+</aside>
+
+<!-- ---------- 公园图文内容编辑 ---------- -->
+<aside class="drawer drawer--wide" id="drawer-park-edit" aria-label="公园图文内容" aria-hidden="true">
+  <div class="drawer__head">
+    <div>
+      <div class="drawer__title" id="pe-title">编辑公园图文</div>
+      <div class="drawer__sub" id="pe-sub">封面、简介与相册会同步到小程序公园详情页</div>
+    </div>
+    <button class="ad-icon-btn" type="button" data-close-layer aria-label="关闭">
+      <svg class="icon icon--sm"><use href="#i-close"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body">
+    <div class="edit-layout">
+      <div class="edit-layout__main">
+        <section class="edit-sec">
+          <h3 class="edit-sec__title">基础信息</h3>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label class="field__label" for="pe-name">公园名称<span class="field__req">*</span></label>
+              <input class="input" id="pe-name" type="text" placeholder="如：斗门水乡公园"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="pe-code">公园编号</label>
+              <input class="input" id="pe-code" type="text" placeholder="PARK-001"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="pe-mode">预约模式</label>
+              <select class="select" id="pe-mode">
+                <option>整日场</option>
+                <option>分时场</option>
+              </select>
+            </div>
+            <div class="field field--full">
+              <label class="field__label" for="pe-addr">详细地址</label>
+              <input class="input" id="pe-addr" type="text" placeholder="斗门区斗门镇水乡大道 18 号"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="pe-open">营业开始</label>
+              <input class="input" id="pe-open" type="time"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="pe-close">营业结束</label>
+              <input class="input" id="pe-close" type="time"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="pe-phone">咨询电话</label>
+              <input class="input" id="pe-phone" type="tel" placeholder="0756-0000 000"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="pe-status">上架状态</label>
+              <select class="select" id="pe-status">
+                <option value="online">营业中</option>
+                <option value="offline">已下架</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <section class="edit-sec">
+          <h3 class="edit-sec__title">封面配图</h3>
+          <p class="edit-sec__hint">用于公园列表卡片与详情页头图，建议 16:9；点击缩略图切换。</p>
+          <div class="img-pick" id="pe-cover-pick" role="group" aria-label="选择封面配图"></div>
+        </section>
+
+        <section class="edit-sec">
+          <h3 class="edit-sec__title">配图相册<span class="edit-sec__badge" id="pe-gallery-count">0/6</span></h3>
+          <p class="edit-sec__hint">详情页「公园环境」横向滑动展示，建议 2–6 张。</p>
+          <div class="img-pick" id="pe-gallery-pick" role="group" aria-label="选择相册配图"></div>
+        </section>
+
+        <section class="edit-sec">
+          <h3 class="edit-sec__title">文字内容</h3>
+          <div class="form-grid">
+            <div class="field field--full">
+              <label class="field__label" for="pe-desc">一句话简介<span class="field__req">*</span></label>
+              <input class="input" id="pe-desc" type="text" maxlength="60" placeholder="如：河涌环绕的水乡营地，适合家庭野餐。"/>
+              <span class="field__hint"><span id="pe-desc-count">0</span>/60 · 显示在列表卡片与详情页</span>
+            </div>
+            <div class="field field--full">
+              <label class="field__label" for="pe-intro">详细介绍</label>
+              <textarea class="textarea" id="pe-intro" rows="4" maxlength="300" placeholder="营地范围、分区、设施、交通等介绍"></textarea>
+              <span class="field__hint"><span id="pe-intro-count">0</span>/300 · 详情页「公园介绍」段落</span>
+            </div>
+            <div class="field field--full">
+              <label class="field__label">亮点标签</label>
+              <div class="chip-pick" id="pe-tags" role="group" aria-label="选择亮点标签"></div>
+              <span class="field__hint">最多 5 个，作为详情页标题下方的标签。</span>
+            </div>
+            <div class="field field--full">
+              <label class="field__label" for="pe-notice">预约须知</label>
+              <textarea class="textarea" id="pe-notice" rows="3" placeholder="如：请自备防蚊用品；22:00 后请勿使用外放音响。"></textarea>
+              <span class="field__hint">下单页与详情页展示，用分号分隔多条。</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <aside class="edit-layout__aside">
+        <div class="edit-sec__title">小程序预览</div>
+        <div class="mp-prev">
+          <div class="mp-prev__cover">
+            <img id="pe-prev-img" src="../assets/img/park-cover-1.svg" alt=""/>
+          </div>
+          <div class="mp-prev__body">
+            <div class="mp-prev__title" id="pe-prev-name">—</div>
+            <div class="mp-prev__meta" id="pe-prev-meta">—</div>
+            <p class="mp-prev__desc" id="pe-prev-desc">—</p>
+            <div class="mp-prev__tags" id="pe-prev-tags"></div>
+            <div class="mp-prev__gallery" id="pe-prev-gallery"></div>
+          </div>
+        </div>
+        <div class="form-hint u-mt-3">
+          <svg class="icon icon--sm"><use href="#i-info"/></svg>
+          保存后立即对小程序生效，无需重新提交地图审批。
+        </div>
+      </aside>
+    </div>
+  </div>
+  <div class="drawer__foot">
+    <span class="drawer__foot-note" id="pe-updated">—</span>
+    <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+    <button class="btn btn--primary btn--sm" type="button" id="pe-save">保存并发布</button>
+  </div>
+</aside>
+
+<!-- ---------- 活动内容 / 票种 / 日期编辑 ---------- -->
+<aside class="drawer drawer--wide" id="drawer-act-edit" aria-label="活动编辑" aria-hidden="true">
+  <div class="drawer__head">
+    <div>
+      <div class="drawer__title" id="ae-title">编辑活动</div>
+      <div class="drawer__sub" id="ae-sub">内容、票种与日期排期在同一表单内维护</div>
+    </div>
+    <button class="ad-icon-btn" type="button" data-close-layer aria-label="关闭">
+      <svg class="icon icon--sm"><use href="#i-close"/></svg>
+    </button>
+  </div>
+  <div class="drawer__body">
+    <div class="edit-layout">
+      <div class="edit-layout__main">
+        <div class="tabstrip tabstrip--sub" id="ae-tabs" role="tablist" aria-label="活动编辑分区">
+          <button class="tabstrip__item is-active" type="button" role="tab" data-aetab="content">内容与配图</button>
+          <button class="tabstrip__item" type="button" role="tab" data-aetab="tiers">票种与库存</button>
+          <button class="tabstrip__item" type="button" role="tab" data-aetab="dates">日期与场次</button>
+        </div>
+
+        <div class="ae-pane is-active" id="ae-pane-content">
+          <div class="form-grid">
+            <div class="field field--full">
+              <label class="field__label" for="ae-name">活动名称<span class="field__req">*</span></label>
+              <input class="input" id="ae-name" type="text" placeholder="如：春耕插秧体验"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="ae-cat">活动分类</label>
+              <select class="select" id="ae-cat">
+                <option>亲子</option>
+                <option>自然</option>
+                <option>手作</option>
+                <option>夜游</option>
+                <option>研学</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="ae-park">所属公园<span class="field__req">*</span></label>
+              <select class="select" id="ae-park">
+                <option value="p1">斗门水乡公园</option>
+                <option value="p2">黄杨河湿地公园</option>
+                <option value="p3">霞山梯田营地</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="ae-state">活动状态</label>
+              <select class="select" id="ae-state">
+                <option>进行中</option>
+                <option>未开始</option>
+                <option>已结束</option>
+                <option>已下架</option>
+              </select>
+            </div>
+            <div class="field">
+              <label class="field__label" for="ae-limit">每单限购（张）</label>
+              <input class="input" id="ae-limit" type="number" min="1" max="20" step="1"/>
+            </div>
+            <div class="field">
+              <label class="field__label" for="ae-stock">每场库存上限</label>
+              <input class="input" id="ae-stock" type="number" min="1" step="1"/>
+              <span class="field__hint">按单场日期计算，可被票种库存覆盖。</span>
+            </div>
+            <div class="field field--full">
+              <label class="field__label">封面配图</label>
+              <div class="img-pick" id="ae-cover-pick" role="group" aria-label="选择活动封面"></div>
+            </div>
+            <div class="field field--full">
+              <label class="field__label">配图相册<span class="edit-sec__badge" id="ae-gallery-count">0/6</span></label>
+              <div class="img-pick" id="ae-gallery-pick" role="group" aria-label="选择活动相册配图"></div>
+            </div>
+            <div class="field field--full">
+              <label class="field__label" for="ae-desc">一句话描述<span class="field__req">*</span></label>
+              <input class="input" id="ae-desc" type="text" maxlength="60" placeholder="如：跟着农人下田插秧，含秧苗与工具。"/>
+              <span class="field__hint"><span id="ae-desc-count">0</span>/60 · 活动列表卡片说明</span>
+            </div>
+            <div class="field field--full">
+              <label class="field__label" for="ae-intro">活动介绍</label>
+              <textarea class="textarea" id="ae-intro" rows="5" maxlength="500" placeholder="活动流程、包含内容、适合人群、注意事项"></textarea>
+              <span class="field__hint"><span id="ae-intro-count">0</span>/500 · 详情页「活动介绍」段落</span>
+            </div>
+            <div class="field field--full">
+              <label class="field__label">活动标签</label>
+              <div class="chip-pick" id="ae-tags" role="group" aria-label="选择活动标签"></div>
+              <span class="field__hint">最多 5 个，如「亲子」「含工具」。</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ae-pane" id="ae-pane-tiers">
+          <p class="edit-sec__hint">票种按人群或组合定价；一个订单可买多个票种，合计不超过每单限购张数。已售张数不可修改。</p>
+          <div class="table-wrap">
+            <table class="table table--form">
+              <thead>
+                <tr>
+                  <th scope="col">票种名称</th>
+                  <th scope="col" class="is-num">单价（元）</th>
+                  <th scope="col" class="is-num">库存</th>
+                  <th scope="col" class="is-num">已售</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="ae-tier-rows"></tbody>
+            </table>
+          </div>
+          <div class="edit-row">
+            <button class="btn btn--secondary btn--sm" type="button" id="ae-add-tier">
+              <svg class="icon icon--sm"><use href="#i-plus"/></svg>新增票种
+            </button>
+            <span class="edit-row__hint" id="ae-tier-sum">—</span>
+          </div>
+        </div>
+
+        <div class="ae-pane" id="ae-pane-dates">
+          <p class="edit-sec__hint">每个日期可设置独立场次与停售状态；停售后该日期在小程序上不可选，已售订单不受影响。</p>
+          <div class="table-wrap">
+            <table class="table table--form">
+              <thead>
+                <tr>
+                  <th scope="col">日期</th>
+                  <th scope="col">场次时间</th>
+                  <th scope="col">状态</th>
+                  <th scope="col">操作</th>
+                </tr>
+              </thead>
+              <tbody id="ae-date-rows"></tbody>
+            </table>
+          </div>
+          <div class="edit-row">
+            <button class="btn btn--secondary btn--sm" type="button" id="ae-add-date">
+              <svg class="icon icon--sm"><use href="#i-plus"/></svg>新增日期
+            </button>
+            <span class="edit-row__hint" id="ae-date-sum">—</span>
+          </div>
+        </div>
+      </div>
+
+      <aside class="edit-layout__aside">
+        <div class="edit-sec__title">小程序预览</div>
+        <div class="mp-prev">
+          <div class="mp-prev__cover">
+            <img id="ae-prev-img" src="../assets/img/activity-cover.svg" alt=""/>
+          </div>
+          <div class="mp-prev__body">
+            <div class="mp-prev__title" id="ae-prev-name">—</div>
+            <div class="mp-prev__meta" id="ae-prev-meta">—</div>
+            <p class="mp-prev__desc" id="ae-prev-desc">—</p>
+            <div class="mp-prev__tags" id="ae-prev-tags"></div>
+            <div class="mp-prev__tickets" id="ae-prev-tickets"></div>
+            <div class="mp-prev__dates" id="ae-prev-dates">—</div>
+          </div>
+        </div>
+        <div class="form-hint u-mt-3">
+          <svg class="icon icon--sm"><use href="#i-info"/></svg>
+          保存后小程序活动列表与详情页同步更新。
+        </div>
+      </aside>
+    </div>
+  </div>
+  <div class="drawer__foot">
+    <span class="drawer__foot-note" id="ae-foot-note">—</span>
+    <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+    <button class="btn btn--primary btn--sm" type="button" id="ae-save">保存活动</button>
+  </div>
+</aside>
+
+<div class="modal" id="modal-reject" role="dialog" aria-modal="true" aria-labelledby="mr-title">
+  <div class="modal__panel">
+    <div class="modal__head">
+      <div class="drawer__title" id="mr-title">驳回地图版本</div>
+      <div class="drawer__sub">驳回原因会推送给提交人，请说明具体问题</div>
+    </div>
+    <div class="modal__body">
+      <div class="field">
+        <label class="field__label" for="mr-reason">驳回原因<span class="field__req">*</span></label>
+        <textarea class="textarea" id="mr-reason" rows="3" placeholder="如：A05 营位压到了步道，请调整后再提交"></textarea>
+        <span class="field__error u-hide" id="mr-error">请填写驳回原因</span>
+      </div>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+      <button class="btn btn--danger btn--sm" type="button" id="mr-confirm">确认驳回</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-batch" role="dialog" aria-modal="true" aria-labelledby="mb-title">
+  <div class="modal__panel">
+    <div class="modal__head">
+      <div class="drawer__title" id="mb-title">批量设置库存</div>
+      <div class="drawer__sub">仅调整所选日期区间的开放库存，价格不在本页修改（价格只维护在营位上）</div>
+    </div>
+    <div class="modal__body">
+      <div class="form-grid">
+        <div class="field">
+          <label class="field__label" for="mb-from">开始日期</label>
+          <input class="input" id="mb-from" type="date" value="2026-03-16"/>
+        </div>
+        <div class="field">
+          <label class="field__label" for="mb-to">结束日期</label>
+          <input class="input" id="mb-to" type="date" value="2026-03-31"/>
+        </div>
+        <div class="field">
+          <label class="field__label" for="mb-week-day">平日库存（营位/日）</label>
+          <input class="input" id="mb-week-day" type="text" value="12"/>
+        </div>
+        <div class="field">
+          <label class="field__label" for="mb-weekend">周末库存（营位/日）</label>
+          <input class="input" id="mb-weekend" type="text" value="10"/>
+        </div>
+      </div>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+      <button class="btn btn--primary btn--sm" type="button" id="mb-confirm">应用到区间</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-seat-price" role="dialog" aria-modal="true" aria-labelledby="msp-title">
+  <div class="modal__panel">
+    <div class="modal__head">
+      <div class="drawer__title" id="msp-title">修改营位价格</div>
+      <div class="drawer__sub" id="msp-sub">营位价格是系统唯一的价格来源</div>
+    </div>
+    <div class="modal__body">
+      <div class="form-grid">
+        <div class="field">
+          <label class="field__label" for="msp-base">基础价（元/场）</label>
+          <input class="input" id="msp-base" type="text" value="68"/>
+        </div>
+        <div class="field">
+          <label class="field__label" for="msp-weekend">周末加价（元）</label>
+          <input class="input" id="msp-weekend" type="text" value="20"/>
+        </div>
+        <div class="field">
+          <label class="field__label" for="msp-holiday">节假日加价（元）</label>
+          <input class="input" id="msp-holiday" type="text" value="40"/>
+        </div>
+      </div>
+      <div class="form-hint">
+        <svg class="icon icon--sm"><use href="#i-warning"/></svg>
+        修改后仅对新订单生效，已支付订单金额不变。
+      </div>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+      <button class="btn btn--primary btn--sm" type="button" id="msp-confirm">保存价格</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="modal-refund" role="dialog" aria-modal="true" aria-labelledby="mrf-title">
+  <div class="modal__panel">
+    <div class="modal__head">
+      <div class="drawer__title" id="mrf-title">处理退款</div>
+      <div class="drawer__sub" id="mrf-sub">按整单全额退款</div>
+    </div>
+    <div class="modal__body">
+      <div class="kv kv--list" id="mrf-info"></div>
+      <div class="field u-mt-4">
+        <label class="field__label" for="mrf-note">处理备注</label>
+        <textarea class="textarea" id="mrf-note" rows="2" placeholder="选填，将记录在操作日志中"></textarea>
+      </div>
+    </div>
+    <div class="modal__foot">
+      <button class="btn btn--ghost btn--sm" type="button" data-close-layer>取消</button>
+      <button class="btn btn--danger btn--sm" type="button" id="mrf-confirm">确认退款</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-stack" id="toast-stack" aria-live="polite"></div>
+
+<script src="../assets/js/common.js"></script>
+<script src="../assets/js/admin.js"></script>
+</body>
+</html>

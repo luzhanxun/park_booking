@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="1200" height="800" role="img" aria-label="黄杨河湿地公园平面图底图">
+  <defs>
+    <linearGradient id="lawn2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F1F6EA"/>
+      <stop offset="1" stop-color="#E3EDD9"/>
+    </linearGradient>
+    <linearGradient id="river2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#CFE7E3"/>
+      <stop offset="1" stop-color="#B7DBD3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="800" fill="#F5EFE1"/>
+  <rect x="32" y="32" width="1136" height="736" rx="32" fill="url(#lawn2)" stroke="#D9E4CF" stroke-width="2"/>
+
+  <!-- 河道 -->
+  <path d="M32 636c180-28 340 18 520 4 200-16 380-58 616-18v146H32z" fill="url(#river2)"/>
+  <path d="M32 636c180-28 340 18 520 4 200-16 380-58 616-18" fill="none" stroke="#A2CEC5" stroke-width="3"/>
+  <path d="M120 686c90-10 180 6 260 0" stroke="#E7F5F1" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.85"/>
+  <path d="M700 676c110-8 220-22 340-16" stroke="#E7F5F1" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.7"/>
+
+  <!-- 草坪块 -->
+  <path d="M96 118h360c20 0 34 18 28 36l-26 84c-4 14-18 24-32 24H96c-18 0-30-16-28-34l20-86c2-12 8-24 8-24z" fill="#E7F1DD"/>
+  <path d="M676 96h400c22 0 36 18 30 38l-24 92c-4 14-18 24-32 24H676c-20 0-34-18-28-38l22-92c2-10 6-24 6-24z" fill="#E7F1DD"/>
+
+  <!-- 主环路 -->
+  <path d="M604 610V300c0-70 46-120 118-120h86" fill="none" stroke="#EFE2C6" stroke-width="54" stroke-linecap="round"/>
+  <path d="M604 300c0-70-46-120-118-120h-96" fill="none" stroke="#EFE2C6" stroke-width="54" stroke-linecap="round"/>
+  <path d="M604 610c0 30 20 48 50 48" fill="none" stroke="#EFE2C6" stroke-width="54" stroke-linecap="round"/>
+  <path d="M604 610V300c0-70 46-120 118-120h86" fill="none" stroke="#DCC9A4" stroke-width="2" stroke-dasharray="10 16"/>
+  <path d="M604 300c0-70-46-120-118-120h-96" fill="none" stroke="#DCC9A4" stroke-width="2" stroke-dasharray="10 16"/>
+  <path d="M604 610c0 30 20 48 50 48" fill="none" stroke="#DCC9A4" stroke-width="2" stroke-dasharray="10 16"/>
+
+  <!-- 支路 -->
+  <path d="M390 180v180" stroke="#E9DEC6" stroke-width="26" stroke-linecap="round"/>
+  <path d="M810 180v150c0 40 28 66 68 66h100" fill="none" stroke="#E9DEC6" stroke-width="26" stroke-linecap="round"/>
+
+  <!-- 湿地栈道 -->
+  <g stroke="#C8B08A" stroke-width="4" stroke-linecap="round">
+    <path d="M300 560h180M300 588h180M300 616h180" opacity="0.65"/>
+    <path d="M300 548v80M360 548v80M420 548v80M480 548v80" opacity="0.5"/>
+  </g>
+
+  <!-- 树木 -->
+  <g fill="#A8C99A" opacity="0.8">
+    <circle cx="130" cy="420" r="30"/><circle cx="182" cy="448" r="22"/><circle cx="120" cy="476" r="18"/>
+    <circle cx="1046" cy="330" r="26"/><circle cx="1090" cy="366" r="20"/>
+    <circle cx="980" cy="470" r="24"/><circle cx="1024" cy="492" r="18"/>
+    <circle cx="540" cy="200" r="18"/><circle cx="572" cy="182" r="14"/>
+  </g>
+
+  <!-- 设施 -->
+  <g>
+    <rect x="960" y="560" width="150" height="76" rx="12" fill="#EBDCC0" stroke="#D3BE97" stroke-width="2"/>
+    <text x="1035" y="596" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="20" fill="#7A6547">观鸟屋</text>
+    <text x="1035" y="618" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="13" fill="#9C8461">BIRDWATCH</text>
+  </g>
+  <g>
+    <rect x="96" y="196" width="110" height="64" rx="12" fill="#E3EEDD" stroke="#BCD3B2" stroke-width="2"/>
+    <text x="151" y="228" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="18" fill="#5B7A54">卫生间</text>
+    <text x="151" y="246" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#7C9575">WC</text>
+  </g>
+  <g>
+    <path d="M370 770h96" stroke="#B99C6C" stroke-width="9" stroke-linecap="round"/>
+    <path d="M370 770v-20M466 770v-20" stroke="#B99C6C" stroke-width="5" stroke-linecap="round"/>
+    <text x="418" y="750" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="16" fill="#8F7548">东入口</text>
+  </g>
+  <g>
+    <rect x="760" y="400" width="120" height="62" rx="12" fill="#E9EDE3" stroke="#CBD5C2" stroke-width="2" stroke-dasharray="7 7"/>
+    <text x="820" y="438" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="17" fill="#6C7C67">码头</text>
+  </g>
+
+  <g transform="translate(1086 88)">
+    <circle r="32" fill="#FFFFFF" opacity="0.72"/>
+    <path d="M0-20 8 7 0 2-8 7z" fill="#4E7350"/>
+    <text y="23" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#6A8468">北</text>
+  </g>
+  <g transform="translate(80 744)">
+    <path d="M0 0h120" stroke="#8A9B84" stroke-width="3"/>
+    <path d="M0-6v12M120-6v12" stroke="#8A9B84" stroke-width="3"/>
+    <text x="60" y="-9" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#8A9B84">20m</text>
+  </g>
+</svg>
