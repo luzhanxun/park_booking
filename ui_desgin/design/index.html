@@ -1,0 +1,612 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>设计规范 · 我有一亩田</title>
+<meta name="description" content="我有一亩田双端原型的颜色、排版、间距、圆角、阴影、动效、组件状态与验收口径。">
+<link rel="icon" href="../assets/img/logo-mark.svg">
+<link rel="stylesheet" href="../assets/css/tokens.css">
+<link rel="stylesheet" href="../assets/css/base.css">
+<link rel="stylesheet" href="../assets/css/overview.css">
+</head>
+<body>
+
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 6.5"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M4 20c0-9 6-15 16-16 1 10-5 16-14 16z"/><path d="M4 20C8 14 12 11 17 8"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-2 0-1.4-1-1.7-1-2.8 0-1 .8-1.7 1.9-1.7H18a3 3 0 0 0 3-3c0-4.7-4-8.5-9-8.5z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/><circle cx="17.5" cy="11.5" r="1"/></symbol>
+  <symbol id="i-warning" viewBox="0 0 24 24"><path d="M12 4 2.8 20h18.4z"/><path d="M12 10v4M12 17.2v.2"/></symbol>
+  <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.8v.2"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+</svg>
+
+<header class="site-nav">
+  <a class="brand" href="../index.html">
+    <img class="brand__mark" src="../assets/img/logo-mark.svg" alt="">
+    <span class="brand__name">
+      <strong>我有一亩田</strong>
+      <span>PARK BOOKING · PROTOTYPE</span>
+    </span>
+  </a>
+  <nav class="site-nav__links" aria-label="原型导航">
+    <a class="site-nav__link" href="../index.html">原型总览</a>
+    <a class="site-nav__link is-active" href="index.html">设计规范</a>
+    <a class="site-nav__link" href="../miniprogram/index.html">小程序</a>
+    <a class="site-nav__link" href="../admin/index.html">管理后台</a>
+  </nav>
+  <div class="site-nav__meta">
+    <span class="badge badge--leaf">V1.0</span>
+    <span class="u-hide u-sm-hide">需求确认稿</span>
+  </div>
+</header>
+
+<main>
+  <section class="design-hero">
+    <div class="wrap">
+      <h1>设计规范</h1>
+      <p>
+        所有页面共用一套令牌：颜色、字号、间距、圆角、阴影、动效均取自 <code>tokens.css</code>，
+        页面样式不写死数值。客户若调整品牌色或圆角，只需改一处，双端同步生效。
+      </p>
+      <div class="design-hero__chips">
+        <span>中文界面 · 简体</span>
+        <span>小程序 390 × 844</span>
+        <span>后台 1440 起</span>
+        <span>无外部依赖</span>
+        <span>长条地图缩放</span>
+        <span>触控 ≥ 44px</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="wrap section--tight">
+    <div class="design-layout">
+
+      <aside class="design-toc" aria-label="规范目录">
+        <a href="#color"><span>01</span>色彩体系</a>
+        <a href="#type"><span>02</span>字体与排版</a>
+        <a href="#shape"><span>03</span>圆角 · 阴影 · 间距</a>
+        <a href="#motion"><span>04</span>动效</a>
+        <a href="#components"><span>05</span>组件状态</a>
+        <a href="#map"><span>06</span>地图与长条公园</a>
+        <a href="#layout"><span>07</span>双端布局原则</a>
+        <a href="#acceptance"><span>08</span>验收口径</a>
+      </aside>
+
+      <div>
+
+        <!-- 01 色彩 -->
+        <section class="spec-block" id="color">
+          <div class="spec-block__head">
+            <h2>01 · 色彩体系</h2>
+            <p>森林绿承担品牌与后台骨架，叶绿承担“可操作/可预约”，麦穗金只用于“剩余少量/待处理”，陶土红只用于“不可用/失败”。</p>
+          </div>
+
+          <div class="swatch-grid">
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--forest-900)"></div>
+              <div class="swatch__meta">
+                <div class="swatch__name">森林绿</div>
+                <div class="swatch__hex">#0B2218</div>
+                <div class="swatch__use">后台侧栏、深色标题区</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--leaf-600)"></div>
+              <div class="swatch__meta">
+                <div class="swatch__name">叶绿</div>
+                <div class="swatch__hex">#2F7A4E</div>
+                <div class="swatch__use">主按钮、可预约、成功</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--cream-50);border-bottom:1px solid var(--line)"></div>
+              <div class="swatch__meta">
+                <div class="swatch__name">奶油白</div>
+                <div class="swatch__hex">#FDFBF5</div>
+                <div class="swatch__use">小程序页面底色</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--wheat-500)"></div>
+              <div class="swatch__meta">
+                <div class="swatch__name">麦穗金</div>
+                <div class="swatch__hex">#C9922E</div>
+                <div class="swatch__use">剩余少量、待审批</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--cyan-500)"></div>
+              <div class="swatch__meta">
+                <div class="swatch__name">科技青</div>
+                <div class="swatch__hex">#149C93</div>
+                <div class="swatch__use">数据、信息、地图图层</div>
+              </div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--rust-500)"></div>
+              <div class="swatch__meta">
+                <div class="swatch__name">陶土红</div>
+                <div class="swatch__hex">#C8543A</div>
+                <div class="swatch__use">维护、关闭、失败</div>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="u-h4 u-mt-8" style="margin-bottom:var(--sp-3)">中性墨阶</h3>
+          <div class="swatch-grid">
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--ink-900)"></div>
+              <div class="swatch__meta"><div class="swatch__name">墨 900</div><div class="swatch__hex">#14201A</div><div class="swatch__use">标题、金额</div></div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--ink-700)"></div>
+              <div class="swatch__meta"><div class="swatch__name">墨 700</div><div class="swatch__hex">#33443A</div><div class="swatch__use">正文</div></div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--ink-500)"></div>
+              <div class="swatch__meta"><div class="swatch__name">墨 500</div><div class="swatch__hex">#5C6B62</div><div class="swatch__use">次要说明、表头</div></div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--ink-400)"></div>
+              <div class="swatch__meta"><div class="swatch__name">墨 400</div><div class="swatch__hex">#7C8B82</div><div class="swatch__use">占位符、时间戳（仅辅助）</div></div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--ink-200)"></div>
+              <div class="swatch__meta"><div class="swatch__name">墨 200</div><div class="swatch__hex">#C9D2CB</div><div class="swatch__use">描边、分隔线</div></div>
+            </div>
+            <div class="swatch">
+              <div class="swatch__chip" style="background:var(--mist-100)"></div>
+              <div class="swatch__meta"><div class="swatch__name">雾 100</div><div class="swatch__hex">#EEF3EF</div><div class="swatch__use">后台页面底色</div></div>
+            </div>
+          </div>
+
+          <h3 class="u-h4 u-mt-8" style="margin-bottom:var(--sp-3)">语义映射与对比度</h3>
+          <div class="token-table">
+            <table>
+              <thead>
+                <tr><th scope="col">用途</th><th scope="col">令牌</th><th scope="col">取值</th><th scope="col">对比度 / 说明</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="preview">页面底色</td><td><code>--bg-app</code></td><td class="u-mono">#F5F8F5</td><td>后台；小程序用奶油白 #FDFBF5</td></tr>
+                <tr><td class="preview">卡片 / 表格</td><td><code>--bg-surface</code></td><td class="u-mono">#FFFFFF</td><td>与底色靠 1px 描边区分</td></tr>
+                <tr><td class="preview">标题</td><td><code>--text-strong</code></td><td class="u-mono">#14201A</td><td>15.6:1 · 任意字号可用</td></tr>
+                <tr><td class="preview">正文</td><td><code>--text-body</code></td><td class="u-mono">#33443A</td><td>10.4:1 · 任意字号可用</td></tr>
+                <tr><td class="preview">次要文字</td><td><code>--text-muted</code></td><td class="u-mono">#5C6B62</td><td>5.2:1 · ≥ 12px 可用</td></tr>
+                <tr><td class="preview">辅助文字</td><td><code>--text-faint</code></td><td class="u-mono">#7C8B82</td><td>3.6:1 · 仅占位符/非关键信息</td></tr>
+                <tr><td class="preview">主行动</td><td><code>--accent</code></td><td class="u-mono">#2F7A4E</td><td>白字对比 4.8:1 · 实心按钮可用</td></tr>
+                <tr><td class="preview">可预约 / 成功</td><td><code>--success</code></td><td class="u-mono">#2F7A4E</td><td>浅底上改用 <code>--leaf-700</code> 5.5:1</td></tr>
+                <tr><td class="preview">剩余少量 / 待处理</td><td><code>--warning</code></td><td class="u-mono">#7A5610</td><td>5.7:1 · 必须配图标，不单用颜色</td></tr>
+                <tr><td class="preview">失败 / 维护</td><td><code>--danger</code></td><td class="u-mono">#B4462F</td><td>白底 4.7:1；浅底用 <code>--rust-700</code></td></tr>
+                <tr><td class="preview">信息 / 数据</td><td><code>--info</code></td><td class="u-mono">#0F7E78</td><td>4.9:1 · 图表线条与链接</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 02 排版 -->
+        <section class="spec-block" id="type">
+          <div class="spec-block__head">
+            <h2>02 · 字体与排版</h2>
+            <p>中文优先系统字体，避免额外下载字体文件；数字统一等宽，价格、编号、时间在表格中对齐。</p>
+          </div>
+
+          <div class="token-table">
+            <div style="padding:var(--sp-2) var(--sp-5)">
+              <div class="scale-row">
+                <div class="scale-row__meta">display · 40 / 1.16</div>
+                <div class="u-display">把露营说清楚</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">h1 · 30 / 1.24</div>
+                <div class="u-h1">斗门水乡公园</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">h2 · 24 / 1.30</div>
+                <div class="u-h2">选择日期与时段</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">h3 · 20 / 1.36</div>
+                <div class="u-h3">营位详情</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">h4 · 17 / 1.45</div>
+                <div class="u-h4">预订须知</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">body · 15 / 1.72</div>
+                <div class="u-body">每个订单只对应一个日期、一个时段与一个营位；跨日与包场不在本期范围内。</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">sm · 14 / 1.62</div>
+                <div class="u-sm">核销员仅能核销所属公园的订单，跨园区核销将被拒绝。</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">xs · 13 / 1.55</div>
+                <div class="u-xs">开放时间 08:00–18:00 · 最晚入园 16:30</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">caption · 12 / 1.50</div>
+                <div class="u-caption">已选：3 月 16 日 · 上午场（08:00–12:00）</div>
+              </div>
+              <div class="scale-row">
+                <div class="scale-row__meta">micro · 11 / 1.40</div>
+                <div class="u-micro">订单号 PB20240316000128</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="token-table u-mt-4">
+            <table>
+              <thead><tr><th scope="col">规则</th><th scope="col">约定</th></tr></thead>
+              <tbody>
+                <tr><td class="preview">中文字体</td><td>PingFang SC → 鸿蒙 / 微软雅黑 → 思源黑体，逐级回退</td></tr>
+                <tr><td class="preview">数字字体</td><td>等宽数字（tabular-nums），金额与编号不跳动</td></tr>
+                <tr><td class="preview">行高</td><td>正文 1.72，标题 1.24–1.45；中文不小于 1.4</td></tr>
+                <tr><td class="preview">字重</td><td>仅用 400 / 500 / 600 / 700；标题用 600，不用 900 假粗</td></tr>
+                <tr><td class="preview">换行</td><td>标题最多 2 行，正文最多 3 行后省略，完整内容进详情</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 03 形状 -->
+        <section class="spec-block" id="shape">
+          <div class="spec-block__head">
+            <h2>03 · 圆角 · 阴影 · 间距</h2>
+            <p>圆角克制在 6–20px，小程序卡片 14px、底部弹层 20px；阴影带绿调，只用于浮层与选中态。</p>
+          </div>
+
+          <div class="token-inline" style="align-items:flex-end">
+            <div class="radius-demo" style="border-radius:var(--r-xs)">6</div>
+            <div class="radius-demo" style="border-radius:var(--r-sm)">10</div>
+            <div class="radius-demo" style="border-radius:var(--r-md)">14</div>
+            <div class="radius-demo" style="border-radius:var(--r-lg)">20</div>
+            <div class="radius-demo" style="border-radius:var(--r-xl)">28</div>
+            <div class="radius-demo" style="border-radius:var(--r-pill)">全圆</div>
+          </div>
+
+          <div class="token-inline u-mt-6" style="align-items:flex-end">
+            <div class="shadow-demo" style="box-shadow:var(--shadow-xs)">xs 描边</div>
+            <div class="shadow-demo" style="box-shadow:var(--shadow-sm)">sm 卡片</div>
+            <div class="shadow-demo" style="box-shadow:var(--shadow-md)">md 浮层</div>
+            <div class="shadow-demo" style="box-shadow:var(--shadow-lg)">lg 弹窗</div>
+          </div>
+
+          <h3 class="u-h4 u-mt-8" style="margin-bottom:var(--sp-3)">间距刻度（4 的倍数）</h3>
+          <div class="token-table">
+            <div style="padding:var(--sp-4) var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-3)">
+              <div class="sp-row"><span class="sp-bar" style="width:var(--sp-1);height:8px"></span><span>4 · 图标与文字</span></div>
+              <div class="sp-row"><span class="sp-bar" style="width:var(--sp-2);height:10px"></span><span>8 · 同组元素</span></div>
+              <div class="sp-row"><span class="sp-bar" style="width:var(--sp-3);height:12px"></span><span>12 · 卡片内边距（紧凑）</span></div>
+              <div class="sp-row"><span class="sp-bar" style="width:var(--sp-4);height:14px"></span><span>16 · 卡片内边距 / 页面左右边距</span></div>
+              <div class="sp-row"><span class="sp-bar" style="width:var(--sp-6);height:16px"></span><span>24 · 卡片间距</span></div>
+              <div class="sp-row"><span class="sp-bar" style="width:var(--sp-8);height:18px"></span><span>32 · 区块间距</span></div>
+              <div class="sp-row"><span class="sp-bar" style="width:var(--sp-12);height:20px"></span><span>48 · 大区块分隔</span></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 04 动效 -->
+        <section class="spec-block" id="motion">
+          <div class="spec-block__head">
+            <h2>04 · 动效</h2>
+            <p>只做“状态可感知”的过渡：页面切换、弹层、选中反馈。系统开启“减弱动态效果”时，全部降级为淡入淡出或直接呈现。</p>
+          </div>
+
+          <div class="token-table">
+            <table>
+              <thead><tr><th scope="col">令牌</th><th scope="col">时长</th><th scope="col">使用场景</th></tr></thead>
+              <tbody>
+                <tr><td><code>--dur-fast</code></td><td class="u-mono">140ms</td><td>按钮、营位、标签的 hover / 按下</td></tr>
+                <tr><td><code>--dur-base</code></td><td class="u-mono">200ms</td><td>页面左右切换、抽屉、Toast</td></tr>
+                <tr><td><code>--dur-slow</code></td><td class="u-mono">320ms</td><td>底部弹层升起、地图选位面板</td></tr>
+                <tr><td><code>--dur-slower</code></td><td class="u-mono">480ms</td><td>核销结果、支付结果的出现动画</td></tr>
+                <tr><td><code>--ease-smooth</code></td><td class="u-mono">cubic-bezier(.22,1,.36,1)</td><td>默认缓动，不回落、不弹跳</td></tr>
+                <tr><td><code>--ease-standard</code></td><td class="u-mono">cubic-bezier(.2,.8,.25,1)</td><td>颜色与透明度过渡</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="note-panel u-mt-4">
+            <h3>为什么不用回弹曲线</h3>
+            <p class="u-sm u-muted">
+              回弹（overshoot）会让“核销成功 / 支付成功”这类结果页显得轻佻，也容易在低端安卓机上掉帧。
+              本项目统一使用“快速启动、长尾收敛”的缓动，保证操作反馈明确但不喧闹。
+            </p>
+          </div>
+        </section>
+
+        <!-- 05 组件状态 -->
+        <section class="spec-block" id="components">
+          <div class="spec-block__head">
+            <h2>05 · 组件状态</h2>
+            <p>每个可交互元素都要能看到默认、悬停、按下、禁用、加载五态；本页用静态样式并排展示，便于逐条确认。</p>
+          </div>
+
+          <div class="state-grid">
+            <div class="state-demo">
+              <span class="state-demo__label">按钮 · 默认</span>
+              <div class="u-row u-row--wrap">
+                <button class="btn btn--primary" type="button">立即预订</button>
+                <button class="btn btn--secondary" type="button">查看地图</button>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">按钮 · 悬停</span>
+              <div class="u-row u-row--wrap">
+                <button class="btn btn--primary demo-hover" type="button">立即预订</button>
+                <button class="btn btn--secondary demo-hover" type="button">查看地图</button>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">按钮 · 按下</span>
+              <div class="u-row u-row--wrap">
+                <button class="btn btn--primary demo-active" type="button">立即预订</button>
+                <button class="btn btn--secondary demo-active" type="button">查看地图</button>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">按钮 · 禁用 / 加载</span>
+              <div class="u-row u-row--wrap">
+                <button class="btn btn--primary" type="button" disabled>已约满</button>
+                <button class="btn btn--primary is-loading" type="button">提交中</button>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">输入框 · 默认</span>
+              <div class="field">
+                <label class="field__label" for="d-name">联系人</label>
+                <input class="input" id="d-name" type="text" placeholder="请输入姓名">
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">输入框 · 聚焦</span>
+              <div class="field">
+                <label class="field__label" for="d-phone">手机号</label>
+                <input class="input demo-focus" id="d-phone" type="tel" value="138 0000 0000">
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">输入框 · 错误</span>
+              <div class="field is-invalid">
+                <label class="field__label" for="d-err">手机号<span class="field__req">*</span></label>
+                <input class="input" id="d-err" type="tel" value="138 000" aria-invalid="true" aria-describedby="d-err-msg">
+                <span class="field__error" id="d-err-msg">
+                  <svg class="icon icon--sm" aria-hidden="true"><use href="#i-warning"/></svg>
+                  手机号需为 11 位数字
+                </span>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">输入框 · 禁用</span>
+              <div class="field">
+                <label class="field__label" for="d-off">核销时间</label>
+                <input class="input" id="d-off" type="text" value="核销后自动生成" disabled>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">筛选标签</span>
+              <div class="u-row u-row--wrap">
+                <span class="chip">全部</span>
+                <span class="chip is-active">待使用</span>
+                <span class="chip">已完成</span>
+              </div>
+              <span class="u-micro u-faint">选中态用底色 + 字重，不只靠颜色</span>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">状态标签</span>
+              <div class="u-row u-row--wrap">
+                <span class="status status--ok"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>可预约</span>
+                <span class="status status--warn"><svg class="icon" aria-hidden="true"><use href="#i-warning"/></svg>剩余 2 个</span>
+                <span class="status status--danger"><svg class="icon" aria-hidden="true"><use href="#i-warning"/></svg>维护中</span>
+                <span class="status status--info"><svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>待审批</span>
+                <span class="status status--neutral"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>已结束</span>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">营位图块</span>
+              <div class="u-row u-row--wrap">
+                <span class="seat seat--static">A03</span>
+                <span class="seat seat--static seat--low">A07</span>
+                <span class="seat seat--static seat--full">A08</span>
+                <span class="seat seat--static seat--maint">B02</span>
+                <span class="seat seat--static seat--closed">B05</span>
+              </div>
+              <div class="legend">
+                <span class="legend__item"><i class="legend__key"></i>可预约</span>
+                <span class="legend__item"><i class="legend__key legend__key--low"></i>剩余少量</span>
+                <span class="legend__item"><i class="legend__key legend__key--full"></i>已约满</span>
+                <span class="legend__item"><i class="legend__key legend__key--maint"></i>维护中</span>
+                <span class="legend__item"><i class="legend__key legend__key--closed"></i>临时关闭</span>
+              </div>
+            </div>
+            <div class="state-demo">
+              <span class="state-demo__label">空态 / 加载</span>
+              <div class="state" style="padding:var(--sp-3) 0">
+                <span class="state__icon"><svg class="icon icon--lg" aria-hidden="true"><use href="#i-info"/></svg></span>
+                <p class="state__title">暂无可预约营位</p>
+                <p class="state__desc">换个日期或时段试试</p>
+              </div>
+              <div class="skeleton" style="height:12px;width:80%"></div>
+              <div class="skeleton" style="height:12px;width:56%"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 06 地图 -->
+        <section class="spec-block" id="map">
+          <div class="spec-block__head">
+            <h2>06 · 地图与长条公园</h2>
+            <p>黄杨河湿地公园沿河绵延 1.1 公里，一屏放不下 40 个营位。因此缩放、平移与营区快捷定位是必答项——没有缩放，长条公园的地图就只是张缩略图。</p>
+          </div>
+
+          <figure class="spec-map">
+            <div class="spec-map__chips" role="group" aria-label="营区快捷定位">
+              <span class="spec-map__chip is-active">A 入口草坪</span>
+              <span class="spec-map__chip">B 芦苇观鸟</span>
+              <span class="spec-map__chip">C 亲水栈道</span>
+              <span class="spec-map__chip">D 林荫安静</span>
+              <span class="spec-map__chip">E 浅滩骑行</span>
+            </div>
+            <div class="spec-map__frame">
+              <img src="../assets/img/park-map-2.svg" alt="黄杨河湿地公园带状平面图底图，1120 × 240">
+              <div class="spec-map__scale"><i></i><span>100 m</span></div>
+            </div>
+            <figcaption>底图 1120 × 240，5 个营区 × 8 个营位 = 40 个营位；全览缩放约 0.30×，点营区胶囊放大到约 1×。</figcaption>
+          </figure>
+
+          <div class="principle-grid">
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-phone"/></svg>小程序 · 手势与缩放</h4>
+              <ul>
+                <li>进入即自适应全览：缩放下限 = 底图完整装进视口，不允许再缩小。</li>
+                <li>滚轮 / 双指捏合以指针为锚点缩放，上限取全览的 5 倍。</li>
+                <li>拖拽平移；触控时位移超过 6px 才判定为拖拽，松手后 90ms 内不响应点击。</li>
+                <li>双击放大 1.8 倍，再双击回到全览；「全览」按钮随时复位。</li>
+                <li>比例尺随时段缩放换算真实米数，档位 10 m → 5 km。</li>
+              </ul>
+            </div>
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-monitor"/></svg>后台 · 地图编辑器</h4>
+              <ul>
+                <li>按公园切换底图，画布尺寸随底图变化（黄杨河 1120 × 240，斗门水乡 1200 × 800）。</li>
+                <li>与小程序一致支持拖拽平移、滚轮缩放与「适应窗口」复位。</li>
+                <li>绘制坐标系不动：无论缩放多少，落点都折算回底图原始坐标。</li>
+                <li>工具栏显示当前公园的营位总数，图层与属性面板始终作用于当前公园。</li>
+                <li>长条公园的营位默认按营区分组命名（A01…E08），避免跨区重名。</li>
+              </ul>
+            </div>
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-info"/></svg>数值约定</h4>
+              <ul>
+                <li>远视图阈值：缩放 &lt; 0.62 时隐藏营位编号，避免 40 个编号互相压盖。</li>
+                <li>远视图不可点选营位，提示条改为「全览视图 · 点选上方营区放大后可选位」。</li>
+                <li>营位命中框不小于 44 × 44px，即使图块本身更小。</li>
+                <li>缩放过渡 340ms、缓动取 <code>--ease-out</code>；<code>prefers-reduced-motion</code> 下改为无位移直切。</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 07 布局 -->
+        <section class="spec-block" id="layout">
+          <div class="spec-block__head">
+            <h2>07 · 双端布局原则</h2>
+            <p>两端共享令牌与组件，但信息密度、导航方式和主操作位置完全不同，不做“同一套模板换皮”。</p>
+          </div>
+
+          <div class="principle-grid">
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-phone"/></svg>小程序 · 单列、拇指优先</h4>
+              <ul>
+                <li>一屏只做一件事：选公园 → 选日期时段 → 选营位 → 确认下单。</li>
+                <li>主按钮固定在底部拇指区，高度 ≥ 48px，避让安全区。</li>
+                <li>地图是选位主视图，列表作为等价入口与失败回退。</li>
+                <li>长条营地先选营区再选位，远视图只给方向不给可点目标。</li>
+                <li>仅保留“首页 / 预约 / 我的”三个底部标签。</li>
+                <li>卡片圆角 14px、奶油底色，弱化边框，用留白分组。</li>
+              </ul>
+            </div>
+            <div class="principle">
+              <h4><svg class="icon icon--sm" aria-hidden="true"><use href="#i-monitor"/></svg>后台 · 侧栏、表格优先</h4>
+              <ul>
+                <li>深森林侧栏固定 248px，顶部栏 64px 放面包屑与全局搜索。</li>
+                <li>列表页统一“筛选栏 + 批量操作 + 表格 + 分页”结构。</li>
+                <li>危险操作（关闭营位、驳回、退款）二次确认并说明影响。</li>
+                <li>状态用标签而非整行染色，保证长表格可扫读。</li>
+                <li>编辑与审批分权，地图发布前对小程序不可见。</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 08 验收 -->
+        <section class="spec-block" id="acceptance" style="padding-bottom:0">
+          <div class="spec-block__head">
+            <h2>08 · 验收口径</h2>
+            <p>以下 10 条同时适用于原型评审与后续开发验收，可直接作为测试用例的标题。</p>
+          </div>
+
+          <ol class="acceptance-list">
+            <li class="acceptance-item">
+              <div>
+                <h4>触控目标 ≥ 44 × 44px</h4>
+                <p>小程序所有可点区域（含地图营位、加减号、关闭按钮）满足最小触控尺寸，底部主按钮避让安全区。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>状态三重表达</h4>
+                <p>颜色 + 图标 + 文字同时出现；灰度打印或色觉障碍用户仍能分辨可预约、剩余少量、已约满、维护中。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>正文对比度 ≥ 4.5:1</h4>
+                <p>浅色底上的状态文字使用 700 级令牌；辅助灰仅用于占位与非关键信息，不承载业务结论。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>一单一日期一时段一营位</h4>
+                <p>界面不提供多日、多营位、包场入口；整日场与分时场互斥，切换时清空已选营位并提示。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>地图失败可回退</h4>
+                <p>平面图加载失败或数据缺失时，自动切换为列表选位，保留已选公园、日期与时段，不要求用户重来。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>长条营地全线可达</h4>
+                <p>1.1 公里带状营地全览约 0.30×，可缩放到全览的 5 倍；任一营位在「选营区 → 缩放 → 点选」三次操作内可点到，远视图必须给出明确引导而不是让用户盲点。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>平移不误触下单</h4>
+                <p>拖拽平移与双指缩放结束后不得弹出营位面板；只有位移小于 6px 的真实点按才进入选位流程。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>不可约状态不可下单</h4>
+                <p>临时关闭、维护中、已约满的营位不可选中；已选后状态变化，进入确认页前二次校验并阻断。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>编辑与审批分离</h4>
+                <p>地图草稿 → 提交 → 审批 → 发布全链路留痕；审批人不得为同一张图的编辑人，驳回必须填写原因。</p>
+              </div>
+            </li>
+            <li class="acceptance-item">
+              <div>
+                <h4>核销四重校验</h4>
+                <p>待使用状态、所属公园、未被核销、未过期；任一不满足即失败，并给出明确原因与下一步指引。</p>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap site-foot__inner">
+    <span>我有一亩田 · 小程序与后台管理系统升级原型 · V1.0</span>
+    <span>依据《小程序及后台管理系统升级需求文档 V1.0》绘制 · 中文界面</span>
+  </div>
+</footer>
+
+<script src="../assets/js/common.js"></script>
+</body>
+</html>

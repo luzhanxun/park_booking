@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1120 240" width="1120" height="240" role="img" aria-label="黄杨河湿地公园带状平面图底图">
+  <defs>
+    <linearGradient id="lawn2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F1F6EA"/>
+      <stop offset="1" stop-color="#E3EDD9"/>
+    </linearGradient>
+    <linearGradient id="river2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#CFE7E3"/>
+      <stop offset="1" stop-color="#B7DBD3"/>
+    </linearGradient>
+  </defs>
+  <rect width="1120" height="240" fill="#F5EFE1"/>
+  <rect x="8" y="8" width="1104" height="224" rx="18" fill="url(#lawn2)" stroke="#D9E4CF" stroke-width="2"/>
+
+  <!-- 黄杨河（沿营地南侧贯穿 1.1 公里） -->
+  <path d="M8 182c150-10 240 6 380 0 150-6 260 10 400 4 120-5 210-2 324 2v44H8z" fill="url(#river2)"/>
+  <path d="M8 182c150-10 240 6 380 0 150-6 260 10 400 4 120-5 210-2 324 2" fill="none" stroke="#A2CEC5" stroke-width="2.5"/>
+
+  <!-- 岸边沙地 -->
+  <rect x="8" y="148" width="1104" height="34" fill="#EFE6D2" opacity="0.92"/>
+  <path d="M8 148h1104" stroke="#DCC9A4" stroke-width="2"/>
+
+  <!-- 五个营区的草坪垫 -->
+  <g fill="#E7F1DD" stroke="#D7E6CB" stroke-width="1.5">
+    <rect x="20" y="46" width="200" height="100" rx="10"/>
+    <rect x="238" y="46" width="200" height="100" rx="10"/>
+    <rect x="456" y="46" width="200" height="100" rx="10"/>
+    <rect x="674" y="46" width="200" height="100" rx="10"/>
+    <rect x="892" y="46" width="200" height="100" rx="10"/>
+  </g>
+
+  <!-- 营区分隔 -->
+  <g stroke="#C9D8BF" stroke-width="2" stroke-dasharray="6 8">
+    <path d="M228 40v110"/>
+    <path d="M446 40v110"/>
+    <path d="M664 40v110"/>
+    <path d="M882 40v110"/>
+  </g>
+
+  <!-- 营区标识 -->
+  <text x="28" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#4E7350">A</text>
+  <text x="47" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#7C9575" letter-spacing="1">入口草坪区</text>
+  <text x="246" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#4E7350">B</text>
+  <text x="265" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#7C9575" letter-spacing="1">芦苇观鸟区</text>
+  <text x="464" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#4E7350">C</text>
+  <text x="483" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#7C9575" letter-spacing="1">亲水栈道区</text>
+  <text x="682" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#4E7350">D</text>
+  <text x="701" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#7C9575" letter-spacing="1">林荫安静区</text>
+  <text x="900" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="15" font-weight="700" fill="#4E7350">E</text>
+  <text x="919" y="34" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="12" fill="#7C9575" letter-spacing="1">浅滩骑行区</text>
+
+  <!-- 芦苇与浅滩 -->
+  <g stroke="#8FBFA6" stroke-width="2" stroke-linecap="round" opacity="0.85">
+    <path d="M70 194h6M67 194v-14M73 194v-9"/>
+    <path d="M132 200h6M129 200v-14M135 200v-9"/>
+    <path d="M300 196h6M297 196v-14M303 196v-9"/>
+    <path d="M372 202h6M369 202v-14M375 202v-9"/>
+    <path d="M500 198h6M497 198v-14M503 198v-9"/>
+    <path d="M604 194h6M601 194v-14M607 194v-9"/>
+    <path d="M730 200h6M727 200v-14M733 200v-9"/>
+    <path d="M790 196h6M787 196v-14M793 196v-9"/>
+    <path d="M940 202h6M937 202v-14M943 202v-9"/>
+    <path d="M1010 198h6M1007 198v-14M1013 198v-9"/>
+    <path d="M1052 194h6M1049 194v-14M1055 194v-9"/>
+  </g>
+  <g stroke="#E7F5F1" stroke-width="4" stroke-linecap="round" opacity="0.75">
+    <path d="M150 206h150M420 214h120M700 208h190M960 218h110"/>
+    <path d="M60 228h90M520 226h80"/>
+  </g>
+  <text x="556" y="224" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="13" fill="#7FA9A0" letter-spacing="6" opacity="0.9">黄杨河</text>
+
+  <!-- 里程刻度 -->
+  <path d="M20 236v6" stroke="#7FA9A0" stroke-width="2"/>
+  <text x="20" y="232" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="10" fill="#7FA9A0">0</text>
+  <path d="M556 236v6" stroke="#7FA9A0" stroke-width="2"/>
+  <text x="556" y="232" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="10" fill="#7FA9A0">550 m</text>
+  <path d="M1092 236v6" stroke="#7FA9A0" stroke-width="2"/>
+  <text x="1092" y="232" text-anchor="middle" font-family="PingFang SC, Microsoft YaHei, sans-serif" font-size="10" fill="#7FA9A0">1.1 km</text>
+
+  <g transform="translate(1090 46)">
+    <circle r="13" fill="#FFFFFF" opacity="0.7"/>
+    <path d="M0-8 3.4 3 0 1-3.4 3z" fill="#4E7350"/>
+  </g>
+</svg>

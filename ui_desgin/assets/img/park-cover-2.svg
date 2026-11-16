@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 480" width="800" height="480" role="img" aria-label="??????">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#F1F8F5"/>
+      <stop offset="1" stop-color="#DFF0E9"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="480" fill="url(#sky)"/>
+  <circle cx="640" cy="112" r="52" fill="#F5DD9E" opacity="0.9"/>
+  <circle cx="120" cy="96" r="3" fill="#A9D6C4" opacity="0.45"/>
+  <circle cx="176" cy="76" r="2" fill="#A9D6C4" opacity="0.4"/>
+  <circle cx="238" cy="106" r="2.4" fill="#A9D6C4" opacity="0.35"/>
+  <path d="M0 262c140-36 260-16 400 8s260 26 400-4v214H0z" fill="#D6EBDD" opacity="0.8"/>
+  
+  <path d="M0 300c140-50 240-30 360 6s260 44 440-16v190H0z" fill="#C2E2D3"/>
+  <path d="M0 300c150 60 300 66 430 30s250-36 370 10v100c-160 26-320 26-460-6S120 400 0 420z" fill="#A9D6C4" opacity="0.9"/>
+  <path d="M0 404c160 30 320 30 460 2s240-30 340-6v80H0z" fill="#2F7A6E" opacity="0.5"/>
+  <g stroke="#F7F0DE" stroke-width="4" opacity="0.8">
+    <path d="M80 392v-42M110 392v-54M140 392v-38M170 392v-50"/>
+    <path d="M80 362l-12-18M110 350l-10-16M140 368l12-16M170 356l10-14"/>
+  </g>
+  <path d="M470 392h180" stroke="#2F7A6E" stroke-width="10" stroke-linecap="round"/>
+  <path d="M470 392v-24M650 392v-24" stroke="#2F7A6E" stroke-width="6"/>
+
+</svg>

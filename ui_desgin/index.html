@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>我有一亩田 · 双端产品原型（V1.0）</title>
+<meta name="description" content="我有一亩田小程序与后台管理系统的可点击 HTML 高保真原型，用于需求与规格确认。">
+<link rel="icon" href="assets/img/logo-mark.svg">
+<link rel="stylesheet" href="assets/css/tokens.css">
+<link rel="stylesheet" href="assets/css/base.css">
+<link rel="stylesheet" href="assets/css/overview.css">
+</head>
+<body>
+
+<!-- 图标 sprite：同文档内联，双击打开亦可显示 -->
+<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <symbol id="i-arrow-right" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="i-phone" viewBox="0 0 24 24"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></symbol>
+  <symbol id="i-monitor" viewBox="0 0 24 24"><rect x="2.5" y="4" width="19" height="13" rx="2"/><path d="M8 21h8M12 17v4"/></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.4 0 2-.9 2-2 0-1.4-1-1.7-1-2.8 0-1 .8-1.7 1.9-1.7H18a3 3 0 0 0 3-3c0-4.7-4-8.5-9-8.5z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="15" cy="7.5" r="1"/><circle cx="17.5" cy="11.5" r="1"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24"><path d="m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></symbol>
+  <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M8 3v4M16 3v4M3 10h18"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3 4.5 6v5.5c0 4.6 3.2 8 7.5 9.5 4.3-1.5 7.5-4.9 7.5-9.5V6z"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><path d="M4 20V9M10 20V4M16 20v-7M22 20H2"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4.5 4.5L19 6.5"/></symbol>
+  <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/></symbol>
+  <symbol id="i-layers" viewBox="0 0 24 24"><path d="m12 3 9 4.5-9 4.5L3 7.5z"/><path d="m3 12 9 4.5 9-4.5M3 16.5 12 21l9-4.5"/></symbol>
+  <symbol id="i-users" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6M16 5.2a3.2 3.2 0 0 1 0 6.1M17.5 14.3c2 .7 3.5 2.6 3.5 5.7"/></symbol>
+  <symbol id="i-leaf" viewBox="0 0 24 24"><path d="M4 20c0-9 6-15 16-16 1 10-5 16-14 16z"/><path d="M4 20C8 14 12 11 17 8"/></symbol>
+</svg>
+
+<header class="site-nav">
+  <a class="brand" href="index.html">
+    <img class="brand__mark" src="assets/img/logo-mark.svg" alt="">
+    <span class="brand__name">
+      <strong>我有一亩田</strong>
+      <span>PARK BOOKING · PROTOTYPE</span>
+    </span>
+  </a>
+  <nav class="site-nav__links" aria-label="原型导航">
+    <a class="site-nav__link is-active" href="index.html">原型总览</a>
+    <a class="site-nav__link" href="design/index.html">设计规范</a>
+    <a class="site-nav__link" href="miniprogram/index.html">小程序</a>
+    <a class="site-nav__link" href="admin/index.html">管理后台</a>
+  </nav>
+  <div class="site-nav__meta">
+    <span class="badge badge--leaf">V1.0</span>
+    <span class="u-hide u-sm-hide">需求确认稿</span>
+  </div>
+</header>
+
+<main>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="wrap hero__inner">
+      <div>
+        <span class="hero__label">
+          <svg class="icon icon--sm" aria-hidden="true"><use href="#i-leaf"/></svg>
+          平台主打主题活动 + 公园露营 · 双端原型
+        </span>
+        <h1>在<em>一亩田</em>里，<br>把露营预约说清楚。</h1>
+        <p class="hero__desc">
+          面向“主题活动 + 公园露营”双模式的高保真界面原型。
+          首页与活动列表将平台主打活动「我有一亩田」置顶重点展示；覆盖活动选日期与票种、公园平面图选营位、按日与时段排期、
+          长条营地地图缩放、地图审批发布、现场核销与数据报表，用于与客户逐屏确认规格，而不是交付最终代码。
+        </p>
+        <div class="hero__actions">
+          <a class="btn btn--primary btn--lg" href="miniprogram/index.html">
+            浏览小程序原型
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+          <a class="btn btn--ghost btn--lg" href="admin/index.html">
+            浏览管理后台
+            <svg class="icon" aria-hidden="true"><use href="#i-arrow-right"/></svg>
+          </a>
+        </div>
+        <div class="hero__facts">
+          <div class="hero__fact"><strong>13</strong><span>小程序界面</span></div>
+          <div class="hero__fact"><strong>13</strong><span>后台视图</span></div>
+          <div class="hero__fact"><strong>2</strong><span>业务模式</span></div>
+          <div class="hero__fact"><strong>0</strong><span>外部依赖</span></div>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-card hero-card--admin">
+          <div class="hero-admin__bar">
+            <span class="hero-admin__dot"></span><span class="hero-admin__dot"></span><span class="hero-admin__dot"></span>
+            <span class="hero-admin__title">CAMP OPS · 工作台</span>
+          </div>
+          <div class="hero-admin__body">
+            <div class="hero-admin__side">
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+            </div>
+            <div class="hero-admin__main">
+              <div class="hero-kpis">
+                <div class="hero-kpi"><b>1,286</b><span>本周预约</span></div>
+                <div class="hero-kpi"><b>93.4%</b><span>核销率</span></div>
+                <div class="hero-kpi"><b>¥82.6k</b><span>收入</span></div>
+              </div>
+              <div class="hero-chart">
+                <svg viewBox="0 0 320 78" width="100%" height="100%" preserveAspectRatio="none">
+                  <path d="M0 62 L40 54 L80 58 L120 36 L160 42 L200 24 L240 30 L280 14 L320 20 L320 78 L0 78 Z" fill="rgba(53,183,172,0.18)"/>
+                  <path d="M0 62 L40 54 L80 58 L120 36 L160 42 L200 24 L240 30 L280 14 L320 20" fill="none" stroke="#35B7AC" stroke-width="2"/>
+                  <circle cx="280" cy="14" r="3.5" fill="#DCAE4F"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-phone">
+          <div class="hero-phone__screen">
+            <img class="hero-phone__img hero-phone__img--strip" src="assets/img/park-map-2.svg" alt="">
+            <div class="hero-phone__pad">
+              <span class="hero-phone__title">黄杨河湿地公园 · 1.1 km 带状营地</span>
+              <div class="hero-phone__lines"><i></i><i></i><i></i></div>
+              <div class="hero-phone__lines"><i></i><i></i></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 入口 -->
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-head__label">ENTRY POINTS</span>
+        <h2>三份可直接打开的交付物</h2>
+        <p>无需安装、无需启动本地服务。双击任意页面即可浏览；建议按“小程序 → 后台 → 设计规范”的顺序走查。</p>
+      </div>
+
+      <div class="entry-grid">
+        <a class="entry-card" href="miniprogram/index.html">
+          <span class="entry-card__icon"><svg class="icon icon--lg" aria-hidden="true"><use href="#i-phone"/></svg></span>
+          <div>
+            <h3>小程序用户端 + 核销端</h3>
+            <p>390×844 手机壳内还原真实操作密度，含活动选日期与票种、地图选营位、下单支付、我的预约与现场核销全链路。</p>
+          </div>
+          <div class="entry-card__list">
+            <span>13 屏</span><span>活动选票</span><span>地图选位</span><span>核销</span>
+          </div>
+          <span class="entry-card__go">进入小程序原型 <svg class="icon icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+        </a>
+
+        <a class="entry-card entry-card--admin" href="admin/index.html">
+          <span class="entry-card__icon"><svg class="icon icon--lg" aria-hidden="true"><use href="#i-monitor"/></svg></span>
+          <div>
+            <h3>后台管理端</h3>
+            <p>深森林侧边栏 + 浅雾内容区，覆盖公园图文与活动内容维护、活动票种库存与日期排期、活动订单核销、地图绘制审批、订单退款与报表导出。</p>
+          </div>
+          <div class="entry-card__list">
+            <span>13 视图</span><span>图文编辑</span><span>活动票种</span><span>地图编辑器</span>
+          </div>
+          <span class="entry-card__go">进入管理后台 <svg class="icon icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+        </a>
+
+        <a class="entry-card entry-card--design" href="design/index.html">
+          <span class="entry-card__icon"><svg class="icon icon--lg" aria-hidden="true"><use href="#i-palette"/></svg></span>
+          <div>
+            <h3>设计规范</h3>
+            <p>色彩、字体、间距、圆角、阴影、动效令牌，以及按钮/输入/标签/状态组件五态与验收口径。</p>
+          </div>
+          <div class="entry-card__list">
+            <span>Design Tokens</span><span>组件状态</span><span>可访问性</span>
+          </div>
+          <span class="entry-card__go">查看设计规范 <svg class="icon icon--sm" aria-hidden="true"><use href="#i-arrow-right"/></svg></span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 演示路径 -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-head__label">DEMO ROUTE</span>
+        <h2>一条完整的客户演示路径</h2>
+        <p>小程序内的日期、时段、营位、订单与核销码在同一次浏览中保持联动，可直接演出“预约—支付—核销”闭环。</p>
+      </div>
+
+      <div class="path-grid">
+        <article class="path-card">
+          <h4>选择活动与日期</h4>
+          <p>首页置顶显示平台主打活动 <b>我有一亩田</b>（重点展示标识），也可进入 <b>主题活动</b>列表选“春耕插秧体验”；在日期胶囊中挑日期，售罄或停售日期置灰不可选。</p>
+        </article>
+        <article class="path-card">
+          <h4>选择票种与数量</h4>
+          <p><b>成人票 / 儿童票 / 亲子套票</b> 用步进器加减，实时显示分票种余量与合计；超出单场限购会自动收紧并提示。</p>
+        </article>
+        <article class="path-card">
+          <h4>选择公园与时段</h4>
+          <p>首页进入 <b>公园露营</b>，列表首位是沿河 <b>1.1 公里</b>的“黄杨河湿地公园”；选择 <b>日期 + 时段</b> 后，平面图营位状态随选择刷新。</p>
+        </article>
+        <article class="path-card">
+          <h4>缩放浏览长条公园</h4>
+          <p>黄杨河平面图按 <b>1120 × 240</b> 长条绘制，进入即自适应全览（约 <b>0.30×</b>）；点上方 <b>营区胶囊（A–E）</b> 或滚轮/双指缩放、拖拽平移，比例尺随缩放换算实际米数。</p>
+        </article>
+        <article class="path-card">
+          <h4>地图点选营位并下单</h4>
+          <p>放大到营区后直接在 <b>地图上点选营位</b>（如 <b>C01</b>）即可弹出营位详情，确认价格与容量后「下一步」进入订单确认，无需回到下方列表。</p>
+        </article>
+        <article class="path-card">
+          <h4>模拟支付与二维码</h4>
+          <p>活动或营位均走 <b>模拟微信支付</b>，成功页生成本次订单的核销二维码；“我的预约”按业务类型同步出现新订单。</p>
+        </article>
+        <article class="path-card">
+          <h4>现场核销</h4>
+          <p>切到 <b>核销工作台</b>，用演示码核销；再次核销会提示“已核销”，越权公园会提示拦截。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 能力矩阵 -->
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="section-head__label">SPEC COVERAGE</span>
+        <h2>对应需求文档的关键约束</h2>
+        <p>原型把容易在开发阶段产生分歧的规则前置成可见界面，便于现场拍板。</p>
+      </div>
+
+      <div class="cap-grid">
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <div>
+            <h4>活动内容与票价</h4>
+            <p>活动管理与公园管理在左侧菜单分开；后台按活动维护内容、分类、日期时段与票种库存，平台主打活动置顶并标注重点展示。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-users"/></svg></span>
+          <div>
+            <h4>票种与分日库存</h4>
+            <p>一次预约锁定一个活动日期，可同时选多个票种；余量按分票种库存扣减，支持停售与恢复。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg></span>
+          <div>
+            <h4>公园图文内容</h4>
+            <p>公园管理可维护封面、相册（≤6 张）、一句话简介、详细介绍、亮点标签、预约须知与咨询电话，列表按完整度标「图文完整 / 待完善」。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-palette"/></svg></span>
+          <div>
+            <h4>活动内容与配图</h4>
+            <p>活动编辑抽屉内分「内容与配图 / 票种与库存 / 日期与场次」三屏，边改边看小程序预览，保存后活动卡片与票种列表同步刷新。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-check"/></svg></span>
+          <div>
+            <h4>保存前内容校验</h4>
+            <p>名称、描述、相册与票种为必填；票种重名、库存小于已售、日期重复均会拦截并定位到出错分区。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+          <div>
+            <h4>统一订单模型</h4>
+            <p>活动预约与露营预约共用订单结构与核销二维码，可按业务类型筛选、查询与导出。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-map"/></svg></span>
+          <div>
+            <h4>公园自定义平面图</h4>
+            <p>底图来自公园自有平面图；营位以矩形与多边形 SVG 热区呈现，不使用真实地图。底图尺寸按公园各自定义（如黄杨河为 1120 × 240 长条），两端均支持缩放、拖拽与营区快捷定位。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-map"/></svg></span>
+          <div>
+            <h4>长条公园的缩放与营区</h4>
+            <p>几公里长的带状营地无法在一屏内看清营位，因此小程序平面图与后台编辑器都支持自适应全览、缩放（滚轮 / 双指 / 按钮）、拖拽平移与比例尺；后台按公园切换底图并显示当前营位总数。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-calendar"/></svg></span>
+          <div>
+            <h4>按日 + 时段排期</h4>
+            <p>一次仅选一个日期与一个时段；整日与分时互斥，单订单仅一个营位。价格只维护在营位上（基础价 + 周末 / 节假日加价），公园与场次层面不再单独定价。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-layers"/></svg></span>
+          <div>
+            <h4>公共设施图层</h4>
+            <p>道路、出入口、卫生间等仅作展示，可独立显隐；不参与预约与库存。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+          <div>
+            <h4>地图配置审批</h4>
+            <p>草稿 → 提交审批 → 通过 / 驳回 → 发布；审批期间线上版本不变，编辑人与审批人分离。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-scan"/></svg></span>
+          <div>
+            <h4>现场核销与权限</h4>
+            <p>核销员绑定公园，仅可核销授权范围；重复、取消、退款、过期订单均拦截并说明原因。</p>
+          </div>
+        </article>
+        <article class="cap-item">
+          <span class="cap-item__icon"><svg class="icon" aria-hidden="true"><use href="#i-chart"/></svg></span>
+          <div>
+            <h4>报表与导出</h4>
+            <p>预约量、核销量、核销率、收入与退款趋势，可按公园与日期筛选并模拟导出明细。</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 说明 -->
+  <section class="section">
+    <div class="wrap">
+      <div class="notes-grid">
+        <article class="note-panel">
+          <h3>如何浏览</h3>
+          <ul class="note-list">
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>直接双击 <code>ui_desgin/index.html</code> 打开即可，所有页面为纯静态文件，无需本地服务器。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>小程序页左侧为屏目录，可一键跳转；模拟器内的底部 Tab、返回与按钮均可点击。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>小程序平面图支持滚轮 / 双指缩放、拖拽平移、双击放大与「全览」复位；长条公园可用营区胶囊快速定位，放大后直接点选营位下单。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>后台页通过左侧菜单按“概览 / 主题活动 / 公园露营 / 财务与数据 / 系统”分组切换 13 个视图；活动管理内可切“活动内容与票种 / 活动订单 / 活动核销”三个页签，“编辑图文”“编辑活动”抽屉可改封面、相册、描述、介绍、标签、票种与日期，保存后列表即刷新。表格筛选、抽屉、地图编辑器（按公园切换底图、缩放平移绘制）均可交互。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>每个列表视图右上角提供“正常 / 载入 / 空 / 异常”状态切换，用于确认异常与空态文案。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>设计规范页列出全部 token 与组件状态，可作为后续开发验收依据。</span></li>
+          </ul>
+        </article>
+
+        <article class="note-panel note-panel--dark">
+          <span class="u-label">SCOPE NOTE</span>
+          <h3 class="u-mt-2">原型的边界</h3>
+          <p class="u-sm" style="color:rgba(248,243,231,0.7)">
+            本原型用于需求沟通与规格确认，不连接后端、不接真实微信支付与地图服务。
+          </p>
+          <ul class="note-list u-mt-4">
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>数据均为本地假数据，金额与二维码仅作展示。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>公园平面图为示意底图，最终以甲方提供的图纸替换。</span></li>
+            <li><svg class="icon icon--sm" aria-hidden="true"><use href="#i-check"/></svg><span>活动包场、多日连住与真实微信支付回调等“本期不做”能力，界面中不提供入口。</span></li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-foot">
+  <div class="wrap site-foot__inner">
+    <span>我有一亩田 · 小程序与后台管理系统升级原型 · V1.0</span>
+    <span>依据《小程序及后台管理系统升级需求文档 V1.0》绘制 · 中文界面</span>
+  </div>
+</footer>
+
+<script src="assets/js/common.js"></script>
+</body>
+</html>

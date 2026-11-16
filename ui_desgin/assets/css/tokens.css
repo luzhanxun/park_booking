@@ -1,0 +1,244 @@
+/* ==========================================================================
+   我有一亩田 · 设计令牌（唯一颜色/字体/间距/圆角/阴影/动效来源）
+   页面与组件样式禁止硬编码 hex、字体栈、圆角与动效时长。
+   ========================================================================== */
+
+:root {
+  /* ---------- 森林绿：品牌主色 / 后台侧边栏 ---------- */
+  --forest-950: #081B12;
+  --forest-900: #0B2218;
+  --forest-850: #0F2A1D;
+  --forest-800: #123023;
+  --forest-700: #173D2C;
+  --forest-600: #1E4E37;
+  --forest-500: #276544;
+
+  /* ---------- 叶绿：可交互 / 成功 / 数据强调 ---------- */
+  --leaf-700: #236B44;
+  --leaf-600: #2F7A4E;
+  --leaf-500: #3E9160;
+  --leaf-400: #57A874;
+  --leaf-300: #82C296;
+  --leaf-200: #B4DCBF;
+  --leaf-100: #E2F1E5;
+  --leaf-50: #F1F8F2;
+
+  /* ---------- 奶油白：小程序底色 / 温暖纸感 ---------- */
+  --cream-50: #FDFBF5;
+  --cream-100: #F8F3E7;
+  --cream-200: #EFE6D4;
+  --cream-300: #E3D6BE;
+
+  /* ---------- 麦穗金：剩余少量 / 待处理 / 提示 ---------- */
+  --wheat-700: #7A5610;
+  --wheat-600: #A8781F;
+  --wheat-500: #C9922E;
+  --wheat-400: #DCAE4F;
+  --wheat-300: #EBCB8A;
+  --wheat-100: #FBF0D7;
+  --wheat-50: #FDF8EC;
+
+  /* ---------- 科技青：次级强调 / 数据 / 信息 ---------- */
+  --cyan-700: #0B6663;
+  --cyan-600: #0F7E78;
+  --cyan-500: #149C93;
+  --cyan-400: #35B7AC;
+  --cyan-300: #7DD3CB;
+  --cyan-100: #DCF4F1;
+  --cyan-50: #EFFAF8;
+
+  /* ---------- 陶土红：错误 / 维护 / 临时关闭 ---------- */
+  --rust-700: #92341F;
+  --rust-600: #B4462F;
+  --rust-500: #C8543A;
+  --rust-300: #E4A493;
+  --rust-100: #FBE9E4;
+  --rust-50: #FDF4F1;
+
+  /* ---------- 中性：墨色文本与雾面分隔 ---------- */
+  --ink-900: #14201A;
+  --ink-800: #22302A;
+  --ink-700: #33443A;
+  --ink-600: #47594E;
+  --ink-500: #5C6B62;
+  --ink-400: #7C8B82;
+  /* 次级说明文字专用：白底 4.9:1，满足 AA */
+  --ink-450: #66756C;
+  --ink-300: #A7B3AB;
+  --ink-200: #C9D2CB;
+  --ink-100: #E3E9E4;
+  --ink-50: #EFF3F0;
+
+  --mist-50: #F5F8F5;
+  --mist-100: #EEF3EF;
+  --mist-200: #E2EAE4;
+  --white: #FFFFFF;
+
+  /* ---------- 语义色（组件只使用这一层） ---------- */
+  --bg-app: var(--mist-50);
+  --bg-surface: var(--white);
+  --bg-surface-alt: var(--mist-100);
+  --bg-inverse: var(--forest-900);
+  --bg-brand-soft: var(--leaf-50);
+  --text-strong: var(--ink-900);
+  --text-body: var(--ink-700);
+  --text-muted: var(--ink-500);
+  --text-faint: var(--ink-450);
+  --text-on-brand: var(--leaf-50);
+  --text-inverse: var(--cream-50);
+  --line: var(--ink-100);
+  --line-strong: var(--ink-200);
+  --line-brand: var(--leaf-200);
+  --accent: var(--leaf-600);
+  --accent-strong: var(--leaf-700);
+  --accent-soft: var(--leaf-100);
+  --accent-tech: var(--cyan-600);
+  --accent-warm: var(--wheat-500);
+  --danger: var(--rust-600);
+  --danger-soft: var(--rust-100);
+  --warning: var(--wheat-700);
+  --warning-soft: var(--wheat-100);
+  --success: var(--leaf-600);
+  --success-soft: var(--leaf-100);
+  --info: var(--cyan-600);
+  --info-soft: var(--cyan-100);
+  /* 价格用麦穗金：把陶土红让给「危险」语义 */
+  --money: var(--wheat-700);
+
+  /* ---------- 字体 ---------- */
+  --font-sans: "PingFang SC", "HarmonyOS Sans SC", "Microsoft YaHei New", "Microsoft YaHei",
+    "Noto Sans SC", "Source Han Sans SC", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-num: "SF Mono", "JetBrains Mono", "Cascadia Mono", Consolas, "PingFang SC",
+    "Microsoft YaHei", monospace;
+
+  --fs-display: 40px;
+  --lh-display: 1.16;
+  --fs-h1: 30px;
+  --lh-h1: 1.24;
+  --fs-h2: 24px;
+  --lh-h2: 1.3;
+  --fs-h3: 20px;
+  --lh-h3: 1.36;
+  --fs-h4: 17px;
+  --lh-h4: 1.45;
+  --fs-body: 15px;
+  --lh-body: 1.72;
+  --fs-sm: 14px;
+  --lh-sm: 1.62;
+  --fs-xs: 13px;
+  --lh-xs: 1.55;
+  --fs-caption: 12px;
+  --lh-caption: 1.5;
+  --fs-micro: 11px;
+  --lh-micro: 1.4;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+  --fw-bold: 700;
+
+  --ls-tight: -0.02em;
+  --ls-normal: 0;
+  --ls-wide: 0.04em;
+  --ls-label: 0.08em;
+
+  /* ---------- 间距（4 的倍数） ---------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 28px;
+  --sp-8: 32px;
+  --sp-10: 40px;
+  --sp-12: 48px;
+  --sp-16: 64px;
+  --sp-20: 80px;
+
+  /* ---------- 圆角 ---------- */
+  --r-xs: 6px;
+  --r-sm: 10px;
+  --r-md: 14px;
+  --r-lg: 20px;
+  --r-xl: 28px;
+  --r-2xl: 36px;
+  --r-pill: 999px;
+
+  /* ---------- 阴影（偏绿、克制） ---------- */
+  --shadow-xs: 0 1px 2px rgba(11, 34, 24, 0.06);
+  --shadow-sm: 0 2px 8px rgba(11, 34, 24, 0.07);
+  --shadow-md: 0 8px 24px rgba(11, 34, 24, 0.09);
+  --shadow-lg: 0 18px 48px rgba(11, 34, 24, 0.14);
+  --shadow-inset: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  --shadow-focus: 0 0 0 3px rgba(62, 145, 96, 0.28);
+  --shadow-tech: 0 0 0 1px rgba(53, 183, 172, 0.22), 0 6px 20px rgba(15, 126, 120, 0.12);
+
+  /* ---------- 动效 ---------- */
+  --dur-tap: 110ms;
+  --dur-fast: 140ms;
+  --dur-base: 200ms;
+  --dur-slow: 320ms;
+  --dur-slower: 480ms;
+  --dur-reveal: 420ms;
+  --dur-cine: 640ms;
+  --ease-standard: cubic-bezier(0.2, 0.8, 0.25, 1);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-in-out-quart: cubic-bezier(0.76, 0, 0.24, 1);
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
+  --stagger-step: 45ms;
+
+  /* ---------- 材质（数字稻田：网格 / 扫描 / 遥测光） ---------- */
+  --grid-line: rgba(11, 34, 24, 0.055);
+  --grid-cell: 24px;
+  --scan-tint: rgba(53, 183, 172, 0.16);
+  --glow-tech: 0 0 0 1px rgba(53, 183, 172, 0.24), 0 0 22px rgba(53, 183, 172, 0.28);
+  --glow-signal: radial-gradient(circle, rgba(53, 183, 172, 0.42), transparent 68%);
+
+  /* ---------- 后台深色侧栏（让侧栏只依赖这一组变量） ---------- */
+  --side-bg: var(--forest-950);
+  --side-line: rgba(240, 246, 235, 0.08);
+  --side-line-strong: rgba(240, 246, 235, 0.24);
+  --side-ink: rgba(240, 246, 235, 0.74);
+  --side-ink-strong: var(--cream-50);
+  --side-ink-soft: rgba(240, 246, 235, 0.58);
+  --side-ink-label: rgba(240, 246, 235, 0.54);
+  --side-hover: rgba(240, 246, 235, 0.07);
+  --side-active: rgba(126, 166, 110, 0.18);
+  --side-active-line: rgba(190, 214, 176, 0.22);
+
+  /* ---------- 布局 ---------- */
+  --shell-w: 390px;
+  --shell-h: 844px;
+  --statusbar-h: 44px;
+  --tabbar-h: 64px;
+  --sidebar-w: 248px;
+  --topbar-h: 64px;
+  --content-max: 1440px;
+  --tap-min: 44px;
+  --border-w: 1px;
+  --grain: radial-gradient(rgba(11, 34, 24, 0.035) 1px, transparent 1px);
+
+  /* ---------- 层级 ---------- */
+  --z-base: 0;
+  --z-map: 10;
+  --z-sticky: 20;
+  --z-tabbar: 40;
+  --z-sheet: 60;
+  --z-drawer: 80;
+  --z-toast: 100;
+}
+
+/* 深浅色不做切换；后台深色侧栏由组件变量覆盖 */
+.theme-inverse {
+  --bg-surface: var(--forest-800);
+  --bg-surface-alt: var(--forest-700);
+  --text-strong: var(--cream-50);
+  --text-body: rgba(248, 243, 231, 0.82);
+  --text-muted: rgba(248, 243, 231, 0.62);
+  --line: rgba(248, 243, 231, 0.12);
+  --line-strong: rgba(248, 243, 231, 0.2);
+  --accent: var(--leaf-300);
+  --accent-soft: rgba(130, 194, 150, 0.16);
+}
